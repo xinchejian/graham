@@ -1,0 +1,40 @@
+<div ng-controller="ViewApplicationCtrl">
+	<table class="table table-striped">
+		<tr>
+			<th>English Name</th><td>{{application.englishName}}</td>
+		</tr>
+		<tr>
+			<th>Chinese Name</th><td>{{application.chineseName}}</td>
+		</tr>
+		<tr>
+			<th>Nickname</th><td>{{application.nickname}}</td>
+		</tr>
+		<tr>
+			<th>Mobile</th><td>{{application.mobile}}</td>
+		</tr>
+		<tr>
+			<th>Email</th><td>{{application.email}}</td>
+		</tr>
+		<tr>
+			<th>Weibo</th><td>{{application.weibo}}</td>
+		</tr>
+		<tr>
+			<th>Introduction</th><td>{{application.essay}}</td>
+		</tr>
+		<tr>
+			<th>Date</th><td>{{application.submissionDate|date:'short'}}</td>
+		</tr>
+		<tr>
+			<th>Introduction</th><td>{{application.essay}}</td>
+		</tr>
+	</table>
+	<div class="row">
+		<div class="span8 offset2">
+			<a class="btn btn-medium" onClick="window.history.back();">Back</a>
+			<a class="btn btn-medium" href="#/application/approve/{{application._id}}">Membership Approval</a>
+			<ng-confirm title="Remove" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="remove(application._id)" cancel-button-text="No Way">
+				<button class="btn btn-medium btn-danger">Remove</button>
+			</ng-confirm>
+		</div>
+	</div>
+</div>

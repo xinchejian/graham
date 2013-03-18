@@ -1,0 +1,26 @@
+<div ng-controller="ListApplicationCtrl">
+	<table class="table table-striped">
+		<tr>
+			<th>English Name</th>
+			<th>Chinese Name</th>
+			<th>Nickname</th>
+			<th>Mobile</th>
+			<th>Email</th>
+			<th>Weibo</th>
+			<th>Date</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="application in applications">
+			<td>{{application.englishName}}</td>
+			<td>{{application.chineseName}}</td>
+			<td>{{application.nickname}}</td>
+			<td>{{application.mobile}}</td>
+			<td>{{application.email}}</td>
+			<td>{{application.weibo}}</td>
+			<td>{{application.submissionDate|date:'short'}}</td>
+			<td>
+				<a class="btn btn-small" href="#/application/{{application._id}}">View</a>
+			</td>
+		</tr>
+	</table>
+</div>
