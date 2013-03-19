@@ -16,6 +16,7 @@ var ApplicationSchema = new Schema({
   'weibo': String,
   'site': [String],
   'essay': String,
+  'status': String,
   'submissionDate': Date
 });
 

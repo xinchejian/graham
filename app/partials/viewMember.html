@@ -1,0 +1,36 @@
+<div ng-controller="ViewMemberCtrl">
+	<table class="table table-striped">
+		<tr>
+			<th>English Name</th><td>{{member.englishName}}</td>
+		</tr>
+		<tr>
+			<th>Chinese Name</th><td>{{member.chineseName}}</td>
+		</tr>
+		<tr>
+			<th>Nickname</th><td>{{member.nickname}}</td>
+		</tr>
+		<tr>
+			<th>Mobile</th><td>{{member.mobile}}</td>
+		</tr>
+		<tr>
+			<th>Email</th><td>{{member.email}}</td>
+		</tr>
+		<tr>
+			<th>Weibo</th><td>{{member.weibo}}</td>
+		</tr>
+		<tr>
+			<th>Role</th><td>{{member.role}}</td>
+		</tr>
+		<tr>
+			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
+		</tr>
+	</table>
+	<div class="row">
+		<div class="span8 offset2">
+			<a class="btn btn-medium" onClick="window.history.back();">Back</a>
+			<ng-confirm title="Remove" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="remove(member._id)" cancel-button-text="No Way">
+				<button class="btn btn-medium btn-danger">Remove</button>
+			</ng-confirm>
+		</div>
+	</div>
+</div>

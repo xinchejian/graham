@@ -8,5 +8,7 @@ angular.module('grahamApp', ['grahamApp.controllers', 'grahamApp.services']).
 		$routeProvider.when('/listApplication', {templateUrl: 'partials/listApplication.html'});
 		$routeProvider.when('/application/approve/:id', {templateUrl: 'partials/approveApplication.html'});
 		$routeProvider.when('/application/:id', {templateUrl: 'partials/viewApplication.html'});
+		$routeProvider.when('/member', {templateUrl: 'partials/listMember.html'});
+		$routeProvider.when('/member/:id', {templateUrl: 'partials/viewMember.html'});
 		$routeProvider.otherwise({redirectTo: '/application'});
 	}]);

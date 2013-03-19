@@ -192,4 +192,3 @@ servicesModule.factory('PopupService', function ($http, $compile)
 });
 
 angular.module('popup', ['popup.directives', 'popup.service']);
-console.log('i am in');

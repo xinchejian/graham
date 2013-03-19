@@ -4,12 +4,14 @@
  */
 'use strict';
 
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , resource = require('express-resource')
-  , mongoose = require('mongoose')
-  , path = require('path');
+var express = require('express'),
+  http = require('http'),
+  mongoose = require('mongoose'),
+  path = require('path'),
+  passport = require('./passport');
+
+require('express-resource');
+require('./routes');
 
 var app = express();
 
@@ -36,6 +38,9 @@ app.configure(function(){
   app.resource('member', require('./controllers/member'));
   app.resource('application', require('./controllers/application'));
 
+  // AnA
+
+
   // Models
   mongoose.connect('mongodb://localhost/graham');
   var models = require('./models');
@@ -45,10 +50,8 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-var t = require('./controllers/qr');
-console.log('hahah');
-console.log(t);
-app.get('/qr', t);
+
+app.get('/qr', require('./controllers/qr'));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('server listening on port ' + app.get('port'));

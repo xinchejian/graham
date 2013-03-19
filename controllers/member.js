@@ -1,9 +1,14 @@
 'use strict';
 
-exports.index = function(req, res){
-  res.send('forum index');
-};
+var Member = require('../models/member.js');
+// var Payment = require('../models/payment.js');
 
+exports.index = function(req, res){
+	Member.find().exec(function(err, result){
+		if(err) {return res.send(err);}
+		res.send(result);
+	});
+};
 /**
  * Save is handled here too, tl to modify either angular resource or express resource
  * @param  {[type]} req [description]
@@ -17,9 +22,15 @@ exports.create = function(req, res){
 };
 
 exports.show = function(req, res){
-  res.send('show forum ' + req.params.forum);
+	Member.findOne({'_id':req.params.member}).exec(function(err, result){
+		if(err) {return res.send(err);}
+		res.send(result);
+	});
 };
 
 exports.destroy = function(req, res){
-  res.send('destroy forum ' + req.params.forum);
+	Member.remove({'_id':req.params.member}).exec(function(err){
+		if(err) {return res.send(err);}
+		res.send({id:req.params.member});
+	});
 };

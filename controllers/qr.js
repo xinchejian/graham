@@ -3,8 +3,7 @@
 var QRCode = require('qrcode');
 
 module.exports = function(req, res){
-	QRCode.toDataURL('i am a pony!',function(err,url){
-		console.log(url);
-		res.send('<img src="' + url + '">');
+	QRCode.toDataURL('http://10.0.10.143:4000/demo.html',function(err,url){
+		res.send('<div><h2>Edward Jiang</h2><img src="' + url + '"></div>');
 	});
 };

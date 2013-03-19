@@ -44,12 +44,39 @@
 			</div>
 		</div>
 		<div class="control-group" ng-class="{
-			error	: signUp.weibo.$dirty && signUp.weibo.$invalid,
-			success	: signUp.weibo.$dirty && signUp.weibo.$valid
+			error	: signUp.rfid.$dirty && signUp.rfid.$invalid,
+			success	: signUp.rfid.$dirty && signUp.rfid.$valid
 			}">
-			<label class="control-label" for="weibo">Weibo</label>
+			<label class="control-label" for="rfid">Membership Card rfid</label>
 			<div class="controls">
-				<input type="text" name="weibo" placeholder="weibo" ng-model="application.weibo">
+				<input type="text" name="rfid" placeholder="rfid" ng-model="application.rfid">
+				<span class="help-inline">Put mouse cursor here and swipe the rfid card</span>
+			</div>
+		</div>
+		<div class="control-group" ng-class="{
+			error	: signUp.payment.fee.$dirty && signUp.payment.fee.$invalid,
+			success	: signUp.payment.fee.$dirty && signUp.payment.fee.$valid
+			}">
+			<label class="control-label" for="payment.fee">Membership Fee</label>
+			<div class="controls">
+				<input type="text" name="payment.fee" placeholder="payment.fee" ng-model="application.payment.fee" required>
+				<span class="help-inline" ng-show="signUp.payment.fee.$dirty && signUp.payment.fee.$invalid">Membership Fee is required</span>
+			</div>
+		</div>
+		<div class="control-group" ng-class="{
+			error	: signUp.payment.length.$dirty && signUp.payment.length.$invalid,
+			success	: signUp.payment.length.$dirty && signUp.payment.length.$valid
+			}">
+			<label class="control-label" for="payment.length">Membership length</label>
+			<div class="controls">
+				<input type="text" name="payment.length" placeholder="payment.length" ng-model="application.payment.length" required> months
+				<span class="help-inline" ng-show="signUp.payment.length.$dirty && signUp.payment.length.$invalid">Membership Valid Lengh is required</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="payment.length">Application Status</label>
+			<div class="controls">
+				<span class="help-inline">{{application.status}}</span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -57,7 +84,7 @@
 				<a class="btn btn-medium" onClick="window.history.back();">Back</a>
 				<button class="btn btn-primary" ng-click="approve()"
 					ng-class="{disabled: signUp.$invalid}"
-					ng-disabled="form.$invalid">Approve Application</button>
+					ng-disabled="form.$invalid || application.status=='approved'">Approve Application</button>
 				<a class="btn btn-medium" target="_blank" href="/qr">Generate Member QR Code</a>
 			</div>
 		</div>
