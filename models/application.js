@@ -11,7 +11,7 @@ var ApplicationSchema = new Schema({
   'englishName': String,
   'nickname': String,
   'role': String,
-  'email': String,
+  'email': {type: String, index: {unique: true, dropDups: true}}, 
   'mobile': String,
   'weibo': String,
   'site': [String],

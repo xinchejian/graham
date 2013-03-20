@@ -60,3 +60,10 @@ Database:
 member
 payment
 log
+
+
+
+Installing on OSX:
+-----------------
+1. brew install cairo (for canvaas)
+2. PKG_CONFIG_PATH=/usr/X11/lib/pkgconfig/ npm install
