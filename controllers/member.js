@@ -16,9 +16,13 @@ exports.index = function(req, res){
  * @return {[type]}     [description]
  */
 exports.create = function(req, res){
-  res.send('create forum');
-  console.log('Data in');
-  console.log(req);
+	var data = req.data;
+	var query = req.query;
+	if(query.resetPassword){
+		
+	}else if(query.updatePassword){
+		
+	}
 };
 
 exports.show = function(req, res){

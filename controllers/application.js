@@ -12,7 +12,8 @@ exports.index = function(req, res){
 };
 
 /**
- * Save is handled here too, tl to modify either angular resource or express resource
+ * Save, approval, and any other post function are handled here too,
+ * tl to modify either angular resource or express resource
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]

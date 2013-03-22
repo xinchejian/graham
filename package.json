@@ -17,6 +17,7 @@
     "passport": "*",
     "passport-local": "*",
     "bcrypt": "*",
+    "nodemailer": "*",
     "jade": "*"
   },
   "devDependencies": {
