@@ -6,13 +6,18 @@ angular.module('grahamApp.controllers.editApplication', [])
 			//console.log(member);
 			var a = new Application(member);
 			a.$save(function(u, res){
-				console.log(u, res);
-				$location.path('/application/thanks');
+					if(u.id) {
+						$location.path('/application/thanks');
+					} else {
+						console.log("error, duplicate key.");
+					}
+
 			});
 		};
 		$scope.load = function(){
 			var m = Application.get({memberId: 1}, function(){
 				console.log('got it', m);
+
 			});
 		};
 	});
