@@ -6,9 +6,15 @@ angular.module('grahamApp.controllers.editApplication', [])
 			//console.log(member);
 			var a = new Application(member);
 			a.$save(function(u, res){
+				
+
 					if(u.id) {
+						$scope.signUp.email.alreadyused = false;
+						//Application.email.alreadyused(false);
 						$location.path('/application/thanks');
 					} else {
+						$scope.signUp.email.alreadyused = true;
+						//Application.email.alreadyused(true);
 						console.log("error, duplicate key.");
 					}
 
