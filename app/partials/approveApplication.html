@@ -59,9 +59,7 @@
 			}">
 			<label class="control-label" for="payment.fee">Membership Fee</label>
 			<div class="controls">
-				<select name="payment.fee" placeholder="payment.fee" ng-model="application.payment.fee" ng-options="c.name for c in memberships"></select>
-				<!--<input type="text" name="payment.fee" placeholder="payment.fee" ng-model="application.payment.fee" required> -->
-
+				<input type="text" name="payment.fee" placeholder="payment.fee" ng-model="application.payment.fee" required>
 				<span class="help-inline" ng-show="signUp.payment.fee.$dirty && signUp.payment.fee.$invalid">Membership Fee is required</span>
 			</div>
 		</div>
@@ -71,17 +69,8 @@
 			}">
 			<label class="control-label" for="payment.length">Membership length</label>
 			<div class="controls">
-				<!-- <select name="payment.length" placeholder="payment.length" ng-model="application.payment.fee" ng-options="c.name for c in memberships"></select>
-				//<input type="text" name="payment.length" placeholder="payment.length" ng-model="application.payment.length" required> months 
-				<span class="help-inline" ng-show="signUp.payment.length.$dirty && signUp.payment.length.$invalid">Membership Valid Lengh is required</span>-->
-				<span class="help-inline">
-				 <ng-pluralize count="application.payment.fee.months"
-when="{'0': 'unset.',
-'one': '1 Month.',
-'other': '{} Months.'}">
-</ng-pluralize>
-				</span>
-
+				<input type="text" name="payment.length" placeholder="payment.length" ng-model="application.payment.length" required> months
+				<span class="help-inline" ng-show="signUp.payment.length.$dirty && signUp.payment.length.$invalid">Membership Valid Lengh is required</span>
 			</div>
 		</div>
 		<div class="control-group">
