@@ -12,12 +12,12 @@
  * A total 4.4 trillion possible passwords can be generated with very long
  * bit count that is hard to brute force provided the dictionary is not available.
  */
-
+var path = require('path');
 var fs = require('fs');
 
-var nouns = fs.readFileSync('nouns.txt').toString().split('\n');
-var adjs = fs.readFileSync('adj.txt').toString().split('\n');
-var verbs = fs.readFileSync('verbs.txt').toString().split('\n');
+var nouns = fs.readFileSync(path.resolve(__dirname, 'nouns.txt')).toString().split('\n');
+var adjs = fs.readFileSync(path.resolve(__dirname, 'adj.txt')).toString().split('\n');
+var verbs = fs.readFileSync(path.resolve(__dirname, 'verbs.txt')).toString().split('\n');
 
 exports.newPassword = function(){
 	var adj = adjs[Math.floor(adjs.length * Math.random())];

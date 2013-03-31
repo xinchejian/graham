@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('grahamApp.services.member', ['ngResource']).
+angular.module('grahamApp.services').
 	factory('Member', function($resource){
-		return $resource('/member/:memberId', {memberId:'@id'});
+		return $resource('/member/:memberId', {memberId:'@id'}, {
+			resetPassword: {method:'POST', params:{resetPassword:true}},
+			updatePassword: {method:'POST', params:{updatePassword:true}}
+		});
 	});

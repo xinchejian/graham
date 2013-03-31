@@ -5,7 +5,8 @@ var Member = require('../models/member.js');
 var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
-	Application.find().exec(function(err, result){
+	var status = req.query.status;
+	Application.find({status:status}).exec(function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
@@ -56,7 +57,9 @@ exports.create = function(req, res){
 			data.status = 'pending';
 			var application = new Application(data);
 			application.save(function(err, saved){
-				if(err) {return res.send(err);}
+				if(err) {
+					return res.send(err);
+				}
 				res.send({id:saved.id});
 			});
 		}else {
