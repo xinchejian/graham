@@ -5,14 +5,16 @@ var Member = require('../models/member.js');
 var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
-	Application.find().exec(function(err, result){
+	var status = req.query.status;
+	Application.find({status:status}).exec(function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
 };
 
 /**
- * Save is handled here too, tl to modify either angular resource or express resource
+ * Save, approval, and any other post function are handled here too,
+ * tl to modify either angular resource or express resource
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
@@ -55,7 +57,9 @@ exports.create = function(req, res){
 			data.status = 'pending';
 			var application = new Application(data);
 			application.save(function(err, saved){
-				if(err) {return res.send(err);}
+				if(err) {
+					return res.send(err);
+				}
 				res.send({id:saved.id});
 			});
 		}else {

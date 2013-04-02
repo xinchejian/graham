@@ -1,0 +1,32 @@
+<div class="hero-unit" ng-controller="LoginCtrl">
+	<form name="loginForm" class="form-horizontal" novalidate>
+		<legend>Login for stuff member</legend>
+		<div class="alert" ng-show="errorMsg">{{errorMsg}}</div>
+		<div class="control-group" ng-class="{
+			error	: loginForm.nickname.$dirty && loginForm.nickname.$invalid,
+			success	: loginForm.nickname.$dirty && loginForm.nickname.$valid
+			}">
+			<label class="control-label" for="nickname">Nickname</label>
+			<div class="controls">
+				<input type="text" name="nickname" placeholder="Nickname" ng-model="member.nickname" required>
+				<span class="help-inline" ng-show="loginForm.nickname.$dirty && loginForm.nickname.$invalid">Nickname is required</span>
+			</div>
+		</div>
+		<div class="control-group" ng-class="{
+			error	: loginForm.password.$dirty && loginForm.password.$invalid,
+			success	: loginForm.password.$dirty && loginForm.password.$valid
+			}">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls">
+				<input type="password" name="password" placeholder="password" ng-model="member.password" required>
+				<span class="help-inline" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">Password is required</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button class="btn btn-primary" ng-click="login(member)"
+					ng-class="{disabled: loginForm.$invalid}"
+					ng-disabled="loginForm.$invalid">Login</button>
+			</div>
+		</div>
+</div>

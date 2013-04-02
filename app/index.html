@@ -23,6 +23,8 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <ng-include src="'partials/nav.html'"></ng-include>
+
     <div class="container" ng-view></div>
 
     <script src="scripts/vendor/jquery-1.8.3.min.js"></script>
@@ -34,18 +36,18 @@
     <!-- Application js -->
     <script src="scripts/app.js"></script>
     <!-- controllers -->
-    <script src="scripts/controllers/index.js"></script>
-    <script src="scripts/controllers/editApplication.js"></script>
-    <script src="scripts/controllers/listApplication.js"></script>
-    <script src="scripts/controllers/viewApplication.js"></script>
-    <script src="scripts/controllers/listMember.js"></script>
-    <script src="scripts/controllers/viewMember.js"></script>
-    <script src="scripts/controllers/approveApplication.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/nav.js"></script>
+    <script src="scripts/controllers/application.js"></script>
+    <script src="scripts/controllers/member.js"></script>
+    <script src="scripts/controllers/account.js"></script>
     <!-- services -->
-    <script src="scripts/services/index.js"></script>
     <script src="scripts/services/member.js"></script>
     <script src="scripts/services/application.js"></script>
+    <script src="scripts/services/authentication.js"></script>
     <script src="scripts/services/popup.js"></script>
+    <!-- directives -->
+    <script src="scripts/directives/validate.js"></script>
     <!-- end Application -->
 
     <!-- Twitter Bootstrap scripts -->

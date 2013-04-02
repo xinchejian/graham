@@ -11,7 +11,7 @@ var ApplicationSchema = new Schema({
   'englishName': String,
   'nickname': String,
   'role': String,
-  'email': {type: String, index: {unique: true, dropDups: true}}, 
+  'email': String, // Removed unique key, Should allow one to resubmit mistake application.
   'mobile': String,
   'weibo': String,
   'site': [String],

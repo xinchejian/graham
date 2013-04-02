@@ -30,11 +30,12 @@ MemberSchema.virtual('id').get(function() {
 
 MemberSchema.methods.setPassword = function(password, callback){
   var Shadow = require('./shadow.js');
-  Shadow.findOne({'_id':this.id}).exec(function(err, shadow){
+  var memberId = this.id;
+  console.log(memberId);
+  Shadow.findOne({memberId:memberId}).exec(function(err, shadow){
     if(err){return callback(err);}
-
     if(!shadow){
-      shadow = new Shadow({memberId:this.id});
+      shadow = new Shadow({memberId:memberId});
     }
 
     bcrypt.genSalt(10, function(err, salt) {
@@ -55,11 +56,17 @@ MemberSchema.methods.setPassword = function(password, callback){
 
 MemberSchema.methods.auth = function(password, callback){
   var Shadow = require('./shadow.js');
-  Shadow.findOne({'_id':this.id}).exec(function(err, shadow){
+  Shadow.findOne({memberId:this.id}).exec(function(err, shadow){
     if(err){return callback(err, false);}
+    console.log(shadow);
+    if(!shadow){return callback(null, false);}
     bcrypt.compare(password, shadow.hash, function(err, isPasswordMatch) {
-      if (err) {return callback(err, false);}
-      else {return callback(null, isPasswordMatch);}
+      console.log('Is password match : ', isPasswordMatch);
+      if (err) {
+        return callback(err, false);
+      }else {
+        return callback(null, isPasswordMatch);
+      }
     });
   });
 };

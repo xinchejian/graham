@@ -6,12 +6,13 @@
 
 var express = require('express'),
   http = require('http'),
-  mongoose = require('mongoose'),
   path = require('path'),
-  passport = require('./passport');
+  mongoose = require('mongoose'),
+  passport = require('./passport'),
+  RedisStore = require('connect-redis')(express),
+  routes = require('./routes'); 
 
 require('express-resource');
-require('./routes');
 
 var app = express();
 
@@ -28,18 +29,24 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('s8hdy3u8qh'));
-  app.use(express.session());
+  app.use(express.session({cookie: {maxAge: 3600000}, store: new RedisStore()}));
   app.use(express.static(path.join(__dirname, 'app')));
 
-  // Router
+
+  // AnA
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.all('*', passport.anaCheck);
+  app.post('/login', passport.customAuth);
+  app.post('/logout', passport.logout);
+
+  // Router after passport
+  // See http://stackoverflow.com/questions/10497349/why-does-passport-js-give-me-a-middleware-error
   app.use(app.router);
 
   // Express-resource Controllers
   app.resource('member', require('./controllers/member'));
   app.resource('application', require('./controllers/application'));
-
-  // AnA
-
 
   // Models
   mongoose.connect('mongodb://localhost/graham');
