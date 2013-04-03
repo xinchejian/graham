@@ -2,8 +2,7 @@
   "name": "Graham",
   "description": "Simple XinCheJian Membership Mangement System",
   "author": "Edward Jiang <edwardrf@xinchejian.com>",
-  "version" : "0.0.1",
-
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app"
@@ -13,13 +12,13 @@
     "express-resource": "1.x",
     "connect-redis": "*",
     "mongoose": "3.x",
-    "passport": "x",
-    "qrcode": "x",
     "passport": "*",
+    "qrcode": "x",
     "passport-local": "*",
     "bcrypt": "*",
     "nodemailer": "*",
-    "jade": "*"
+    "jade": "*",
+    "canvas": "~1.0.2"
   },
   "devDependencies": {
     "grunt": "0.4.0rc7",
