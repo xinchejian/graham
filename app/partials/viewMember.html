@@ -34,4 +34,29 @@
 			</ng-confirm>
 		</div>
 	</div>
+	<hr>
+	<div class="row">
+		<h2>Payment history</h2>
+		<p class="text-right">
+			<button class="btn btn-medium btn-primary">Add payment</button>
+		</p>
+		<form name="payments" novalidate>
+			<table class="table table-striped">
+				<tr ng-show="paymentAdd">
+					<td>
+						<input type="date" name="paymentDate" placeholder="Nickname" ng-model="application.nickname" required>
+					</td>
+				</tr>
+				<tr>
+					<th>Payment Date</th><th>Amount</th><th>Membership length</th><th></th>
+				</tr>
+				<tr ng-repeat="payment in member.payments | orderBy:'paymentDate'">
+					<td>{{payment.paymentDate|date:'short'}}</td>
+					<td>{{payment.fee}}</td>
+					<td>{{payment.length}}</td>
+					<td><button ng-click="" class="btn btn-medium">remove</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </div>

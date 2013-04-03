@@ -39,6 +39,9 @@ exports.create = function(req, res){
 						// Create member
 						data.joinDate = new Date();
 						data.role = 'member';
+						var payment = data.payment;
+						payment.paymentDate = new Date();
+						data.payments = [payment];
 						var member = new Member(data);
 						member.save(function(err, m){
 							if(err) {return res.send(err, m);}

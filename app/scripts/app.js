@@ -8,7 +8,8 @@ angular.module('grahamApp', ['grahamApp.controllers', 'grahamApp.services', 'gra
 		$routeProvider.when('/logout',					{templateUrl: 'partials/logout.html'});
 		$routeProvider.when('/application',				{templateUrl: 'partials/editApplication.html'});
 		$routeProvider.when('/application/thanks',		{templateUrl: 'partials/thanks.html'});
-		$routeProvider.when('/application/list',		{templateUrl: 'partials/listApplication.html'});
+		$routeProvider.when('/application/list',		{redirectTo: '/application/list/pending'});
+		$routeProvider.when('/application/list/:status',{templateUrl: 'partials/listApplication.html'});
 		$routeProvider.when('/application/approve/:id',	{templateUrl: 'partials/approveApplication.html'});
 		$routeProvider.when('/application/:id',			{templateUrl: 'partials/viewApplication.html'});
 		$routeProvider.when('/member/list',				{templateUrl: 'partials/listMember.html'});

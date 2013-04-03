@@ -3,8 +3,9 @@
 angular.module('grahamApp.controllers')
 
 
-	.controller('ListApplicationCtrl', function ($scope, Application) {
-		$scope.status = 'pending';
+	.controller('ListApplicationCtrl', function ($scope, $routeParams, $location, Application) {
+		$scope.status = $routeParams.status;
+		if(!$scope.status){$scope.status = 'pending';}
 		$scope.applications = Application.query({status:$scope.status});
 
 		$scope.remove = function(id){
@@ -13,11 +14,7 @@ angular.module('grahamApp.controllers')
 		};
 
 		$scope.switchStatus = function(status){
-			if($scope.status !== status){
-				$scope.status = status;
-				$scope.applications = [];
-				$scope.applications = Application.query({status:$scope.status});
-			}
+			$location.path('/application/list/' + status);
 		};
 	})
 

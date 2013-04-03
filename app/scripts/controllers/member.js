@@ -24,7 +24,7 @@ angular.module('grahamApp.controllers')
 
 		$scope.resetPassword = function(){
 			Member.resetPassword($scope.member, function(){
-				
+				PopupService.alert('Reset Password', 'New password has been sent to member\'s email address.', 'OK', null, $scope, {});
 			});
 		};
 	});
