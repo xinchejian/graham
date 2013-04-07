@@ -31,8 +31,15 @@ module.exports = function(req, res){
 		});
 		
 		/* append the name */
-		ctx.font = 'bold 10pt Verdana';
+		ctx.font = 'normal 14pt Verdana';
 		var m = ctx.measureText(args.name);
+		var size = 14;
+		while (m.width > (canvas.width-18)) {
+			size--;
+			ctx.font = 'normal '+size+'pt Verdana';
+			m = ctx.measureText(args.name);
+		}
+		
 		ctx.fillText(args.name, (canvas.width - m.width )/2, 26); //fill proportianally to the width, basically center
 
 		/* warning text */
@@ -43,19 +50,17 @@ module.exports = function(req, res){
 		/* bullshit text */
 		ctx.font = 'normal 15pt Verdana';
 		var m = ctx.measureText("MEMBERSHIP");
-		ctx.fillText("MEMBERSHIP", (canvas.width - m.width )/2, 220); //fill proportianally to the width, basically center
+		ctx.fillText("MEMBERSHIP", (canvas.width - m.width )/2, 222); //fill proportianally to the width, basically center
 
 		/* member join date */
 		ctx.font = 'normal 6pt Verdana';
 		var m = ctx.measureText(q.date);
-		ctx.fillText(q.date,  canvas.width - m.width - 10 , 202); //fill proportianally to the width, basically center
+		ctx.fillText(q.date,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
 
 		/* member number */
 		ctx.font = 'normal 6pt Verdana';
 		var m = ctx.measureText(q.membernumber);
 		ctx.fillText(q.membernumber,  (canvas.width - m.width )/2, 232); //fill proportianally to the width, basically center
-
-
 
 		cb(false, canvas);
 		//
@@ -131,7 +136,7 @@ module.exports = function(req, res){
 
 
 
-	q.name = "Lionello Lunesu";
+	q.name = "Marion Bocquet-Appel";
 	q.date = '2013/03';
 	q.membernumber = '012345678901234567890123'; //up to 24 characters
 	q.text = "http://10.0.10.143:4000/demo.html";
