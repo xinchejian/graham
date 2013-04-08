@@ -9,13 +9,63 @@ var fs = require('fs')
 module.exports = function(req, res){
 	var xcjqr = {};
 	var q = {};
-	var effect = 'xcj';
+	var effect = 'details';
 
 
 // qr crap to make the magic .. scroll down.. a long way!
 	xcjqr.xcj = function(args,cb){
 		args.logo = process.cwd()+'/app/images/xcj.png';
 		this.image(args,cb);
+	};
+
+	xcjqr.details = function(args,cb) {
+
+		var canvas = new Canvas(153,243)
+		  , ctx = canvas.getContext('2d');
+
+		//since the qrcode has whitespace, it needs to be drawn first
+		this.xcj(args, function(error, canvas) {
+			var qr = new Image;
+			qr.src = canvas.toBuffer();
+			ctx.drawImage(qr, -10, 20);
+		});
+		
+		/* append the name */
+		ctx.font = 'normal 14pt Verdana';
+		var m = ctx.measureText(args.name);
+		var size = 14;
+		while (m.width > (canvas.width-18)) {
+			size--;
+			ctx.font = 'normal '+size+'pt Verdana';
+			m = ctx.measureText(args.name);
+		}
+		
+		ctx.fillText(args.name, (canvas.width - m.width )/2, 26); //fill proportianally to the width, basically center
+
+		/* warning text */
+		ctx.font = 'normal 8pt Verdana';
+		var m = ctx.measureText("((Scan for Status))");
+		ctx.fillText("((Scan for Status))", (canvas.width - m.width )/2, 188); //fill proportianally to the width, basically center
+
+		/* bullshit text */
+		ctx.font = 'normal 15pt Verdana';
+		var m = ctx.measureText("MEMBERSHIP");
+		ctx.fillText("MEMBERSHIP", (canvas.width - m.width )/2, 222); //fill proportianally to the width, basically center
+
+		/* member join date */
+		ctx.font = 'normal 6pt Verdana';
+		var m = ctx.measureText(q.date);
+		ctx.fillText(q.date,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
+
+		/* member number */
+		ctx.font = 'normal 6pt Verdana';
+		var m = ctx.measureText(q.membernumber);
+		ctx.fillText(q.membernumber,  (canvas.width - m.width )/2, 232); //fill proportianally to the width, basically center
+
+		cb(false, canvas);
+		//
+
+
 	};
 
 	xcjqr.image = function(args,cb){
@@ -74,6 +124,8 @@ module.exports = function(req, res){
 			});
 		};
 		
+
+
 		img.onerror = function(error){
 			error.message += ' ('+src+')';
 			cb(error,null);
@@ -84,11 +136,13 @@ module.exports = function(req, res){
 
 
 
-	
+	q.name = "Marion Bocquet-Appel";
+	q.date = '2013/03';
+	q.membernumber = '012345678901234567890123'; //up to 24 characters
 	q.text = "http://10.0.10.143:4000/demo.html";
 	q.errorCorrectLevel = "max";
 	xcjqr[effect](q,function(error,canvas){
-		res.send('<div><h2>Paul Adams</h2><img src="' + canvas.toDataURL() + '"></div>');
+		res.send('<div><img src="' + canvas.toDataURL() + '"></div>');
 	})
 
 
