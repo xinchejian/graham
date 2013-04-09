@@ -19,6 +19,7 @@ angular.module('grahamApp', ['grahamApp.controllers', 'grahamApp.services', 'gra
 		$routeProvider.otherwise({redirectTo: '/application'});
 	}]);
 
-angular.module('grahamApp.controllers', ['ngCookies']);
+angular.module('grahamApp.controllers', [ 'ngCookies', '$strap.directives']);
 angular.module('grahamApp.services', ['ngResource', 'popup']);
 angular.module('grahamApp.directives', []);
+

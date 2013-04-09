@@ -5,6 +5,7 @@ angular.module('grahamApp.controllers')
 
 	.controller('ViewAccountCtrl', function ($scope, Member, auth) {
 		$scope.member = Member.get({memberId: auth.currentUserId()});
+
 	})
 
 

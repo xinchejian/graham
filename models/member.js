@@ -54,6 +54,8 @@ MemberSchema.methods.setPassword = function(password, callback){
   });
 };
 
+
+
 MemberSchema.methods.auth = function(password, callback){
   var Shadow = require('./shadow.js');
   Shadow.findOne({memberId:this.id}).exec(function(err, shadow){
