@@ -39,13 +39,16 @@ exports.create = function(req, res){
 		if(req.body.password !== req.body.confirmPassword){
 			return res.send({error: 'New password does not match'});
 		}
+
 console.log(req.sessionID,req.session);
 
-		Member.findOne({'_id': req.user._id}).exec(function(err, mbr){
+		Member.findOne({'_id': data._id}).exec(function(err, mbr){
 			if(err) {return res.send(err);}
-			mbr.auth(req.body.currentPassword, function(err, match) {
+			console.log(mbr);
+
+			mbr.auth(data.currentPassword, function(err, match) {
 				if (match) {
-					mbr.setPassword(req.body.password, function(err, sdw){
+					mbr.setPassword(data.password, function(err, sdw){
 						if(err) {
 							return res.send(err);
 						}else {
@@ -61,11 +64,12 @@ console.log(req.sessionID,req.session);
 		//this could probably be changed to update the Member instead of just the role.
 		//  here i strip out all extra data and only use the role instead
 		var updateData = {
-			role: req.body.role
+			role: data.role
 		};
+
 		//just a boolean, it cannot succeed if the record never existed
 		//    not sure if it belongs here OR in the models under schema
-		Member.update({'_id': req.user._id},updateData, function(err,result) {
+		Member.update({'_id': data._id},updateData, function(err,result) {
 		  if(err) {return res.send({error: err.message});}
 			res.send(result);
 		});
