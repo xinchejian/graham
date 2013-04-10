@@ -57,6 +57,19 @@ console.log(req.sessionID,req.session);
 				}
 			});
 		});
+	} else if (query.updateRole) {
+		//this could probably be changed to update the Member instead of just the role.
+		//  here i strip out all extra data and only use the role instead
+		var updateData = {
+			role: req.body.role
+		};
+		//just a boolean, it cannot succeed if the record never existed
+		//    not sure if it belongs here OR in the models under schema
+		Member.update({'_id': req.user._id},updateData, function(err,result) {
+		  if(err) {return res.send({error: err.message});}
+			res.send(result);
+		});
+
 	}
 };
 
