@@ -46,18 +46,21 @@ console.log(req.sessionID,req.session);
 			if(err) {return res.send(err);}
 			console.log(mbr);
 
-			mbr.auth(data.currentPassword, function(err, match) {
-				if (match) {
-					mbr.setPassword(data.password, function(err, sdw){
-						if(err) {
-							return res.send(err);
-						}else {
-							return res.send({status:'ok', id:sdw.memberId});
-						}
-					});
-				} else {
-					return res.send({error: 'Wrong password'});
-				}
+			Member.findOne({'_id': req.user._id}).exec(function(err, mbr){
+				if(err) {return res.send(err);}
+				mbr.auth(req.body.currentPassword, function(err, match) {
+					if (match) {
+						mbr.setPassword(req.body.password, function(err, sdw){
+							if(err) {
+								return res.send(err);
+							}else {
+								return res.send({status:'ok', id:sdw.memberId});
+							}
+						});
+					} else {
+						return res.send({error: 'Wrong password'});
+					}
+				});
 			});
 		});
 	} else if (query.updateRole) {
