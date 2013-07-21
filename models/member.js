@@ -11,7 +11,7 @@ var MemberSchema = new Schema({
   'chineseName': String,
   'englishName': String,
   'nickname': String,
-  'role': String,
+  'role': String, //'Member', 'Staff Member', 'Stakeholder', 'Founder' - only these are defined for now
   'email': String,
   'mobile': String,
   'weibo': String,
@@ -21,7 +21,8 @@ var MemberSchema = new Schema({
     'length': String,
     'paymentDate': Date
   }],
-  'joinDate': Date
+  'joinDate': Date, 
+  'badges': [Object]
 });
 
 MemberSchema.virtual('id').get(function() {
@@ -53,6 +54,9 @@ MemberSchema.methods.setPassword = function(password, callback){
     });
   });
 };
+
+
+
 
 MemberSchema.methods.auth = function(password, callback){
   var Shadow = require('./shadow.js');

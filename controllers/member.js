@@ -2,13 +2,15 @@
 
 var Member = require('../models/member.js');
 var Shadow = require('../models/shadow.js');
+var Badges = require('../models/badges.js');
 var mailer = require('../modules/mailer');
 var chbs   = require('../modules/chbs');
 // var Payment = require(../models/payment.js');
-// 
+// need to convert the badges
 exports.index = function(req, res){
 	Member.find().exec(function(err, result){
 		if(err) {return res.send(err);}
+		console.log(result);
 		res.send(result);
 	});
 };
@@ -39,24 +41,42 @@ exports.create = function(req, res){
 		if(req.body.password !== req.body.confirmPassword){
 			return res.send({error: 'New password does not match'});
 		}
-console.log(req.sessionID,req.session);
 
-		Member.findOne({'_id': req.user._id}).exec(function(err, mbr){
+		Member.findOne({'_id': data._id}).exec(function(err, mbr){
 			if(err) {return res.send(err);}
-			mbr.auth(req.body.currentPassword, function(err, match) {
-				if (match) {
-					mbr.setPassword(req.body.password, function(err, sdw){
-						if(err) {
-							return res.send(err);
-						}else {
-							return res.send({status:'ok', id:sdw.memberId});
-						}
-					});
-				} else {
-					return res.send({error: 'Wrong password'});
-				}
+			console.log(mbr);
+
+			Member.findOne({'_id': req.user._id}).exec(function(err, mbr){
+				if(err) {return res.send(err);}
+				mbr.auth(req.body.currentPassword, function(err, match) {
+					if (match) {
+						mbr.setPassword(req.body.password, function(err, sdw){
+							if(err) {
+								return res.send(err);
+							}else {
+								return res.send({status:'ok', id:sdw.memberId});
+							}
+						});
+					} else {
+						return res.send({error: 'Wrong password'});
+					}
+				});
 			});
 		});
+	} else if (query.updateRole) {
+		//this could probably be changed to update the Member instead of just the role.
+		//  here i strip out all extra data and only use the role instead
+		var updateData = {
+			role: data.role
+		};
+
+		//just a boolean, it cannot succeed if the record never existed
+		//    not sure if it belongs here OR in the models under schema
+		Member.update({'_id': data._id},updateData, function(err,result) {
+		  if(err) {return res.send({error: err.message});}
+			res.send(result);
+		});
+
 	}
 };
 
@@ -68,8 +88,14 @@ exports.show = function(req, res){
 };
 
 exports.destroy = function(req, res){
-	Member.remove({'_id':req.params.member}).exec(function(err){
-		if(err) {return res.send(err);}
+	/* dont destroy, ever, just set a status flag on them */
+	var updateData = {
+		status : "terminated",
+	};
+
+	Member.update({'_id': req.params.member},updateData, function(err,result) {
+		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.member});
 	});
+
 };
