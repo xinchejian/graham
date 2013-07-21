@@ -40,7 +40,12 @@ angular.module('grahamApp.controllers')
 			$location.path('/listMember');
 		};
 
-
+		$scope.dropdown = [
+			{text: 'Member', href: '#anotherAction'},
+			{text: 'Staff Member', click: '$alert("working ngClick!")'},
+			{text: 'Stakeholder', click: '$alert("working ngClick!")'},
+			{text: 'Founder	', click: '$alert("working ngClick!")'}
+		];
 
 		$scope.resetPassword = function(){
 			Member.resetPassword($scope.member, function(){

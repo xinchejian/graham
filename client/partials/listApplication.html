@@ -13,6 +13,14 @@
 			<a ng-click="switchStatus('terminated')">Terminated</a>
 		</li>
 	</ul>
+	<div class="row">
+		<div class="span8">
+			<form class="navbar-search pull-left">
+				<input type="text" class="search-query" placeholder="Filter applications by name or email" ng-model="searchText">
+			</form>
+		</div>
+	</div>
+	<hr/>
 	<table class="table table-striped">
 		<tr>
 			<th>English Name</th>
@@ -25,7 +33,7 @@
 			<th>Status</th>
 			<th>Actions</th>
 		</tr>
-		<tr ng-repeat="application in applications">
+		<tr ng-repeat="application in applications | filter:searchText">
 			<td>{{application.englishName}}</td>
 			<td>{{application.chineseName}}</td>
 			<td>{{application.nickname}}</td>
