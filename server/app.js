@@ -34,6 +34,7 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'app')));
 
 
+
   // AnA
   app.use(passport.initialize());
   app.use(passport.session());
