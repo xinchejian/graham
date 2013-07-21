@@ -45,8 +45,8 @@
 		<div class="span8 offset2">
 			<a class="btn btn-medium" onClick="window.history.back();">Back</a>
 			<a class="btn btn-medium btn-warning" ng-click="resetPassword();">Reset Password</a>
-			<ng-confirm title="Terminate" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="remove(member._id)" cancel-button-text="No Way">
-				<button class="btn btn-medium btn-danger">Cancel</button>
+			<ng-confirm title="Terminate" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="remove()" cancel-button-text="No Way">
+				<button class="btn btn-medium btn-danger">Terminate Membership</button>
 			</ng-confirm>
 		</div>
 	</div>
@@ -54,25 +54,60 @@
 	<div class="row">
 		<h2>Payment history</h2>
 		<p class="text-right">
-			<button class="btn btn-medium btn-primary">Add payment</button>
+			<button class="btn btn-medium btn-primary" ng-click="showAddPayment()" ng-show="!paymentAdd">Add payment</button>
 		</p>
-		<form name="payments" novalidate>
-			<table class="table table-striped">
-				<tr ng-show="paymentAdd">
-					<td>
-						<input type="date" name="paymentDate" placeholder="Nickname" ng-model="application.nickname" required>
-					</td>
-				</tr>
-				<tr>
-					<th>Payment Date</th><th>Amount</th><th>Membership length</th><th></th>
-				</tr>
-				<tr ng-repeat="payment in member.payments | orderBy:'paymentDate'">
-					<td>{{payment.paymentDate|date:'short'}}</td>
-					<td>{{payment.fee}}</td>
-					<td>{{payment.length}}</td>
-					<td><button ng-click="" class="btn btn-medium">remove</button></td>
-				</tr>
-			</table>
+		<form name="paymentForm" class="form-horizontal" novalidate>
+			<div ng-show="paymentAdd">
+				<div class="control-group" ng-class="{
+					error	: paymentForm.length.$dirty && paymentForm.length.$invalid,
+					success	: paymentForm.length.$dirty && paymentForm.length.$valid
+					}">
+					<label class="control-label" for="payment.length">Membership length</label>
+					<div class="controls">
+						<input type="text" name="length" ng-model="payment.length" required> months
+						<span class="help-inline" ng-show="paymentForm.length.$dirty && paymentForm.length.$invalid">Membership Lengh is required</span>
+					</div>
+				</div>
+				<div class="control-group" ng-class="{
+					error	: paymentForm.fee.$dirty && paymentForm.fee.$invalid,
+					success	: paymentForm.fee.$dirty && paymentForm.fee.$valid
+					}">
+					<label class="control-label" for="payment.fee">Payment amount</label>
+					<div class="controls">
+						<input type="text" name="fee" ng-model="payment.fee" required> RMB
+						<span class="help-inline" ng-show="paymentForm.fee.$dirty && paymentForm.fee.$invalid">Membership payment amount is required</span>
+					</div>
+				</div>
+				<div class="control-group" ng-class="{
+					error	: paymentForm.date.$dirty && paymentForm.date.$invalid,
+					success	: paymentForm.date.$dirty && paymentForm.date.$valid
+					}">
+					<label class="control-label" for="payment.date">Payment date</label>
+					<div class="controls">
+						<input type="date" name="date" ng-model="payment.date" required>
+						<span class="help-inline" ng-show="paymentForm.date.$dirty && paymentForm.date.$invalid">Membership Valid Lengh is required</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-primary" ng-click="addPayment()"
+							ng-class="{disabled: paymentForm.$invalid}"
+							ng-disabled="paymentForm.$invalid">Confirm payment</button>
+						<button class="btn btn-medium btn-primary" ng-click="hideAddPayment()" ng-show="paymentAdd">Cancel</button>
+					</div>
+				</div>
+			</div>
 		</form>
+		<table class="table table-striped">
+			<tr>
+				<th>Payment Date</th><th>Amount</th><th>Membership length</th><th></th>
+			</tr>
+			<tr ng-repeat="payment in member.payments | orderBy:'paymentDate'">
+				<td>{{payment.paymentDate|date:'short'}}</td>
+				<td>{{payment.fee}}</td>
+				<td>{{payment.length}}</td>
+				<td><button ng-click="removePayment(payment.id)" class="btn btn-medium">remove</button></td>
+			</tr>
+		</table>
 	</div>
 </div>

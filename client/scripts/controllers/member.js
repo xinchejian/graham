@@ -15,10 +15,19 @@ angular.module('grahamApp.controllers')
 	})
 
 
-	.controller('ViewMemberCtrl', function ($scope, $routeParams, $location, Member, PopupService) {
+	.controller('ViewMemberCtrl', function ($scope, $routeParams, $location, Member, Payment, PopupService) {
 
 		$scope.member = Member.get({memberId: $routeParams.id});
+		$scope.paymentAdd = false;
 
+		// Generate the default date
+		var now = new Date();
+		var month = now.getMonth();
+		if(month <= 10) month = '0' + (month + 1);
+		var today = now.getFullYear() + '-' + month + '-' + now.getDate();
+
+		// Initialise the payment details
+		$scope.payment = {length: 3, fee:250, date: today};
 
 		$scope.roledropdown = [
 			{text: 'Member', click: "updateRole('Member')"},
@@ -30,12 +39,12 @@ angular.module('grahamApp.controllers')
 		$scope.updateRole = function(txt) {
 			$scope.member.role = txt;
 			Member.updateRole($scope.member, function(){
-				
+				alert("Updating role");
 			});
 		};
 
-		$scope.remove = function(id){
-			Member.remove({memberId: id});
+		$scope.remove = function(){
+			Member.remove({memberId: $scope.member._id});
 			PopupService.close();
 			$location.path('/listMember');
 		};
@@ -52,4 +61,26 @@ angular.module('grahamApp.controllers')
 				PopupService.alert('Reset Password', 'New password has been sent to member\'s email address.', 'OK', null, $scope, {});
 			});
 		};
+
+		$scope.addPayment = function(){
+			$scope.payment.memberId = $scope.member._id;
+
+			console.log($scope.member);
+			var p = new Payment($scope.payment);
+
+			// Pending payment restful API
+			p.$save(function(u, res){
+				console.log(u, res);
+				$scope.hideAddPayment();
+			});
+		};
+
+		$scope.showAddPayment = function(){
+			$scope.paymentAdd = true;
+		};
+
+		$scope.hideAddPayment = function(){
+			$scope.paymentAdd = false;
+		};
+
 	});
