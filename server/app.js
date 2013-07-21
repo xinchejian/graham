@@ -10,7 +10,8 @@ var express = require('express'),
   mongoose = require('mongoose'),
   passport = require('./passport'),
   RedisStore = require('connect-redis')(express),
-  routes = require('./routes'); 
+  routes = require('./routes'),
+  config = require('./config');
 
 require('express-resource');
 
@@ -49,7 +50,7 @@ app.configure(function(){
   app.resource('application', require('./controllers/application'));
 
   // Models
-  mongoose.connect('mongodb://localhost/graham');
+  mongoose.connect(config.mongo.url);
   var models = require('./models');
   app.set('models', models);
 });
