@@ -11,7 +11,8 @@ var express = require('express'),
   passport = require('./passport'),
   RedisStore = require('connect-redis')(express),
   routes = require('./routes'),
-  config = require('./config');
+  config = require('./config'),
+  redis = require('redis');
 
 require('express-resource');
 
@@ -20,6 +21,7 @@ var app = express();
 app.configure(function(){
   // Port
   app.set('port', process.env.PORT || 4000);
+  var redis_client = redis.createClient(config.redis.port, config.redis.host);
 
   // Views
   app.set('views', __dirname + '/views');
@@ -30,10 +32,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('s8hdy3u8qh'));
-  app.use(express.session({cookie: {maxAge: 3600000}, store: new RedisStore()}));
+  var session_store = new RedisStore({client: redis_client});
+  app.use(express.session({cookie: {maxAge: 3600000}, store: session_store}));
   app.use(express.static(path.join(__dirname, 'app')));
-
-
 
   // AnA
   app.use(passport.initialize());

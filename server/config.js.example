@@ -8,5 +8,9 @@ module.exports = {
 	},
 	mongo: {
 		url: 'mongodb://localhost/graham'
+	},
+	redis: {
+		port: 6379,
+		host: '10.0.10.23'
 	}
 };
