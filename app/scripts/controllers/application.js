@@ -24,8 +24,23 @@ angular.module('grahamApp.controllers')
 
 	.controller('ViewApplicationCtrl', function ($scope, $routeParams, $location, Application, PopupService) {
 		$scope.application = Application.get({applicationId: $routeParams.id});
+
 		$scope.remove = function(id){
+			
+			console.log("Remove"+id);
 			Application.remove({applicationId: id});
+			PopupService.close();
+			$location.path('/application/list');
+		};
+		$scope.terminate = function(id){
+			console.log("terminate: "+id);
+			Application.terminate({applicationId: id});
+			PopupService.close();
+			$location.path('/application/list');
+		};
+		$scope.activate = function(id){
+			console.log("Activate: "+id);
+			Application.activate({applicationId: id});
 			PopupService.close();
 			$location.path('/application/list');
 		};
@@ -39,6 +54,7 @@ angular.module('grahamApp.controllers')
 			PopupService.close();
 			$location.path('/application/list');
 		};
+
 		$scope.approve = function(){
 			Application.approve($scope.application, function(data){
 				if(data.status === 'ok') {

@@ -21,7 +21,8 @@ var MemberSchema = new Schema({
     'length': String,
     'paymentDate': Date
   }],
-  'joinDate': Date
+  'joinDate': Date, 
+  'badges': [Object]
 });
 
 MemberSchema.virtual('id').get(function() {
