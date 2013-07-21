@@ -28,7 +28,6 @@ directivesModule.directive('ngConfirm', function(PopupService) {
             var popupOptions = {};
             element.bind("click", function()
             {
-                                    console.log('hahahaha');
                 PopupService.confirm(attrs["title"], attrs["actionText"], 
                         attrs["actionButtonText"], attrs["actionFunction"], 
                         attrs["cancelButtonText"], attrs["cancelFunction"], 

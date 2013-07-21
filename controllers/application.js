@@ -74,10 +74,47 @@ exports.show = function(req, res){
 		res.send(result);
 	});
 };
-
-exports.destroy = function(req, res){
-	Application.remove({'_id':req.params.application}).exec(function(err){
-		if(err) {return res.send(err);}
+exports.terminate = function(req, res) {
+	/* dont destroy, ever, just set a status flag on them */
+	console.log("terminator");
+	var updateData = {
+		status : "terminated",
+	};
+	Application.update({'_id': req.params.application},updateData, function(err,result) {
+		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});
+};
+exports.activate = function(req, res) {
+	/* dont destroy, ever, just set a status flag on them */
+	console.log("activator");
+	var updateData = {
+		status : "approved",
+	};
+	Application.update({'_id': req.params.application},updateData, function(err,result) {
+		if(err) {return res.send({error: err.message});}
+		res.send({id:req.params.application});
+	});
+};
+exports.approve = function(req, res) {
+	/* dont destroy, ever, just set a status flag on them */
+	console.log("approver");
+	var updateData = {
+		status : "approved",
+	};
+	Application.update({'_id': req.params.application},updateData, function(err,result) {
+		if(err) {return res.send({error: err.message});}
+		res.send({id:req.params.application});
+	});
+};
+exports.destroy = function(req, res){
+	/* dont destroy, ever, just set a status flag on them */
+	var updateData = {
+		status : "rejected",
+	};
+	Application.update({'_id': req.params.application},updateData, function(err,result) {
+		if(err) {return res.send({error: err.message});}
+		res.send({id:req.params.application});
+	});
+
 };
