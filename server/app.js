@@ -7,12 +7,12 @@
 var express = require('express'),
   http = require('http'),
   path = require('path'),
-  mongoose = require('mongoose'),
   passport = require('./passport'),
   RedisStore = require('connect-redis')(express),
   routes = require('./routes'),
   config = require('./config'),
-  redis = require('redis');
+  redis = require('redis'),
+  nohm = require('nohm').Nohm;
 
 require('express-resource');
 
@@ -52,7 +52,18 @@ app.configure(function(){
   app.resource('application', require('./controllers/application'));
 
   // Models
-  mongoose.connect(config.mongo.url);
+  redis_client.on("connect", function() {
+    console.log("Connected to redis");
+    nohm.setClient(redis_client);
+    // Redis/Nohm sanity check
+    var Test = nohm.model('Test', {properties:{x:{type:'string'}}});
+    var t = new Test();
+    t.p('x', 'saf');
+    t.save(function (err) {
+      console.log(err || t.id);
+    });
+  });
+  
   var models = require('./models');
   app.set('models', models);
 });

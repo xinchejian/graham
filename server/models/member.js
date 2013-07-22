@@ -1,33 +1,37 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var nohm = require('nohm').Nohm;
 var bcrypt = require('bcrypt');
 
 /**
 * Model: Member
 */
-var MemberSchema = new Schema({
-  'chineseName': String,
-  'englishName': String,
-  'nickname': String,
-  'role': String, //'Member', 'Staff Member', 'Stakeholder', 'Founder' - only these are defined for now
-  'email': String,
-  'mobile': String,
-  'weibo': String,
-  'site': [String],
-  'payments':[{
-    'fee': String,
-    'length': String,
-    'paymentDate': Date
-  }],
-  'joinDate': Date, 
-  'badges': [Object]
-});
+var MemberSchema = {
+  properties: {
+    'chineseName': { type: 'string' },
+    'englishName': { type: 'string' },
+    'nickname': { type: 'string' },
+    'role': { type: 'string' }, //'Member', 'Staff Member', 'Stakeholder', 'Founder' - only these are defined for now
+    'email': { type: 'string' },
+    'mobile': { type: 'string' },
+    'weibo': { type: 'string' },
+    'site': { type: 'string' }, //array
+    // 'payments':[{
+    //   'fee': { type: 'string' },
+    //   'length': { type: 'string' },
+    //   'paymentDate': { type: 'string' }
+    // }],
+    'joinDate': { type: 'Timestamp' }, 
+    'badges': { type: 'Json' }
+  },
+  methods: {
+    // done below:
+  }
+};
 
-MemberSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
+// MemberSchema.virtual('id').get(function() {
+//   return this._id.toHexString();
+// });
 
 MemberSchema.methods.setPassword = function(password, callback){
   var Shadow = require('./shadow.js');
@@ -75,4 +79,4 @@ MemberSchema.methods.auth = function(password, callback){
   });
 };
 
-module.exports = mongoose.model('Member', MemberSchema);
+module.exports = nohm.model('Member', MemberSchema);

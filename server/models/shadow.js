@@ -1,19 +1,20 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var nohm = require('nohm').Nohm;
 
 /**
 * Model: Shadow
 */
-var ShadowSchema = new Schema({
-  'memberId': Schema.Types.ObjectId,
-  'hash': String,
-  'updateDate': Date
-});
+var ShadowSchema = {
+  properties: {
+	'memberId': { type: 'string' },	// objectid
+	'hash': { type: 'string' },
+	'updateDate': { type: 'timestamp' }
+  }
+};
 
-ShadowSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
+// ShadowSchema.virtual('id').get(function() {
+//   return this._id.toHexString();
+// });
 
-module.exports = mongoose.model('Shadow', ShadowSchema);
+module.exports = nohm.model('Shadow', ShadowSchema);

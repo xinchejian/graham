@@ -6,7 +6,7 @@ var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
 	var status = req.query.status;
-	Application.find({status:status}).exec(function(err, result){
+	Application.find({status:status}, (function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
@@ -72,7 +72,7 @@ exports.create = function(req, res){
 };
 
 exports.show = function(req, res){
-	Application.findOne({'_id':req.params.application}).exec(function(err, result){
+	Application.find({id:req.params.application}, function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
@@ -83,7 +83,7 @@ exports.terminate = function(req, res) {
 	var updateData = {
 		status : "terminated",
 	};
-	Application.update({'_id': req.params.application},updateData, function(err,result) {
+	Application.update({id: req.params.application}, updateData, function(err,result) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});
