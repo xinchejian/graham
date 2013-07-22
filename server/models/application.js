@@ -1,27 +1,31 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var nohm = require('nohm').Nohm;
 
 /**
 * Model: Application
 */
-var ApplicationSchema = new Schema({
-  'chineseName': String,
-  'englishName': String,
-  'nickname': String,
-  'role': String,
-  'email': String, // Removed unique key, Should allow one to resubmit mistake application.
-  'mobile': String,
-  'weibo': String,
-  'site': [String],
-  'essay': String,
-  'status': String,
-  'submissionDate': Date
-});
+var ApplicationSchema = {
+  properties: {
+    'chineseName': { type: 'string' },
+    'englishName': { type: 'string' },
+    'nickname': { type: 'string' },
+    'role': { type: 'string' },
+    'email': { type: 'string' }, // Removed unique key, Should allow one to resubmit mistake application.
+    'mobile': { type: 'string' },
+    'weibo': { type: 'string' },
+    'site': { type: 'string' }, // array
+    'essay': { type: 'string' },
+    'status': { type: 'string' },
+    'submissionDate': { type: 'timestamp' }
+  },
+  methods: {
+  }
+};
 
+/*
 ApplicationSchema.virtual('id').get(function() {
-  return this._id.toHexString();
+  return this._id.toHex{ type: 'string' }();
 });
-
-module.exports = mongoose.model('Application', ApplicationSchema);
+*/
+module.exports = nohm.model('Application', ApplicationSchema);

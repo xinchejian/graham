@@ -1,19 +1,22 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var nohm = require('nohm').Nohm;
 
 /**
 * Model: Badges
 */
-var BadgeSchema = new Schema({
-	'name' : String,
-	'icon' : String,
-	'url' : String
-});
+var BadgeSchema = {
+  properties: {
+	'name' : { type: 'string' },
+	'icon' : { type: 'string' },
+	'url' : { type: 'string' }
+  },
+  methods: {
+  }
+};
 
-BadgeSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
+// BadgeSchema.virtual('id').get(function() {
+//   return this._id.toHexString();
+// });
 
-module.exports = mongoose.model('Badges', BadgeSchema);
+module.exports = nohm.model('Badges', BadgeSchema);
