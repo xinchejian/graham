@@ -9,9 +9,11 @@ module.exports = passport;
 passport.use(new LocalStrategy(
   {usernameField: 'nickname'},
   function(username, password, done) {
-    Member.findOne({ nickname: username }, function(err, member) {
+    Member.find({ nickname: username }, function(err, members) {
       if (err) { return done(err); }
-      if (member){
+      console.log(members);
+      if (members.length){
+        var member = members[0];
         member.auth(password, function(err, match){
           if(match){
             return done(null, member);
@@ -54,7 +56,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  Member.findOne({_id: id}, function(err, mbr) {
+  Member.find({id: id}, function(err, mbr) {
     done(err, mbr);
   });
 });

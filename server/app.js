@@ -56,11 +56,11 @@ app.configure(function(){
     console.log("Connected to redis");
     nohm.setClient(redis_client);
     // Redis/Nohm sanity check
-    var Test = nohm.model('Test', {properties:{x:{type:'string'}}});
-    var t = new Test();
-    t.p('x', 'saf');
-    t.save(function (err) {
-      console.log(err || t.id);
+    var Test = nohm.model('Test', {properties:{x:{type:'string'},y:{type:'string'}}});
+    var test = new Test();
+    test.p('x', 'saf');
+    test.save(function (err) {
+      console.log(err || test.id);
     });
   });
   

@@ -7,7 +7,7 @@ var nohm = require('nohm').Nohm;
 */
 var ShadowSchema = {
   properties: {
-	'memberId': { type: 'string' },	// objectid
+	'memberId': { type: 'string', index: true },	// objectid
 	'hash': { type: 'string' },
 	'updateDate': { type: 'timestamp' }
   }
