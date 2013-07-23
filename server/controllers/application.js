@@ -6,7 +6,7 @@ var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
 	var status = req.query.status;
-	Application.find({status:status}, (function(err, result){
+	Application.find({status:status}, function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
@@ -26,14 +26,15 @@ exports.create = function(req, res){
 		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
 
 			// Prevent duplicate approval
-			Application.findOne({'_id': data._id}).exec(function(err, app){
+			Application.find({id: data.id}, function(err, apps){
 				if(err) {return res.send(err);}
+				var app = apps[0];
 				if('approved' === app.status){
 					console.log('hal?');
 					return res.send({error:'application already approved'});
 				}else {
 					// Update application status
-					app.status = 'approved';
+					app.p('status', 'approved');
 					app.save(function(err){
 						if(err) {return res.send(err);}
 						// Create member
@@ -42,10 +43,11 @@ exports.create = function(req, res){
 						var payment = data.payment;
 						payment.paymentDate = new Date();
 						data.payments = [payment];
-						var member = new Member(data);
-						member.save(function(err, m){
-							if(err) {return res.send(err, m);}
-							res.send({status:'ok', id:m.id});
+						var member = new Member();
+						member.p(data);
+						member.save(function(err){
+							if(err) {return res.send(err, member);}
+							res.send({status:'ok', id:member.id});
 						});
 					});
 				}
@@ -58,12 +60,13 @@ exports.create = function(req, res){
 		if(data.nickname && data.mobile && data.email && data.essay){
 			data.submissionDate = new Date();
 			data.status = 'pending';
-			var application = new Application(data);
-			application.save(function(err, saved){
+			var application = new Application();
+			application.p(data);
+			application.save(function(err){
 				if(err) {
 					return res.send(err);
 				}
-				res.send({id:saved.id});
+				res.send({id:application.id});
 			});
 		}else {
 			res.send({error: 'Required fields not filled up'});
@@ -80,10 +83,10 @@ exports.show = function(req, res){
 exports.terminate = function(req, res) {
 	/* dont destroy, ever, just set a status flag on them */
 	console.log("terminator");
-	var updateData = {
-		status : "terminated",
-	};
-	Application.update({id: req.params.application}, updateData, function(err,result) {
+	var application = new Application();
+	application.id = req.params.application;
+	application.p('status', "terminated");
+	application.save(function(err) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});
@@ -91,10 +94,10 @@ exports.terminate = function(req, res) {
 exports.activate = function(req, res) {
 	/* dont destroy, ever, just set a status flag on them */
 	console.log("activator");
-	var updateData = {
-		status : "approved",
-	};
-	Application.update({'_id': req.params.application},updateData, function(err,result) {
+	var application = new Application();
+	application.id = req.params.application;
+	application.p('status', "approved");
+	application.save(function(err) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});
@@ -102,20 +105,20 @@ exports.activate = function(req, res) {
 exports.approve = function(req, res) {
 	/* dont destroy, ever, just set a status flag on them */
 	console.log("approver");
-	var updateData = {
-		status : "approved",
-	};
-	Application.update({'_id': req.params.application},updateData, function(err,result) {
+	var application = new Application();
+	application.id = req.params.application;
+	application.p('status', "approved");
+	application.save(function(err) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});
 };
 exports.destroy = function(req, res){
 	/* dont destroy, ever, just set a status flag on them */
-	var updateData = {
-		status : "rejected",
-	};
-	Application.update({'_id': req.params.application},updateData, function(err,result) {
+	var application = new Application();
+	application.id = req.params.application;
+	application.p('status', "rejected");
+	application.save(function(err) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.application});
 	});

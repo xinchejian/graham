@@ -16,7 +16,7 @@ var ApplicationSchema = {
     'weibo': { type: 'string' },
     'site': { type: 'string' }, // array
     'essay': { type: 'string' },
-    'status': { type: 'string' },
+    'status': { type: 'string', index: true },
     'submissionDate': { type: 'timestamp' }
   },
   methods: {

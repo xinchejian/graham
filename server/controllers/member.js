@@ -8,7 +8,7 @@ var chbs   = require('../modules/chbs');
 // var Payment = require(../models/payment.js');
 // need to convert the badges
 exports.index = function(req, res){
-	Member.find().exec(function(err, result){
+	Member.find(function(err, result){
 		if(err) {return res.send(err);}
 		console.log(result);
 		res.send(result);
@@ -24,8 +24,9 @@ exports.create = function(req, res){
 	var data = req.body;
 	var query = req.query;
 	if(query.resetPassword){
-		Member.findOne({'_id': data._id}).exec(function(err, mbr){
+		Member.find({id: data.id}, function(err, mbrs){
 			if(err) {return res.send(err);}
+			var mbr = mbrs[0];
 			var newPassword = chbs.newPassword();
 			mbr.setPassword(newPassword, function(err, sdw){
 				if(err) {
@@ -36,18 +37,20 @@ exports.create = function(req, res){
 				}
 			});
 		});
-	}else if(query.updatePassword){
+	}
+	else if(query.updatePassword){
 		// Reject not matched new password.
 		if(req.body.password !== req.body.confirmPassword){
 			return res.send({error: 'New password does not match'});
 		}
 
-		Member.findOne({'_id': data._id}).exec(function(err, mbr){
+		Member.find({id: data.id}, function(err, mbrs){
 			if(err) {return res.send(err);}
-			console.log(mbr);
+			console.log(mbrs);
 
-			Member.findOne({'_id': req.user._id}).exec(function(err, mbr){
+			Member.find({id: req.user.id}, function(err, mbr){
 				if(err) {return res.send(err);}
+				var mbs = mbrs[0];
 				mbr.auth(req.body.currentPassword, function(err, match) {
 					if (match) {
 						mbr.setPassword(req.body.password, function(err, sdw){
@@ -66,22 +69,22 @@ exports.create = function(req, res){
 	} else if (query.updateRole) {
 		//this could probably be changed to update the Member instead of just the role.
 		//  here i strip out all extra data and only use the role instead
-		var updateData = {
-			role: data.role
-		};
+		var member = new Member();
+		member.id = data.id;
+		member.p('role', data.role);
 
 		//just a boolean, it cannot succeed if the record never existed
 		//    not sure if it belongs here OR in the models under schema
-		Member.update({'_id': data._id},updateData, function(err,result) {
+		member.save(function(err) {
 		  if(err) {return res.send({error: err.message});}
-			res.send(result);
+			res.send(member);
 		});
 
 	}
 };
 
 exports.show = function(req, res){
-	Member.findOne({'_id':req.params.member}).exec(function(err, result){
+	Member.find({id:req.params.member}, function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});
@@ -89,11 +92,11 @@ exports.show = function(req, res){
 
 exports.destroy = function(req, res){
 	/* dont destroy, ever, just set a status flag on them */
-	var updateData = {
-		status : "terminated",
-	};
+	var member = new Member();
+	member.id = req.params.member;
+	member.p('status', "terminated");
 
-	Member.update({'_id': req.params.member},updateData, function(err,result) {
+	member.save(function(err) {
 		if(err) {return res.send({error: err.message});}
 		res.send({id:req.params.member});
 	});
