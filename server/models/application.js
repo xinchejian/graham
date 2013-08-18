@@ -5,6 +5,9 @@ var nohm = require('nohm').Nohm;
 /**
 * Model: Application
 */
+
+
+
 var ApplicationSchema = {
   properties: {
     'chineseName': { type: 'string' },
@@ -17,7 +20,10 @@ var ApplicationSchema = {
     'site': { type: 'string' }, // array
     'essay': { type: 'string' },
     'status': { type: 'string', index: true },
-    'submissionDate': { type: 'timestamp' }
+    'submissionDate': { 
+      type: 'string', 
+      defaultValue: function() { return (Date.now()); },
+    }
   },
   methods: {
   }
@@ -29,3 +35,5 @@ ApplicationSchema.virtual('id').get(function() {
 });
 */
 module.exports = nohm.model('Application', ApplicationSchema);
+
+
