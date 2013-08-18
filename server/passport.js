@@ -6,13 +6,15 @@ var Member        = require('./models/member.js');
 
 module.exports = passport;
 
+var rootUser = {id:0, nickname: 'toor', email: 'it@xinchejian.com'};
+
 passport.use(new LocalStrategy(
   {usernameField: 'nickname'},
   function(username, password, done) {
 
     // Super user session
     if(username == 'xinchejian' && password == 'xinchejian'){
-      done(null, {id:0, nickname: 'toor', email: 'it@xinchejian.com'});
+      done(null, rootUser);
     }
 
     // Otherwise check database
@@ -64,9 +66,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  Member.find({id: id}, function(err, mbr) {
-    done(err, mbr);
-  });
+  if(id == 0){
+    done(null, rootUser);
+  }else {
+    Member.load(id, function(err, mbr) {
+      done(err, mbr);
+    });
+  }
 });
 
 passport.logout = function(req, res){

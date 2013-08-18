@@ -6,11 +6,25 @@ var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
 	var status = req.query.status;
-	Application.find({status:status}, function(err, result){
+	Application.findAndLoad({status:status}, function(err, result){
 		if(err) {return res.send(err);}
-		res.send(result);
+		res.send(convertToJson(result));
 	});
 };
+
+function convertToJson(redisResult){
+	var result = [];
+	for(var index in redisResult){
+		console.log(index);
+		var converted = {};
+		var item = redisResult[index];
+		for(var key in item.properties){
+			converted[key] = item.properties[key].value;
+		}
+		result.push(converted);
+	}
+	return result;
+}
 
 /**
  * Save, approval, and any other post function are handled here too,
@@ -26,7 +40,7 @@ exports.create = function(req, res){
 		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
 
 			// Prevent duplicate approval
-			Application.find({id: data.id}, function(err, apps){
+			Application.load(data.id, function(err, apps){
 				if(err) {return res.send(err);}
 				var app = apps[0];
 				if('approved' === app.status){
@@ -75,7 +89,7 @@ exports.create = function(req, res){
 };
 
 exports.show = function(req, res){
-	Application.find({id:req.params.application}, function(err, result){
+	Application.load(req.params.application, function(err, result){
 		if(err) {return res.send(err);}
 		res.send(result);
 	});

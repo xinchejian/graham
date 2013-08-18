@@ -69,13 +69,18 @@ app.configure(function(){
   // Models
   redis_client.on("connect", function() {
     console.log("Connected to redis");
+    nohm.logError = function(err) { if (err) { console.dir(err); console.trace("nohm.logError");}};
     nohm.setClient(redis_client);
     // Redis/Nohm sanity check
-    var Test = nohm.model('Test', {properties:{x:{type:'string'},y:{type:'string'}}});
+    var Test = nohm.model('Test', {
+      properties:{x:{type:'string'},y:{type:'string'}},
+      methods:{x:function(){return this.p('x');}}
+    });
     var test = new Test();
-    test.p('x', 'saf');
+    test.p('x', 'Nohm works fine');
+    var a = test.hello;
     test.save(function (err) {
-      console.log(err || test.id);
+      console.log(err || test.x());
     });
   });
   
