@@ -41,8 +41,7 @@ MemberSchema.methods.setPassword = function(password, callback){
     if(err){return callback(err);}
     if(!shadows.length){
       shadow = new Shadow({memberId:memberId});
-    }
-    else {
+    }else {
       shadow = shadows[0];
     }
 
@@ -67,7 +66,6 @@ MemberSchema.methods.auth = function(password, callback){
   var Shadow = require('./shadow.js');
   Shadow.find({memberId:this.id}, function(err, shadows){
     if(err){return callback(err, false);}
-    console.log(shadow);
     if(!shadows.length){return callback(null, false);}
     var shadow = shadows[0];
     bcrypt.compare(password, shadow.hash, function(err, isPasswordMatch) {

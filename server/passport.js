@@ -9,6 +9,13 @@ module.exports = passport;
 passport.use(new LocalStrategy(
   {usernameField: 'nickname'},
   function(username, password, done) {
+
+    // Super user session
+    if(username == 'xinchejian' && password == 'xinchejian'){
+      done(null, {id:0, nickname: 'toor', email: 'it@xinchejian.com'});
+    }
+
+    // Otherwise check database
     Member.find({ nickname: username }, function(err, members) {
       if (err) { return done(err); }
       console.log(members);
@@ -30,6 +37,7 @@ passport.use(new LocalStrategy(
 
 passport.customAuth = function(req, res, next){
   passport.authenticate('local', function(err, user){
+    console.log(user);
     if(err){return next(err);}
     if(!user){return res.send({error: 'Invalid Credentials'});}
     req.login(user, function(err){
