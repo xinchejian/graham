@@ -22,7 +22,7 @@ var ApplicationSchema = {
     'status': { type: 'string', index: true },
     'submissionDate': { 
       type: 'string', 
-      defaultValue: function() { return (Date.now()); },
+      defaultValue: (function() { return (Date.now()); }),
     }
   },
   methods: {
