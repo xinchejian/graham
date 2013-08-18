@@ -35,11 +35,10 @@ exports.create = function(req, res){
 		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
 
 			// Prevent duplicate approval
-			Application.load(data.id, function(err, apps){
+			Application.load(data.id, function(err, app){
 				if(err) {return res.send(err);}
-				var app = apps[0];
+				app.id = data.id;
 				if('approved' === app.status){
-					console.log('hal?');
 					return res.send({error:'application already approved'});
 				}else {
 					// Update application status
@@ -86,6 +85,7 @@ exports.create = function(req, res){
 exports.show = function(req, res){
 	Application.load(req.params.application, function(err, result){
 		if(err) {return res.send(err);}
+		result.id = req.params.application;
 		res.send(result);
 	});
 };

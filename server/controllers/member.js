@@ -34,6 +34,7 @@ exports.create = function(req, res){
 	if(query.resetPassword){
 		Member.load(data.id, function(err, mbr){
 			if(err) {return res.send(err);}
+			mbr.id = data.id;
 			var newPassword = chbs.newPassword();
 			mbr.setPassword(newPassword, function(err, sdw){
 				if(err) {
@@ -53,8 +54,10 @@ exports.create = function(req, res){
 
 		Member.load(data.id, function(err, mbs){
 			if(err) {return res.send(err);}
+			mbs.id = data.id;
 			Member.load(req.user.id, function(err, mbr){
 				if(err) {return res.send(err);}
+				mbr.id = req.user.id;
 				mbr.auth(req.body.currentPassword, function(err, match) {
 					if (match) {
 						mbr.setPassword(req.body.password, function(err, sdw){
@@ -90,6 +93,7 @@ exports.create = function(req, res){
 exports.show = function(req, res){
 	Member.load(req.params.member, function(err, result){
 		if(err) {return res.send(err);}
+		result.id = req.params.member;
 		res.send(result);
 	});
 };
