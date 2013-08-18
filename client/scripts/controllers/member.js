@@ -44,7 +44,7 @@ angular.module('grahamApp.controllers')
 		};
 
 		$scope.remove = function(){
-			Member.remove({memberId: $scope.member._id});
+			Member.remove({memberId: $scope.member.id});
 			PopupService.close();
 			$location.path('/listMember');
 		};
@@ -63,7 +63,7 @@ angular.module('grahamApp.controllers')
 		};
 
 		$scope.addPayment = function(){
-			$scope.payment.memberId = $scope.member._id;
+			$scope.payment.memberId = $scope.member.id;
 
 			console.log($scope.member);
 			var p = new Payment($scope.payment);
