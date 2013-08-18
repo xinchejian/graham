@@ -10,7 +10,7 @@ var async = require('async');
 // var Payment = require(../models/payment.js');
 // need to convert the badges
 exports.index = function(req, res){
-	Member.find(function(err, result){
+	Member.findAndLoad({}, function(err, result){
 		if(err) {return res.send([]);}
 		async.map(result,
 			function(r, cb){
