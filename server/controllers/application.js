@@ -3,28 +3,23 @@
 var Application = require('../models/application.js');
 var Member = require('../models/member.js');
 var Payment = require('../models/payment.js');
+var async = require('async');
 
 exports.index = function(req, res){
 	var status = req.query.status;
 	Application.findAndLoad({status:status}, function(err, result){
-		if(err) {return res.send(err);}
-		res.send(convertToJson(result));
+		//console.log(err, result);
+		if(err) {return res.send([]);}
+		async.map(result,
+			function(r, cb){
+				cb(null, r.allProperties());
+			},
+			function(err, jsonResult){
+				res.send(jsonResult);
+			}
+		);
 	});
 };
-
-function convertToJson(redisResult){
-	var result = [];
-	for(var index in redisResult){
-		console.log(index);
-		var converted = {};
-		var item = redisResult[index];
-		for(var key in item.properties){
-			converted[key] = item.properties[key].value;
-		}
-		result.push(converted);
-	}
-	return result;
-}
 
 /**
  * Save, approval, and any other post function are handled here too,
@@ -91,7 +86,7 @@ exports.create = function(req, res){
 exports.show = function(req, res){
 	Application.load(req.params.application, function(err, result){
 		if(err) {return res.send(err);}
-		res.send(result);
+		res.send(result.allProperties());
 	});
 };
 exports.terminate = function(req, res) {

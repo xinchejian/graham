@@ -20,7 +20,8 @@
     "canvas": "~1.0.2",
     "redis": "*",
     "nohm": "*",
-    "node-compass" :"*"
+    "node-compass" :"*",
+    "async": "*"
   },
   "devDependencies": {
     "grunt": "0.4.0rc7",

@@ -9,9 +9,15 @@ var chbs   = require('../modules/chbs');
 // need to convert the badges
 exports.index = function(req, res){
 	Member.find(function(err, result){
-		if(err) {return res.send(err);}
-		console.log(result);
-		res.send(result);
+		if(err) {return res.send([]);}
+		async.map(result,
+			function(r, cb){
+				cb(null, r.allProperties());
+			},
+			function(err, jsonResult){
+				res.send(jsonResult);
+			}
+		);
 	});
 };
 /**
