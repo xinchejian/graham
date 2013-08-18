@@ -6,11 +6,25 @@ var Payment = require('../models/payment.js');
 
 exports.index = function(req, res){
 	var status = req.query.status;
-	Application.find({status:status}, function(err, result){
+	Application.findAndLoad({status:status}, function(err, result){
 		if(err) {return res.send(err);}
-		res.send(result);
+		res.send(convertToJson(result));
 	});
 };
+
+function convertToJson(redisResult){
+	var result = [];
+	for(var index in redisResult){
+		console.log(index);
+		var converted = {};
+		var item = redisResult[index];
+		for(var key in item.properties){
+			converted[key] = item.properties[key].value;
+		}
+		result.push(converted);
+	}
+	return result;
+}
 
 /**
  * Save, approval, and any other post function are handled here too,
