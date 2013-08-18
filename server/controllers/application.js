@@ -86,6 +86,7 @@ exports.update = function(req, res) {
 };
 
 exports.show = function(req, res){
+	console.log('Show app is called');
 	Application.load(req.params.application, function(err, result){
 		if(err) {return res.send(err);}
 		result.id = req.params.application;

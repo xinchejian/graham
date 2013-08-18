@@ -62,9 +62,10 @@ app.configure(function(){
   // See http://stackoverflow.com/questions/10497349/why-does-passport-js-give-me-a-middleware-error
   app.use(app.router);
 
-  // Express-resource Controllers
-  app.resource('member', require('./controllers/member'));
-  app.resource('application', require('./controllers/application'));
+  // Include route
+  require('./routes/member')(app);
+  require('./routes/application')(app);
+  // app.resource('application', require('./controllers/application'));
 
   // Models
   redis_client.on("connect", function() {
