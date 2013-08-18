@@ -30,9 +30,8 @@ exports.create = function(req, res){
 	var data = req.body;
 	var query = req.query;
 	if(query.resetPassword){
-		Member.load(data.id, function(err, mbrs){
+		Member.load(data.id, function(err, mbr){
 			if(err) {return res.send(err);}
-			var mbr = mbrs[0];
 			var newPassword = chbs.newPassword();
 			mbr.setPassword(newPassword, function(err, sdw){
 				if(err) {
@@ -50,13 +49,10 @@ exports.create = function(req, res){
 			return res.send({error: 'New password does not match'});
 		}
 
-		Member.load(data.id, function(err, mbrs){
+		Member.load(data.id, function(err, mbs){
 			if(err) {return res.send(err);}
-			console.log(mbrs);
-
 			Member.load(req.user.id, function(err, mbr){
 				if(err) {return res.send(err);}
-				var mbs = mbrs[0];
 				mbr.auth(req.body.currentPassword, function(err, match) {
 					if (match) {
 						mbr.setPassword(req.body.password, function(err, sdw){
