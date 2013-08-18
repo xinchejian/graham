@@ -28,64 +28,65 @@ exports.index = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-exports.create = function(req, res){
+exports.resetPassword = function(req, res){
 	var data = req.body;
-	var query = req.query;
-	if(query.resetPassword){
-		Member.load(data.id, function(err, properties){
+	Member.load(data.id, function(err, properties){
+		if(err) {return res.send(err);}
+		var newPassword = chbs.newPassword();
+		this.setPassword(newPassword, function(err, sdw){
+			if(err) {
+				return res.send(err);
+			}else {
+				properties.id = data.id;
+				mailer.sendResetPasswordEmail(properties, newPassword);
+				return res.send({status:'ok', id:sdw.memberId});
+			}
+		});
+	});
+};
+
+exports.updatePassword = function(req, res){
+	var data = req.body;
+	// Reject not matched new password.
+	if(req.body.password !== req.body.confirmPassword){
+		return res.send({error: 'New password does not match'});
+	}
+
+	Member.load(data.id, function(err, mbs){
+		if(err) {return res.send(err);}
+		Member.load(req.user.id, function(err, mbr){
 			if(err) {return res.send(err);}
-			var newPassword = chbs.newPassword();
-			this.setPassword(newPassword, function(err, sdw){
-				if(err) {
-					return res.send(err);
-				}else {
-					properties.id = data.id;
-					mailer.sendResetPasswordEmail(properties, newPassword);
-					return res.send({status:'ok', id:sdw.memberId});
+			this.auth(req.body.currentPassword, function(err, match) {
+				if (match) {
+					this.setPassword(req.body.password, function(err, sdw){
+						if(err) {
+							return res.send(err);
+						}else {
+							return res.send({status:'ok', id:sdw.memberId});
+						}
+					});
+				} else {
+					return res.send({error: 'Wrong password'});
 				}
 			});
 		});
-	}
-	else if(query.updatePassword){
-		// Reject not matched new password.
-		if(req.body.password !== req.body.confirmPassword){
-			return res.send({error: 'New password does not match'});
-		}
+	});
+};
 
-		Member.load(data.id, function(err, mbs){
-			if(err) {return res.send(err);}
-			Member.load(req.user.id, function(err, mbr){
-				if(err) {return res.send(err);}
-				this.auth(req.body.currentPassword, function(err, match) {
-					if (match) {
-						this.setPassword(req.body.password, function(err, sdw){
-							if(err) {
-								return res.send(err);
-							}else {
-								return res.send({status:'ok', id:sdw.memberId});
-							}
-						});
-					} else {
-						return res.send({error: 'Wrong password'});
-					}
-				});
-			});
-		});
-	} else if (query.updateRole) {
-		//this could probably be changed to update the Member instead of just the role.
-		//  here i strip out all extra data and only use the role instead
-		var member = new Member();
-		member.id = data.id;
-		member.p('role', data.role);
+exports.updateRole = function(req, res){
+	var data = req.body;
+	//this could probably be changed to update the Member instead of just the role.
+	//  here i strip out all extra data and only use the role instead
+	var member = new Member();
+	member.id = data.id;
+	member.p('role', data.role);
 
-		//just a boolean, it cannot succeed if the record never existed
-		//    not sure if it belongs here OR in the models under schema
-		member.save(function(err) {
-		  if(err) {return res.send({error: err.message});}
-			res.send(member);
-		});
-
-	}
+	//just a boolean, it cannot succeed if the record never existed
+	//    not sure if it belongs here OR in the models under schema
+	member.save(function(err) {
+	  if(err) {return res.send({error: err.message});}
+		res.send(member);
+	});
 };
 
 exports.show = function(req, res){

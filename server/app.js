@@ -15,8 +15,6 @@ var express = require('express'),
   nohm = require('nohm').Nohm,
   compass = require('node-compass');
 
-require('express-resource');
-
 var app = express();
 
 app.configure(function(){
@@ -37,10 +35,7 @@ app.configure(function(){
   app.use(express.session({cookie: {maxAge: 3600000}, store: session_store}));
   app.use(express.static(path.join(__dirname, 'app')));
 
-
   // sass/scss auto compiler with compass
-
-
   app.configure(function() {
       app.use(compass({
         project: path.join(__dirname, '/app'), 
@@ -48,8 +43,6 @@ app.configure(function(){
         config_file: 'config.rb'
       }));
   });
-
-
 
   // AnA
   app.use(passport.initialize());

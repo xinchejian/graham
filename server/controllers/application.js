@@ -8,7 +8,6 @@ var async = require('async');
 exports.index = function(req, res){
 	var status = req.query.status;
 	Application.findAndLoad({status:status}, function(err, result){
-		//console.log(err, result);
 		if(err) {return res.send([]);}
 		async.map(result,
 			function(r, cb){
@@ -47,41 +46,38 @@ exports.create = function(req, res){
 	}
 };
 
-exports.update = function(req, res) {
+exports.approve = function(req, res) {
 	var data = req.body;
 	var query = req.query;
-	if(query.approve){ // Application approval
-		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
+	if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
 
-			// Prevent duplicate approval
-			Application.load(data.id, function(err, properties){
-				if(err) {return res.send(err);}
-				if('approved' === properties.status){
-					return res.send({error:'application already approved'});
-				}else {
-					// Update application status
-					this.p('status', 'approved');
-					this.save(function(err){
-						if(err) {return res.send(err);}
-						// Create member
-						data.joinDate = new Date();
-						data.role = 'member';
-						var payment = data.payment;
-						payment.paymentDate = new Date();
-						data.payments = [payment];
-						var member = new Member();
-						member.p(data);
-						member.save(function(err){
-							if(err) {return res.send(err, member);}
-							res.send({status:'ok', id:member.id});
-						});
+		// Prevent duplicate approval
+		Application.load(data.id, function(err, properties){
+			if(err) {return res.send(err);}
+			if('approved' === properties.status){
+				return res.send({error:'application already approved'});
+			}else {
+				// Update application status
+				this.p('status', 'approved');
+				this.save(function(err){
+					if(err) {return res.send(err);}
+					// Create member
+					data.joinDate = new Date();
+					data.role = 'member';
+					var payment = data.payment;
+					payment.paymentDate = new Date();
+					data.payments = [payment];
+					var member = new Member();
+					member.p(data);
+					member.save(function(err){
+						if(err) {return res.send(err, member);}
+						res.send({status:'ok', id:member.id});
 					});
-				}
-			});
-
-		}else {
-			res.send({error: 'Required fields not filled up'});
-		}
+				});
+			}
+		});
+	} else {
+		res.send({error: 'Required fields not filled up'});
 	}
 };
 
@@ -93,7 +89,9 @@ exports.show = function(req, res){
 		res.send(result);
 	});
 };
+
 exports.terminate = function(req, res) {
+	var data = req.body;
 	/* dont destroy, ever, just set a status flag on them */
 	console.log("terminator");
 	var application = new Application();
@@ -104,7 +102,9 @@ exports.terminate = function(req, res) {
 		res.send({id:req.params.application});
 	});
 };
+
 exports.activate = function(req, res) {
+	var data = req.body;
 	/* dont destroy, ever, just set a status flag on them */
 	console.log("activator");
 	var application = new Application();
@@ -115,17 +115,7 @@ exports.activate = function(req, res) {
 		res.send({id:req.params.application});
 	});
 };
-exports.approve = function(req, res) {
-	/* dont destroy, ever, just set a status flag on them */
-	console.log("approver");
-	var application = new Application();
-	application.id = req.params.application;
-	application.p('status', "approved");
-	application.save(function(err) {
-		if(err) {return res.send({error: err.message});}
-		res.send({id:req.params.application});
-	});
-};
+
 exports.destroy = function(req, res){
 	/* dont destroy, ever, just set a status flag on them */
 	var application = new Application();
