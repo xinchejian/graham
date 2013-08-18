@@ -8,7 +8,7 @@ var nohm = require('nohm').Nohm;
 var PaymentSchema = {
 	properties: {
 	  'fee': { type: 'string' },
-	  'length': { type: 'string' },
+	  'months': { type: 'integer' },
 	  'memberId': { type: 'string', ref: 'Member'},
 	  'paymentDate': { type: 'timestamp' }
 	},

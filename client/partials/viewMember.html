@@ -105,7 +105,7 @@
 			<tr ng-repeat="payment in member.payments | orderBy:'paymentDate'">
 				<td>{{payment.paymentDate|date:'short'}}</td>
 				<td>{{payment.fee}}</td>
-				<td>{{payment.length}}</td>
+				<td>{{payment.months}}</td>
 				<td><button ng-click="removePayment(payment.id)" class="btn btn-medium">remove</button></td>
 			</tr>
 		</table>
