@@ -12,7 +12,8 @@ var express = require('express'),
   routes = require('./routes'),
   config = require('./config'),
   redis = require('redis'),
-  nohm = require('nohm').Nohm;
+  nohm = require('nohm').Nohm,
+  compass = require('node-compass');
 
 require('express-resource');
 
@@ -35,6 +36,20 @@ app.configure(function(){
   var session_store = new RedisStore({client: redis_client});
   app.use(express.session({cookie: {maxAge: 3600000}, store: session_store}));
   app.use(express.static(path.join(__dirname, 'app')));
+
+
+  // sass/scss auto compiler with compass
+
+
+  app.configure(function() {
+      app.use(compass({
+        project: path.join(__dirname, '/app'), 
+
+        config_file: 'config.rb'
+      }));
+  });
+
+
 
   // AnA
   app.use(passport.initialize());

@@ -19,7 +19,8 @@
     "jade": "*",
     "canvas": "~1.0.2",
     "redis": "*",
-    "nohm": "*"
+    "nohm": "*",
+    "node-compass" :"*"
   },
   "devDependencies": {
     "grunt": "0.4.0rc7",

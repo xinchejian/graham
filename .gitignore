@@ -4,6 +4,6 @@ dist
 .sass-cache
 app/components
 config.js
-app/styles/*.css
+client/styles/*.css
 server/config.js
 graham.sublime-workspace
