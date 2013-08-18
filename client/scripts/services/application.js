@@ -4,9 +4,9 @@
 angular.module('grahamApp.services').
 	factory('Application', function($resource){
 		return $resource('/application/:applicationId', {applicationId:'@id'}, {
-			approve: {method:'POST', params:{approve:true}},
-			terminate: {method:'POST', params:{terminate:true}},
-			remove: {method:'DELETE', params:{remove:true}},
-			activate: {method:'POST', params:{activate:true}},
+			approve: {method:'POST', url:'/applicatioxn/:applicationId/approve'},
+			terminate: {method:'POST', url:'/application/:applicationId/terminate'},
+			remove: {method:'DELETE'},
+			activate: {method:'POST', url:'/application/:applicationId/activate'},
 		});
 	});

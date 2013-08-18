@@ -4,6 +4,8 @@
  */
 
 var member = require('../controllers/member');
+
+// This file must match client/scripts/services/members.js
 module.exports = function(app){
 	//  These first are following the express-resource convention:
 	app.get('/member/:member', member.show);
