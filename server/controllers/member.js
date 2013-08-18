@@ -32,15 +32,15 @@ exports.create = function(req, res){
 	var data = req.body;
 	var query = req.query;
 	if(query.resetPassword){
-		Member.load(data.id, function(err, mbr){
+		Member.load(data.id, function(err, properties){
 			if(err) {return res.send(err);}
-			mbr.id = data.id;
 			var newPassword = chbs.newPassword();
-			mbr.setPassword(newPassword, function(err, sdw){
+			this.setPassword(newPassword, function(err, sdw){
 				if(err) {
 					return res.send(err);
 				}else {
-					mailer.sendResetPasswordEmail(mbr, newPassword);
+					properties.id = data.id;
+					mailer.sendResetPasswordEmail(properties, newPassword);
 					return res.send({status:'ok', id:sdw.memberId});
 				}
 			});
@@ -54,13 +54,11 @@ exports.create = function(req, res){
 
 		Member.load(data.id, function(err, mbs){
 			if(err) {return res.send(err);}
-			mbs.id = data.id;
 			Member.load(req.user.id, function(err, mbr){
 				if(err) {return res.send(err);}
-				mbr.id = req.user.id;
-				mbr.auth(req.body.currentPassword, function(err, match) {
+				this.auth(req.body.currentPassword, function(err, match) {
 					if (match) {
-						mbr.setPassword(req.body.password, function(err, sdw){
+						this.setPassword(req.body.password, function(err, sdw){
 							if(err) {
 								return res.send(err);
 							}else {
@@ -91,10 +89,10 @@ exports.create = function(req, res){
 };
 
 exports.show = function(req, res){
-	Member.load(req.params.member, function(err, result){
+	Member.load(req.params.member, function(err, properties){
 		if(err) {return res.send(err);}
-		result.id = req.params.member;
-		res.send(result);
+		properties.id = req.params.member;
+		res.send(properties);
 	});
 };
 
