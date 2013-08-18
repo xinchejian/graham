@@ -54,7 +54,7 @@ passport.customAuth = function(req, res, next){
 passport.anaCheck = function(req, res, next){
   if(true || req.path === '/' || req.path === '/login' || req.isAuthenticated()) {
     return next();
-  }else {
+  } else {
     res.clearCookie('userid');
     res.clearCookie('nickname');
     res.send({error: 'not authenticated'});
