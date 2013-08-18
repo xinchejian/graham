@@ -23,7 +23,7 @@ angular.module('grahamApp.services')
 	.factory('auth', function($cookies){
 		return {
 			isAuthenticated : function(){
-				return $cookies.userid;
+				return $cookies.userid !== undefined;
 			},
 			currentUserId : function(){
 				return $cookies.userid;
