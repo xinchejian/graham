@@ -77,10 +77,11 @@ app.configure(function(){
       methods:{x:function(){return this.p('x');}}
     });
     var test = new Test();
-    test.p('x', 'Nohm works fine');
+    test.p('x', 'saf');
     var a = test.hello;
     test.save(function (err) {
-      console.log(err || test.x());
+      console.assert(test.x() === 'saf');
+      test.remove(function(err){console.log(err || "Nohm works fine");});
     });
   });
   
