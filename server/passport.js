@@ -71,9 +71,9 @@ passport.deserializeUser(function(id, done) {
   if(id == 0){
     done(null, rootUser);
   }else {
-    Member.load(id, function(err, mbr) {
-      mbr.id = id;
-      done(err, mbr);
+    Member.load(id, function(err, properties) {
+      properties.id = id;
+      done(err, properties);
     });
   }
 });
