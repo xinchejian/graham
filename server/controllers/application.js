@@ -86,7 +86,7 @@ exports.create = function(req, res){
 exports.show = function(req, res){
 	Application.load(req.params.application, function(err, result){
 		if(err) {return res.send(err);}
-		res.send(result.allProperties());
+		res.send(result);
 	});
 };
 exports.terminate = function(req, res) {
