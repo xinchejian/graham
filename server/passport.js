@@ -3,6 +3,7 @@
 var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Member        = require('./models/member.js');
+var crypto        = require('crypto');
 
 module.exports = passport;
 
@@ -13,14 +14,16 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
 
     // Super user session
-    if(username == 'xinchejian' && password == 'xinchejian'){
+    var md5sum = crypto.createHash('md5');
+    md5sum.update(password + 'xinchejian');
+    var passhash = md5sum.digest('hex');
+    if(username == 'Administrator' && passhash == '9f9fd6e21c630357a28bf16c12878fee'){
       done(null, rootUser);
     }
 
     // Otherwise check database
     Member.find({ nickname: username }, function(err, members) {
       if (err) { return done(err); }
-      console.log(members);
       if (members.length){
         var member = members[0];
         member.auth(password, function(err, match){
@@ -39,7 +42,6 @@ passport.use(new LocalStrategy(
 
 passport.customAuth = function(req, res, next){
   passport.authenticate('local', function(err, user){
-    console.log(user);
     if(err){return next(err);}
     if(!user){return res.send({error: 'Invalid Credentials'});}
     req.login(user, function(err){
