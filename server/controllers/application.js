@@ -54,15 +54,14 @@ exports.update = function(req, res) {
 		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
 
 			// Prevent duplicate approval
-			Application.load(data.id, function(err, app){
+			Application.load(data.id, function(err, properties){
 				if(err) {return res.send(err);}
-				app.id = data.id;
-				if('approved' === app.status){
+				if('approved' === properties.status){
 					return res.send({error:'application already approved'});
 				}else {
 					// Update application status
-					app.p('status', 'approved');
-					app.save(function(err){
+					this.p('status', 'approved');
+					this.save(function(err){
 						if(err) {return res.send(err);}
 						// Create member
 						data.joinDate = new Date();
