@@ -21,7 +21,7 @@ var ApplicationSchema = {
     'essay': { type: 'string' },
     'status': { type: 'string', index: true },
     'submissionDate': { 
-      type: 'string', 
+      type: 'timestamp', 
       defaultValue: (function() { return (Date.now()); }),
     }
   },
