@@ -5,6 +5,8 @@ var Shadow = require('../models/shadow.js');
 var Badges = require('../models/badges.js');
 var mailer = require('../modules/mailer');
 var chbs   = require('../modules/chbs');
+var async = require('async');
+
 // var Payment = require(../models/payment.js');
 // need to convert the badges
 exports.index = function(req, res){
