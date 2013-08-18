@@ -30,6 +30,25 @@ exports.index = function(req, res){
  */
 exports.create = function(req, res){
 	var data = req.body;
+	// Application submission
+	if(data.nickname && data.mobile && data.email && data.essay){
+		data.submissionDate = new Date();
+		data.status = 'pending';
+		var application = new Application();
+		application.p(data);
+		application.save(function(err){
+			if(err) {
+				return res.send(err);
+			}
+			res.send({id:application.id});
+		});
+	}else {
+		res.send({error: 'Required fields not filled up'});
+	}
+};
+
+exports.update = function(req, res) {
+	var data = req.body;
 	var query = req.query;
 	if(query.approve){ // Application approval
 		if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
@@ -61,21 +80,6 @@ exports.create = function(req, res){
 				}
 			});
 
-		}else {
-			res.send({error: 'Required fields not filled up'});
-		}
-	}else { // Application submission
-		if(data.nickname && data.mobile && data.email && data.essay){
-			data.submissionDate = new Date();
-			data.status = 'pending';
-			var application = new Application();
-			application.p(data);
-			application.save(function(err){
-				if(err) {
-					return res.send(err);
-				}
-				res.send({id:application.id});
-			});
 		}else {
 			res.send({error: 'Required fields not filled up'});
 		}
