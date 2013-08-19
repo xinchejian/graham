@@ -2,7 +2,7 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('grahamApp', ['grahamApp.controllers', 'grahamApp.services', 'grahamApp.directives']).
+angular.module('grahamApp', ['ngRoute', 'grahamApp.controllers', 'grahamApp.services', 'grahamApp.directives']).
 	config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/login',					{templateUrl: 'partials/login.html'});
 		$routeProvider.when('/logout',					{templateUrl: 'partials/logout.html'});
