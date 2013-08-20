@@ -22,13 +22,13 @@ passport.use(new LocalStrategy(
     }
 
     // Otherwise check database
-    Member.find({ nickname: username }, function(err, members) {
-      if (err) { return done(err); }
+    Member.findAndLoad({ nickname: username }, function(err, members) {
+      if (err) { return done(null, false, {message: err}); }
       if (members.length){
         var member = members[0];
         member.auth(password, function(err, match){
           if(match){
-            return done(null, member);
+            return done(null, member.allProperties());
           }else {
             return done(null, false, { message: 'Incorrect' });
           }

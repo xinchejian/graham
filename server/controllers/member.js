@@ -30,10 +30,12 @@ exports.index = function(req, res){
  */
 exports.resetPassword = function(req, res){
 	var data = req.body;
+	console.log("SET PASSWORD DATA", data);
 	Member.load(data.id, function(err, properties){
 		if(err) {return res.send(err);}
 		var newPassword = chbs.newPassword();
 		this.setPassword(newPassword, function(err, sdw){
+			console.log("SET PASSWORD CB" , err, sdw);
 			if(err) {
 				return res.send(err);
 			}else {
@@ -84,16 +86,24 @@ exports.updateRole = function(req, res){
 	//just a boolean, it cannot succeed if the record never existed
 	//    not sure if it belongs here OR in the models under schema
 	member.save(function(err) {
-	  if(err) {return res.send({error: err.message});}
-		res.send(member);
+		if(err) {
+			return res.send({error: err.message});
+		}else {
+			// Load the member again as angular resource updates its model after REST call
+			Member.load(data.id, function(err, loadedMember){
+				if(err) {return res.send(err);}
+				loadedMember.id = req.params.member;
+				res.send(loadedMember);
+			});
+		}
 	});
 };
 
 exports.show = function(req, res){
-	Member.load(req.params.member, function(err, properties){
+	Member.load(req.params.member, function(err, member){
 		if(err) {return res.send(err);}
-		properties.id = req.params.member;
-		res.send(properties);
+		member.id = req.params.member;
+		res.send(member);
 	});
 };
 

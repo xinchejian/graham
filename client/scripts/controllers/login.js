@@ -8,7 +8,7 @@ angular.module('grahamApp.controllers')
 					$scope.errorMsg = result.error;
 				}else {
 					$scope.errorMsg = null;
-					$location.path('/application/list');
+					$location.path('/signup/list');
 				}
 			});
 		};
@@ -19,7 +19,7 @@ angular.module('grahamApp.controllers')
 				$scope.message = result.error;
 			}else {
 				$scope.message = 'Success';
-				$location.path('/application');
+				$location.path('/signup');
 			}
 		});
 	});

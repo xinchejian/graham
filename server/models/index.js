@@ -2,6 +2,6 @@
 
 module.exports = {
 	'member': require('./member.js'),
-	'application': require('./application.js'),
+	'signup': require('./signup.js'),
 	'badges' : require('./badges.js')
 };

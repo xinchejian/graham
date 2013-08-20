@@ -57,8 +57,8 @@ app.configure(function(){
 
   // Include route
   require('./routes/member')(app);
-  require('./routes/application')(app);
-  // app.resource('application', require('./controllers/application'));
+  require('./routes/signup')(app);
+  // app.resource('signup', require('./controllers/signup'));
 
   // Models
   redis_client.on("connect", function() {

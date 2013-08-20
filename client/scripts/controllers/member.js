@@ -9,7 +9,7 @@ angular.module('grahamApp.controllers')
 		$scope.members = Member.query({page: $scope.page});
 
 		$scope.remove = function(id){
-			Member.remove({applicationId: id});
+			Member.remove({signupId: id});
 			$scope.members = Member.query({page: $scope.page});
 		};
 	})
@@ -39,7 +39,9 @@ angular.module('grahamApp.controllers')
 		$scope.updateRole = function(txt) {
 			$scope.member.role = txt;
 			Member.updateRole($scope.member, function(){
-				alert("Updating role");
+				PopupService.alert('Role update successful',
+					"The user role has been updated to : " + $scope.member.role,
+					"Okay", null, $scope);
 			});
 		};
 

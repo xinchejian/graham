@@ -36,11 +36,12 @@ var MemberSchema = {
 MemberSchema.methods.setPassword = function(password, callback){
   var Shadow = require('./shadow.js');
   var memberId = this.id;
-  console.log(memberId);
-  Shadow.find({memberId:memberId}, function(err, shadows){
-    if(err){return callback(err);}
+  Shadow.findAndLoad({memberId:memberId}, function(err, shadows){
+    if(err && err != 'not found'){return callback(err);}
+    var shadow;
     if(!shadows.length){
-      shadow = new Shadow({memberId:memberId});
+      shadow = new Shadow();
+      shadow.p('memberId', memberId);
     }else {
       shadow = shadows[0];
     }
@@ -51,8 +52,9 @@ MemberSchema.methods.setPassword = function(password, callback){
       }else {
         bcrypt.hash(password, salt, function(err, hash) {
           shadow.p('hash', hash);
-          shadow.save(function(err, shadow){
-            if(err){return callback(err);}
+          shadow.p('updateDate', new Date());
+          shadow.save(function(err){
+            if(err){return callback(shadow);}
             return callback(null, shadow);
           });
         });
@@ -63,13 +65,23 @@ MemberSchema.methods.setPassword = function(password, callback){
 
 
 MemberSchema.methods.auth = function(password, callback){
+  console.log("Auth being called ", this.id);
   var Shadow = require('./shadow.js');
-  Shadow.find({memberId:this.id}, function(err, shadows){
+  Shadow.findAndLoad({memberId:this.id}, function(err, shadows){
+
+    for(var i = 0; i < shadows.length; i++){
+      console.log("P", i, shadows[i].allProperties());
+    }
+
+    console.log("pass and shadow", password, shadows, shadows[0].allProperties());
     if(err){return callback(err, false);}
     if(!shadows.length){return callback(null, false);}
-    var shadow = shadows[0];
+    var shadow = shadows[0].allProperties();
+
     bcrypt.compare(password, shadow.hash, function(err, isPasswordMatch) {
-      console.log('Is password match : ', isPasswordMatch);
+      console.log("Shadow", shadows);
+      console.log("password", password);
+      console.log('Is password match : ', err, isPasswordMatch);
       if (err) {
         return callback(err, false);
       }else {
