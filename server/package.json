@@ -1,5 +1,6 @@
 {
   "name": "Graham",
+  "main": "app.js",
   "description": "Simple XinCheJian Membership Mangement System",
   "author": "Edward Jiang <edwardrf@xinchejian.com>",
   "version": "0.0.1",
