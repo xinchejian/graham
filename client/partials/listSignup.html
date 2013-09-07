@@ -1,0 +1,50 @@
+<div ng-controller="ListSignupCtrl">
+	<ul class="nav nav-tabs">
+		<li ng-class="{active: status == 'pending'}">
+			<a ng-click="switchStatus('pending')">Pending Approval</a>
+		</li>
+		<li ng-class="{active: status == 'approved'}">
+			<a ng-click="switchStatus('approved')">Approved</a>
+		</li>
+		<li ng-class="{active: status == 'rejected'}">
+			<a ng-click="switchStatus('rejected')">Rejected</a>
+		</li>
+		<li ng-class="{active: status == 'terminated'}">
+			<a ng-click="switchStatus('terminated')">Terminated</a>
+		</li>
+	</ul>
+	<div class="row">
+		<div class="span8">
+			<form class="navbar-search pull-left">
+				<input type="text" class="search-query" placeholder="Filter signups by name or email" ng-model="searchText">
+			</form>
+		</div>
+	</div>
+	<hr/>
+	<table class="table table-striped">
+		<tr>
+			<th>English Name</th>
+			<th>Chinese Name</th>
+			<th>Nickname</th>
+			<th>Mobile</th>
+			<th>Email</th>
+			<th>Weibo</th>
+			<th>Date</th>
+			<th>Status</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="signup in signups | filter:searchText">
+			<td>{{signup.englishName}}</td>
+			<td>{{signup.chineseName}}</td>
+			<td>{{signup.nickname}}</td>
+			<td>{{signup.mobile}}</td>
+			<td><a target="blank" href="mailto:{{signup.email}}">{{signup.email}}</a></td>
+			<td>{{signup.weibo}}</td>
+			<td>{{signup.submissionDate|date:'short'}}</td>
+			<td>{{signup.status}}</td>
+			<td>
+				<a class="btn btn-small" href="#/signup/{{signup.id}}">View</a>
+			</td>
+		</tr>
+	</table>
+</div>
