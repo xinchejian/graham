@@ -6,7 +6,7 @@ angular.module('grahamApp.services')
 			return promise.then(function(response){
 				if(response.data && response.data.error && response.data.error === 'not authenticated'){
 					auth.invalidate();
-					$location.path('/application');
+					$location.path('/signup');
 				}else {
 					return response;
 				}
