@@ -19,7 +19,7 @@ module.exports = function(req, res){
 	};
 
 	xcjqr.details = function(args,cb) {
-
+ 
 		var canvas = new Canvas(153,243)
 		  , ctx = canvas.getContext('2d');
 
