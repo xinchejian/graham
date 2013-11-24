@@ -7,9 +7,16 @@ angular.module('grahamApp.controllers')
 		$scope.member = Member.get({memberId: auth.currentUserId()});
 		$scope.updateMember = function() {
 			Member.updateMember($scope.member, function(u) {
-				console.log(u);
-			})
+				$location.path('/account/success');
+			}), function(err){
+				if(err.data.error){
+					$scope.errorMsg = err.data.error;
+				}else {
+					$scope.errorMsg = 'Sorry! Failed to update password, please try again later.';
+				}
+			});
 		}
+
 	})
 
 	.controller('PasswordUpdateCtrl', function ($scope, $location, Member, auth) {

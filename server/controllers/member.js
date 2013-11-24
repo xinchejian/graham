@@ -104,17 +104,30 @@ exports.updateMember = function(req, res){
 	
 	var member = new Member();
 	member.id = data.id;
+	console.log( data.id);
+	member.p({
+		'chineseName': data.chineseName,
+		'englishName': data.englishName,
+		'mobile': data.mobile,
+		'weibo': data.weibo
+	});
+	
 
 	//just a boolean, it cannot succeed if the record never existed
 	//    not sure if it belongs here OR in the models under schema
 	member.save(function(err) {
+		
 		if(err) {
-			return res.send({error: err.message});
-		}else {
+			
+			return res.send(418, {error: err});
+
+		} else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(data.id, function(err, loadedMember){
 				if(err) {return res.send(err);}
 				loadedMember.id = req.params.member;
+				console.log("paul debugging");
+				console.log(loadedMember);
 				res.send(loadedMember);
 			});
 		}
