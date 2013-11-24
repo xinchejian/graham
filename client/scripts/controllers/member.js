@@ -51,7 +51,12 @@ angular.module('grahamApp.controllers')
 					"Okay", null, $scope);
 			});
 		};
+		$scope.updateMember = function() {
 
+			Member.updateMember($scope.member, function(){
+				$location.path('/member/list');
+			});
+		};
 		$scope.terminate = function(){
 			Member.terminate({id: $scope.member.id}, function(data){
 				PopupService.close();

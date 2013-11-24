@@ -1,26 +1,26 @@
 <div ng-controller="ViewMemberCtrl">
-
+<form name="members">
 	<table class="table table-striped">
 		<tr>
-			<th>English Name</th><td>{{member.englishName}}</td>
+			<th>English Name</th><td><input ng-model="member.englishName"/></td>
 		</tr>
 		<tr>
-			<th>Chinese Name</th><td>{{member.chineseName}}</td>
+			<th>Chinese Name</th><td><input ng-model="member.chineseName"/></td>
 		</tr>
 		<tr>
 			<th>Nickname</th><td>{{member.nickname}}</td>
 		</tr>
 		<tr>
-			<th>Mobile</th><td>{{member.mobile}}</td>
+			<th>Mobile</th><td><input ng-model="member.mobile"/></td>
 		</tr>
 		<tr>
-			<th>Email</th><td>{{member.email}}</td>
+			<th>Email</th><td><input ng-model="member.email"/></td>
 		</tr>
 		<tr>
-			<th>Weibo</th><td>{{member.weibo}}</td>
+			<th>Weibo</th><td><input ng-model="member.weibo"/></td>
 		</tr>
 		<tr>
-			<th>RFID</th><td>{{member.rfid}}</td>
+			<th>RFID</th><td><input ng-model="member.rfid"/></td>
 		</tr>
 
 		<tr>
@@ -44,8 +44,11 @@
 		<tr>
 			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
 		</tr>
+		<tr>
+			<th><a class="btn btn-medium" ng-show="member.status == 'ok' && member.rfid" target="_blank" ng-click="memberqr()">Member QR Code</a></th><td><img ng-src="/member/{{member.id}}/qrcode" ng-show="qrcode" /></td>
+		</tr>
 	</table>
-	
+</form>
 		
 
 	<div class="row">
@@ -55,12 +58,10 @@
 			<ng-confirm title="Terminate" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="terminate()" cancel-button-text="No Way">
 				<button ng-hide="member.status=='terminated'" class="btn btn-medium btn-danger">Terminate Membership</button>
 			</ng-confirm>
-			<a class="btn btn-medium" ng-show="member.status == 'ok'" target="_blank" ng-click="memberqr()">Member QR Code</a>
-			
-			
-				<img ng-src="/member/{{member.id}}/qrcode" ng-show="qrcode" />
+					
 			
 			<a ng-show="member.status=='terminated'" class="btn btn-medium btn-warning" ng-click="resurect();">Resurect</a>
+			<a class="btn btn-medium" ng-hide="members.$pristine || (members.$dirty && members.$invalid)" ng-click="updateMember()">Save</a>
 		</div>
 	</div>
 	<hr>
