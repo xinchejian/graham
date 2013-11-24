@@ -18,6 +18,9 @@
 		<tr>
 			<th>Weibo</th><td>{{member.weibo}}</td>
 		</tr>
+		<tr>
+			<th>RFID</th><td>{{member.rfid}}</td>
+		</tr>
 
 		<tr>
 			<th>Role</th>
@@ -46,7 +49,7 @@
 			<a class="btn btn-medium" onClick="window.history.back();">Back</a>
 			<a class="btn btn-medium btn-warning" ng-click="resetPassword();">Reset Password</a>
 			<ng-confirm title="Terminate" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="remove()" cancel-button-text="No Way">
-				<button class="btn btn-medium btn-danger">Terminate Membership</button>
+				<button ng-disabled="member.status=='terminated'" class="btn btn-medium btn-danger">Terminate Membership</button>
 			</ng-confirm>
 		</div>
 	</div>
