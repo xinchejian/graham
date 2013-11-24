@@ -22,6 +22,9 @@
 		<tr>
 			<th>Role</th><td>{{member.role}}</td>
 		</tr>
+		<tr>
+			<th>RFID</th><td><input ng-model="member.rfid"/></td>
+		</tr>
 
 		<tr>
 			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
@@ -32,8 +35,8 @@
 		<div class="span8 offset2">
 
 			<a class="btn btn-medium" ng-hide="members.$pristine || (members.$dirty && members.$invalid)" ng-click="updateMember()">Save</a>
-			<a class="btn btn-medium btn-warning" href="#/account/password">Change Password</a>
-			<a class="btn btn-medium" onClick="window.history.back();">Cancel</a>
+			<a class="btn btn-medium btn-warning" ng-href="#/account/password">Change Password</a>
+			<a class="btn btn-medium" ng-href="#/member/list">Cancel</a>
 
 		</div>
 	</div>

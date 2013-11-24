@@ -110,7 +110,8 @@ exports.updateMember = function(req, res){
 		'chineseName': data.chineseName,
 		'englishName': data.englishName,
 		'mobile': data.mobile,
-		'weibo': data.weibo
+		'weibo': data.weibo, 
+		'rfid': data.rfid
 	});
 
 
