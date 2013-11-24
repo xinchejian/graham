@@ -19,6 +19,7 @@ var SignupSchema = {
     'weibo': { type: 'string' },
     'site': { type: 'string' }, // array
     'essay': { type: 'string' },
+    'rfid': { type: 'string' },
     'status': { type: 'string', index: true },
     'submissionDate': { 
       type: 'timestamp', 
