@@ -99,9 +99,10 @@ exports.updateRole = function(req, res){
 		}
 	});
 };
+
 exports.updateMember = function(req, res){
 	var data = req.body;
-	
+
 	var member = new Member();
 	member.id = data.id;
 	console.log( data.id);
@@ -111,14 +112,14 @@ exports.updateMember = function(req, res){
 		'mobile': data.mobile,
 		'weibo': data.weibo
 	});
-	
+
 
 	//just a boolean, it cannot succeed if the record never existed
 	//    not sure if it belongs here OR in the models under schema
 	member.save(function(err) {
-		
+
 		if(err) {
-			
+
 			return res.send(418, {error: err});
 
 		} else {

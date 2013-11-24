@@ -17,5 +17,5 @@ module.exports = function(app){
 	app.post('/member/:id/updateRole', member.updateRole);
 	app.post('/member/:id/terminate', member.terminate);
 	app.post('/member/:id/resurect', member.resurect);
-	app.post('/member/:member/updateMember', member.updateMember);
+	app.post('/member/:id/updateMember', member.updateMember);
 }
