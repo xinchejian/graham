@@ -19,6 +19,8 @@ angular.module('grahamApp.controllers')
 
 		$scope.member = Member.get({memberId: $routeParams.id});
 		$scope.paymentAdd = false;
+		$scope.qrcode = false;
+
 
 		// Generate the default date
 		var now = new Date();
@@ -35,7 +37,12 @@ angular.module('grahamApp.controllers')
 			{text: 'Stakeholder', click: "updateRole('Stakeholder')" },
 			{text: 'Founder', click: "updateRole('Founder')" },
 		];
+		$scope.memberqr = function() {
 
+			$scope.qrcode = !$scope.qrcode;
+			
+
+		};
 		$scope.updateRole = function(txt) {
 			$scope.member.role = txt;
 			Member.updateRole($scope.member, function(){

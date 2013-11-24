@@ -87,7 +87,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/qr', require('./controllers/qr'));
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('server listening on port ' + app.get('port'));

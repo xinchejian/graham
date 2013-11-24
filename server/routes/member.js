@@ -4,6 +4,7 @@
  */
 
 var member = require('../controllers/member');
+var qr = require('../controllers/qr');
 
 // This file must match client/scripts/services/members.js
 module.exports = function(app){
@@ -18,4 +19,9 @@ module.exports = function(app){
 	app.post('/member/:id/terminate', member.terminate);
 	app.post('/member/:id/resurect', member.resurect);
 	app.post('/member/:id/updateMember', member.updateMember);
+	//qr url
+	app.get('/member/:id/qrcode', qr.index);
+
+
+
 }

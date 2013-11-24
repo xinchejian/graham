@@ -1,4 +1,5 @@
 'use strict';
+var Member = require('../models/member.js');
 
 var QRCode = require('qrcode');
 //more qr crap needed in modules
@@ -6,7 +7,14 @@ var fs = require('fs')
 	,Canvas = require('canvas')
 	,Image = Canvas.Image;
 
-module.exports = function(req, res){
+
+
+
+
+exports.index = function(req, res){
+	var data = req.params;
+	
+
 	var xcjqr = {};
 	var q = {};
 	var effect = 'details';
@@ -27,6 +35,7 @@ module.exports = function(req, res){
 		this.xcj(args, function(error, canvas) {
 			var qr = new Image;
 			qr.src = canvas.toBuffer();
+
 			ctx.drawImage(qr, -10, 20);
 		});
 		
@@ -135,15 +144,29 @@ module.exports = function(req, res){
 	};
 
 
+	Member.load(data.id, function(err, loadedMember){
+		if(err) {return res.send(418, err);}
 
-	q.name = "Marion Bocquet-Appel";
-	q.date = '2013/03';
-	q.membernumber = '012345678901234567890123'; //up to 24 characters
-	q.text = "http://10.0.10.143:4000/demo.html";
-	q.errorCorrectLevel = "max";
-	xcjqr[effect](q,function(error,canvas){
-		res.send('<div><img src="' + canvas.toDataURL() + '"></div>');
-	})
+		loadedMember.id = req.params.id;
+
+		q.name = loadedMember.nickname;
+		q.date = loadedMember.joinDate;
+		q.membernumber = loadedMember.rfid; //up to 24 characters
+		q.text = "http://member.xinchejian.com/rfid/"+loadedMember.rfid;
+		q.errorCorrectLevel = "max";
+
+
+		xcjqr[effect](q,function(error,canvas){
+			res.writeHead(200, {'Content-Type': 'image/png' });
+			canvas.toBuffer(function(err, buf){
+				res.end(buf);
+			});
+		});
+
+
+	});
+
+
 
 
 
