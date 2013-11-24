@@ -28,8 +28,8 @@
 	</table>
 	<div class="row">
 		<div class="span8 offset2">
-			<!-- ng-hide="member.$pristine" -->
-			<a class="btn btn-medium"  ng-click="updateMember()">Save</a>
+
+			<a class="btn btn-medium" ng-show="member.$pristine" ng-click="updateMember()">Save</a>
 			<a class="btn btn-medium btn-warning" href="#/account/password">Change Password</a>
 			<a class="btn btn-medium" onClick="window.history.back();">Cancel</a>
 
