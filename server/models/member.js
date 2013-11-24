@@ -21,7 +21,7 @@ var MemberSchema = {
     //   'length': { type: 'string' },
     //   'paymentDate': { type: 'string' }
     // }],
-    'joinDate': { type: 'Timestamp' }, 
+    'joinDate': { type: 'Timestamp' },
     'badges': { type: 'Json' },
     'status': { type: 'string' },
     'rfid': { type: 'string' }

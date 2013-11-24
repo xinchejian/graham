@@ -8,6 +8,16 @@
 
 		<form name="signUpForm" class="form-horizontal" novalidate>
 			<legend>XinCheJian Membership Signup</legend>
+			<div class="control-group" ng-class="{
+				error	: signUpForm.nickname.$dirty && signUpForm.nickname.$invalid,
+				success	: signUpForm.nickname.$dirty && signUpForm.nickname.$valid
+				}">
+				<label class="control-label" for="nickname">Nickname</label>
+				<div class="controls">
+					<input autofocus type="text" name="nickname" placeholder="Nickname" ng-model="signup.nickname" required>
+					<span class="help-inline" ng-show="signUpForm.nickname.$dirty && signUpForm.nickname.$invalid">Nickname is a requirement at XinCheJian</span>
+				</div>
+			</div>
 			<div class="control-group">
 				<label class="control-label" for="english_name">English Name</label>
 				<div class="controls">
@@ -18,16 +28,6 @@
 				<label class="control-label" for="chinese_name">中文姓名</label>
 				<div class="controls">
 					<input type="text" name="chinese_name" placeholder="Chinese Name" ng-model="signup.chineseName">
-				</div>
-			</div>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.nickname.$dirty && signUpForm.nickname.$invalid,
-				success	: signUpForm.nickname.$dirty && signUpForm.nickname.$valid
-				}">
-				<label class="control-label" for="nickname">Nickname</label>
-				<div class="controls">
-					<input type="text" name="nickname" placeholder="Nickname" ng-model="signup.nickname" required>
-					<span class="help-inline" ng-show="signUpForm.nickname.$dirty && signUpForm.nickname.$invalid">Nickname is a requirement at XinCheJian</span>
 				</div>
 			</div>
 			<div class="control-group" ng-class="{
@@ -72,7 +72,7 @@
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<button class="btn btn-primary" ng-click="apply(signup)" 
+					<button class="btn btn-primary" ng-click="apply(signup)"
 						ng-class="{disabled: signUpForm.$invalid}"
 						ng-disabled="signUpForm.$invalid">Apply Now</button>
 				</div>
