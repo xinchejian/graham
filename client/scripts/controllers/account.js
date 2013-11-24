@@ -9,9 +9,13 @@ angular.module('grahamApp.controllers')
 	})
 
 
-	.controller('PasswordUpdateCtrl', function ($scope, $location, Member) {
+	.controller('PasswordUpdateCtrl', function ($scope, $location, Member, auth) {
 		$scope.errorMsg = '';
+		
 		$scope.updatePassword = function(){
+	
+			$scope.update.id = auth.currentUserId();
+
 			Member.updatePassword($scope.update, function(u){
 				if(u.status === 'ok'){
 					$location.path('/account/success');

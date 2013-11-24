@@ -58,9 +58,10 @@ exports.updatePassword = function(req, res){
 		if(err) {return res.send(err);}
 		Member.load(req.user.id, function(err, mbr){
 			if(err) {return res.send(err);}
+			var that = this;
 			this.auth(req.body.currentPassword, function(err, match) {
 				if (match) {
-					this.setPassword(req.body.password, function(err, sdw){
+					that.setPassword(req.body.password, function(err, sdw){
 						if(err) {
 							return res.send(err);
 						}else {
