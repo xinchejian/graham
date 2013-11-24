@@ -45,10 +45,17 @@ angular.module('grahamApp.controllers')
 			});
 		};
 
-		$scope.remove = function(){
-			Member.remove({memberId: $scope.member.id}, function(data){
+		$scope.terminate = function(){
+			Member.terminate({id: $scope.member.id}, function(data){
 				PopupService.close();
-				$location.path('/listMember');
+				$location.path('/member/list');
+			});
+		};
+
+		$scope.resurect = function(){
+			Member.resurect($scope.member, function(data){
+				console.log(data);
+				console.log($scope.member);
 			});
 		};
 

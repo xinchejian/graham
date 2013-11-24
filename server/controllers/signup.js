@@ -37,7 +37,7 @@ exports.create = function(req, res){
 		signup.p(data);
 		signup.save(function(err){
 			if(err) {
-				return res.send(err);
+				return res.send(418, err);
 			}
 			res.send({id:signup.id});
 		});
@@ -53,14 +53,14 @@ exports.approve = function(req, res) {
 
 		// Prevent duplicate approval
 		Signup.load(data.id, function(err, properties){
-			if(err) {return res.send(err);}
+			if(err) {return res.send(418, err);}
 			if('approved' === properties.status){
 				return res.send(418, {error:'Signup already approved'});
 			}else{
 				// Update signup status
 				this.p('status', 'approved');
 				this.save(function(err){
-					if(err) {return res.send(err);}
+					if(err) {return res.send(418, err);}
 					// Create member
 					data.joinDate = new Date();
 					data.role = 'Member';
@@ -70,7 +70,7 @@ exports.approve = function(req, res) {
 					var member = new Member();
 					member.p(data);
 					member.save(function(err){
-						if(err) {return res.send(err, member);}
+						if(err) {return res.send(418, err, member);}
 						res.send({status:'ok', id:member.id});
 					});
 				});
@@ -84,22 +84,9 @@ exports.approve = function(req, res) {
 exports.show = function(req, res){
 	console.log('Show signup is called');
 	Signup.load(req.params.id, function(err, result){
-		if(err) {return res.send(err);}
+		if(err) {return res.send(418, err);}
 		result.id = req.params.id;
 		res.send(result);
-	});
-};
-
-exports.terminate = function(req, res) {
-	var data = req.body;
-	/* dont destroy, ever, just set a status flag on them */
-	console.log("terminator");
-	var signup = new Signup();
-	signup.id = req.params.id;
-	signup.p('status', "terminated");
-	signup.save(function(err) {
-		if(err) {return res.send(418, {error: err.message});}
-		res.send({id:req.params.id});
 	});
 };
 

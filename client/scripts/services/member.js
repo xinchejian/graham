@@ -6,6 +6,8 @@ angular.module('grahamApp.services').
 		return $resource('/member/:memberId', {memberId:'@id'}, {
 			resetPassword: {method:'POST', url:'/member/:memberId/resetPassword'},
 			updatePassword: {method:'POST', url:'/member/:memberId/updatePassword'},
-			updateRole: {method:'POST', url:'/member/:memberId/updateRole'}
+			updateRole: {method:'POST', url:'/member/:memberId/updateRole'},
+			terminate: {method:'POST', url:'/member/:memberId/terminate'},
+			resurect: {method:'POST', url:'/member/:memberId/resurect'}
 		});
 	});

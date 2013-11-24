@@ -14,6 +14,5 @@ module.exports = function(app){
 	app.get('/signup', signup.index);
 	// These are non-REST method invocations:
 	app.post('/signup/:id/approve', signup.approve);
-	app.post('/signup/:id/terminate', signup.terminate);
 	app.post('/signup/:id/activate', signup.activate);
 }

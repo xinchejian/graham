@@ -23,6 +23,7 @@ var MemberSchema = {
     // }],
     'joinDate': { type: 'Timestamp' }, 
     'badges': { type: 'Json' },
+    'status': { type: 'string' },
     'rfid': { type: 'string' }
   },
   methods: {

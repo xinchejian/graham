@@ -32,12 +32,12 @@ exports.resetPassword = function(req, res){
 	var data = req.body;
 	console.log("SET PASSWORD DATA", data);
 	Member.load(data.id, function(err, properties){
-		if(err) {return res.send(err);}
+		if(err) {return res.send(418, err);}
 		var newPassword = chbs.newPassword();
 		this.setPassword(newPassword, function(err, sdw){
 			console.log("SET PASSWORD CB" , err, sdw);
 			if(err) {
-				return res.send(err);
+				return res.send(418, err);
 			}else {
 				properties.id = data.id;
 				mailer.sendResetPasswordEmail(properties, newPassword);
@@ -55,15 +55,15 @@ exports.updatePassword = function(req, res){
 	}
 
 	Member.load(data.id, function(err, mbs){
-		if(err) {return res.send(err);}
+		if(err) {return res.send(418, err);}
 		Member.load(req.user.id, function(err, mbr){
-			if(err) {return res.send(err);}
+			if(err) {return res.send(418, err);}
 			var that = this;
 			this.auth(req.body.currentPassword, function(err, match) {
 				if (match) {
 					that.setPassword(req.body.password, function(err, sdw){
 						if(err) {
-							return res.send(err);
+							return res.send(418, err);
 						}else {
 							return res.send({status:'ok', id:sdw.memberId});
 						}
@@ -92,8 +92,8 @@ exports.updateRole = function(req, res){
 		}else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(data.id, function(err, loadedMember){
-				if(err) {return res.send(err);}
-				loadedMember.id = req.params.member;
+				if(err) {return res.send(418, err);}
+				loadedMember.id = req.params.id;
 				res.send(loadedMember);
 			});
 		}
@@ -101,22 +101,40 @@ exports.updateRole = function(req, res){
 };
 
 exports.show = function(req, res){
-	Member.load(req.params.member, function(err, member){
-		if(err) {return res.send(err);}
-		member.id = req.params.member;
+	Member.load(req.params.id, function(err, member){
+		if(err) {return res.send(418, err);}
+		member.id = req.params.id;
 		res.send(member);
 	});
 };
 
-exports.destroy = function(req, res){
+exports.terminate = function(req, res){
 	/* dont destroy, ever, just set a status flag on them */
 	var member = new Member();
-	member.id = req.params.member;
+	member.id = req.params.id;
 	member.p('status', "terminated");
 
 	member.save(function(err) {
 		if(err) {return res.send(418, {error: err.message});}
-		res.send({id:req.params.member});
+		res.send({id:req.params.id});
 	});
+};
 
+exports.resurect = function(req, res){
+	var member = new Member();
+	member.id = req.params.id;
+	member.p('status', "ok");
+
+	member.save(function(err) {
+		if(err) {
+			return res.send(418, {error: err.message});
+		}else{
+			// Load the member again as angular resource updates its model after REST call
+			Member.load(member.id, function(err, loadedMember){
+				if(err) {return res.send(418, err);}
+				loadedMember.id = req.params.id;
+				res.send(loadedMember);
+			});
+		}
+	});
 };
