@@ -111,7 +111,9 @@ exports.updateMember = function(req, res){
 		'englishName': data.englishName,
 		'mobile': data.mobile,
 		'weibo': data.weibo, 
-		'rfid': data.rfid
+		'rfid': data.rfid,
+		'email': data.email,
+		'nickname': data.nickname
 	});
 
 
@@ -128,8 +130,7 @@ exports.updateMember = function(req, res){
 			Member.load(data.id, function(err, loadedMember){
 				if(err) {return res.send(err);}
 				loadedMember.id = req.params.member;
-				console.log("paul debugging");
-				console.log(loadedMember);
+			
 				res.send(loadedMember);
 			});
 		}
