@@ -6,5 +6,6 @@ app/components
 config.js
 client/styles/*.css
 server/config.js
+client/components
 graham.sublime-workspace
 .DS_Store

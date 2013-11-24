@@ -8,6 +8,7 @@ angular.module('grahamApp.services').
 			updatePassword: {method:'POST', url:'/member/:memberId/updatePassword'},
 			updateRole: {method:'POST', url:'/member/:memberId/updateRole'},
 			terminate: {method:'POST', url:'/member/:memberId/terminate'},
-			resurect: {method:'POST', url:'/member/:memberId/resurect'}
+			resurect: {method:'POST', url:'/member/:memberId/resurect'},
+			updateMember: {method:'POST', url:'/member/:memberId/updateMember'}
 		});
 	});

@@ -3,8 +3,13 @@
 angular.module('grahamApp.controllers')
 
 
-	.controller('ViewAccountCtrl', function ($scope, Member, auth) {
+	.controller('ViewAccountCtrl', function ($scope, Member, auth, $location) {
 		$scope.member = Member.get({memberId: auth.currentUserId()});
+		$scope.updateMember = function() {
+			Member.updateMember($scope.member, function(u) {
+				$location.path('/account/success');
+			});
+		}
 
 	})
 
