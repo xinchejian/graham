@@ -111,7 +111,7 @@ exports.updateMember = function(req, res){
 		'englishName': data.englishName,
 		'mobile': data.mobile,
 		'weibo': data.weibo, 
-		'rfid': data.rfid,
+		'rfid': data.rfid ,
 		'email': data.email,
 		'nickname': data.nickname
 	});

@@ -45,7 +45,7 @@
 			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
 		</tr>
 		<tr>
-			<th><a class="btn btn-medium" ng-show="member.status == 'ok' && member.rfid" target="_blank" ng-click="memberqr()">Member QR Code</a></th><td><img ng-src="/member/{{member.id}}/qrcode" ng-show="qrcode" /></td>
+			<th><a class="btn btn-medium" ng-show="member.rfid" target="_blank" ng-click="memberqr()">Member QR Code</a></th><td><img ng-src="/member/{{member.id}}/qrcode" ng-show="qrcode" /></td>
 		</tr>
 	</table>
 </form>
