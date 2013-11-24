@@ -99,6 +99,27 @@ exports.updateRole = function(req, res){
 		}
 	});
 };
+exports.updateMember = function(req, res){
+	var data = req.body;
+	
+	var member = new Member();
+	member.id = data.id;
+
+	//just a boolean, it cannot succeed if the record never existed
+	//    not sure if it belongs here OR in the models under schema
+	member.save(function(err) {
+		if(err) {
+			return res.send({error: err.message});
+		}else {
+			// Load the member again as angular resource updates its model after REST call
+			Member.load(data.id, function(err, loadedMember){
+				if(err) {return res.send(err);}
+				loadedMember.id = req.params.member;
+				res.send(loadedMember);
+			});
+		}
+	});
+};
 
 exports.show = function(req, res){
 	Member.load(req.params.member, function(err, member){

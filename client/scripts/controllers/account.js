@@ -5,7 +5,11 @@ angular.module('grahamApp.controllers')
 
 	.controller('ViewAccountCtrl', function ($scope, Member, auth) {
 		$scope.member = Member.get({memberId: auth.currentUserId()});
-
+		$scope.updateMember = function() {
+			Member.updateMember($scope.member, function(u) {
+				console.log(u);
+			})
+		}
 	})
 
 	.controller('PasswordUpdateCtrl', function ($scope, $location, Member, auth) {

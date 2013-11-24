@@ -1,22 +1,22 @@
 <div ng-controller="ViewAccountCtrl">
 	<table class="table table-striped">
 		<tr>
-			<th>English Name</th><td>{{member.englishName}}</td>
+			<th>English Name</th><td><input ng-model="member.englishName"/></td>
 		</tr>
 		<tr>
-			<th>Chinese Name</th><td>{{member.chineseName}}</td>
+			<th>Chinese Name</th><td><input ng-model="member.chineseName"/></td>
 		</tr>
 		<tr>
-			<th>Nickname</th><td>{{member.nickname}}</td>
+			<th>Nickname</th><td><input ng-model="member.nickname" /></td>
 		</tr>
 		<tr>
-			<th>Mobile</th><td>{{member.mobile}}</td>
+			<th>Mobile</th><td><input ng-model="member.mobile" /></td>
 		</tr>
 		<tr>
 			<th>Email</th><td>{{member.email}}</td>
 		</tr>
 		<tr>
-			<th>Weibo</th><td>{{member.weibo}}</td>
+			<th>Weibo</th><td><input ng-model="member.weibo" /></td>
 		</tr>
 		<tr>
 			<th>Role</th><td>{{member.role}}</td>
@@ -28,8 +28,11 @@
 	</table>
 	<div class="row">
 		<div class="span8 offset2">
-			<a class="btn btn-medium" onClick="window.history.back();">Back</a>
+			
+			<a class="btn btn-medium" ng-click="updateMember()">Save</a>
 			<a class="btn btn-medium btn-warning" href="#/account/password">Change Password</a>
+			<a class="btn btn-medium" onClick="window.history.back();">Cancel</a>
+
 		</div>
 	</div>
 </div>

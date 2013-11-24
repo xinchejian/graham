@@ -15,5 +15,6 @@ module.exports = function(app){
 	app.post('/member/:member/resetPassword', member.resetPassword);
 	app.post('/member/:member/updatePassword', member.updatePassword);
 	app.post('/member/:member/updateRole', member.updateRole);
+	app.post('/member/:member/updateMember', member.updateMember);
 	
 }
