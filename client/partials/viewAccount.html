@@ -1,4 +1,5 @@
 <div ng-controller="ViewAccountCtrl">
+<form name="members">
 	<table class="table table-striped">
 		<tr>
 			<th>English Name</th><td><input ng-model="member.englishName"/></td>
@@ -26,10 +27,11 @@
 			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
 		</tr>
 	</table>
+	</form>
 	<div class="row">
 		<div class="span8 offset2">
 
-			<a class="btn btn-medium" ng-show="member.$pristine" ng-click="updateMember()">Save</a>
+			<a class="btn btn-medium" ng-hide="members.$pristine || (members.$dirty && members.$invalid)" ng-click="updateMember()">Save</a>
 			<a class="btn btn-medium btn-warning" href="#/account/password">Change Password</a>
 			<a class="btn btn-medium" onClick="window.history.back();">Cancel</a>
 

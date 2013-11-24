@@ -6,7 +6,7 @@ angular.module('grahamApp.controllers')
 			$http.post('/login', member).success(function(result) {
 				$scope.errorMsg = null;
 				$location.path('/signup/list');
-			}, function(err){
+			}).error(function(result) {
 				$scope.errorMsg = result.error;
 			});
 		};
@@ -17,7 +17,7 @@ angular.module('grahamApp.controllers')
 		$http.post('/logout').success(function(result) {
 			$scope.message = 'Success';
 			$location.path('/signup');
-		}, function(err){
-			$scope.message = err.data.error;
+		}).error(function(error) {
+			$scope.message = error.error;
 		});
 	});
