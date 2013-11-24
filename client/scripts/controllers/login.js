@@ -4,22 +4,20 @@ angular.module('grahamApp.controllers')
 		$scope.errorMsg = null;
 		$scope.login = function(member) {
 			$http.post('/login', member).success(function(result) {
-				if (result.error) {
-					$scope.errorMsg = result.error;
-				}else {
-					$scope.errorMsg = null;
-					$location.path('/signup/list');
-				}
+				$scope.errorMsg = null;
+				$location.path('/signup/list');
+			}, function(err){
+				$scope.errorMsg = result.error;
 			});
 		};
-	}).controller('LogoutCtrl', function($scope, $http, $location) {
+	})
+
+	.controller('LogoutCtrl', function($scope, $http, $location) {
 		$scope.message = 'Logging out...';
 		$http.post('/logout').success(function(result) {
-			if (result.error) {
-				$scope.message = result.error;
-			}else {
-				$scope.message = 'Success';
-				$location.path('/signup');
-			}
+			$scope.message = 'Success';
+			$location.path('/signup');
+		}, function(err){
+			$scope.message = err.data.error;
 		});
 	});

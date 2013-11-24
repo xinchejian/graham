@@ -9,8 +9,9 @@ angular.module('grahamApp.controllers')
 		$scope.signups = Signup.query({status:$scope.status});
 
 		$scope.remove = function(id){
-			Signup.remove({signupId: id});
-			$scope.signups = Signup.query({page: $scope.page});
+			Signup.remove({signupId: id}, function(data){
+				$scope.signups = Signup.query({page: $scope.page});
+			});
 		};
 
 		$scope.switchStatus = function(status){
@@ -23,47 +24,42 @@ angular.module('grahamApp.controllers')
 		$scope.signup = Signup.get({signupId: $routeParams.id});
 
 		$scope.remove = function(id){
-			
 			console.log("Remove"+id);
-			Signup.remove({signupId: id});
-			PopupService.close();
-			$location.path('/signup/list');
+			Signup.remove({signupId: id}, function(data){
+				PopupService.close();
+				$location.path('/signup/list');
+			});
 		};
-		$scope.terminate = function(id){
-			console.log("terminate: "+id);
-			Signup.terminate({signupId: id});
-			PopupService.close();
-			$location.path('/signup/list');
-		};
+
 		$scope.activate = function(id){
 			console.log("Activate: "+id);
-			Signup.activate({signupId: id});
-			PopupService.close();
-			$location.path('/signup/list');
+			Signup.activate({signupId: id}, function(data){
+				PopupService.close();
+				$location.path('/signup/list');
+			});
 		};
 	})
 
 
 	.controller('ApproveSignupCtrl', function ($scope, $routeParams, $location, Signup, PopupService) {
 		$scope.signup = Signup.get({signupId: $routeParams.id});
+
 		$scope.remove = function(id){
-			Signup.remove({signupId: id});
-			PopupService.close();
-			$location.path('/signup/list');
+			Signup.remove({signupId: id}, function(data){
+				PopupService.close();
+				$location.path('/signup/list');
+			});
 		};
 
 		$scope.approve = function(){
 			Signup.approve($scope.signup, function(data){
-				if(data.status === 'ok') {
-					$location.path('/signup/list');
-				}else if(data.error){
-					PopupService.alert('error', data.error, null, null, $scope);
-				}
+				$location.path('/signup/list');
+			}, function(err){
+				PopupService.alert('error', err.data.error, null, null, $scope);
 			});
 		};
 		console.log($scope.signup);
 	})
-
 
 	.controller('EditSignupCtrl', function ($scope, Signup, $location) {
 		$scope.apply = function(member){

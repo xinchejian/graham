@@ -8,7 +8,6 @@ angular.module('grahamApp.controllers')
 
 	})
 
-
 	.controller('PasswordUpdateCtrl', function ($scope, $location, Member, auth) {
 		$scope.errorMsg = '';
 		
@@ -17,10 +16,10 @@ angular.module('grahamApp.controllers')
 			$scope.update.id = auth.currentUserId();
 
 			Member.updatePassword($scope.update, function(u){
-				if(u.status === 'ok'){
-					$location.path('/account/success');
-				}else if(u.error){
-					$scope.errorMsg = u.error;
+				$location.path('/account/success');
+			}, function(err){
+				if(err.data.error){
+					$scope.errorMsg = err.data.error;
 				}else {
 					$scope.errorMsg = 'Sorry! Failed to update password, please try again later.';
 				}

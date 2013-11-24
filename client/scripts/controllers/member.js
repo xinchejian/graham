@@ -46,9 +46,10 @@ angular.module('grahamApp.controllers')
 		};
 
 		$scope.remove = function(){
-			Member.remove({memberId: $scope.member.id});
-			PopupService.close();
-			$location.path('/listMember');
+			Member.remove({memberId: $scope.member.id}, function(data){
+				PopupService.close();
+				$location.path('/listMember');
+			});
 		};
 
 		$scope.dropdown = [
