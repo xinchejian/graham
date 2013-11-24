@@ -51,7 +51,7 @@ exports.updatePassword = function(req, res){
 	var data = req.body;
 	// Reject not matched new password.
 	if(req.body.password !== req.body.confirmPassword){
-		return res.send({error: 'New password does not match'});
+		return res.send(418, {error: 'New password does not match'});
 	}
 
 	Member.load(data.id, function(err, mbs){
@@ -69,7 +69,7 @@ exports.updatePassword = function(req, res){
 						}
 					});
 				} else {
-					return res.send({error: 'Wrong password'});
+					return res.send(418, {error: 'Wrong password'});
 				}
 			});
 		});
@@ -88,7 +88,7 @@ exports.updateRole = function(req, res){
 	//    not sure if it belongs here OR in the models under schema
 	member.save(function(err) {
 		if(err) {
-			return res.send({error: err.message});
+			return res.send(418, {error: err.message});
 		}else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(data.id, function(err, loadedMember){
@@ -115,7 +115,7 @@ exports.destroy = function(req, res){
 	member.p('status', "terminated");
 
 	member.save(function(err) {
-		if(err) {return res.send({error: err.message});}
+		if(err) {return res.send(418, {error: err.message});}
 		res.send({id:req.params.member});
 	});
 

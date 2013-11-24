@@ -42,7 +42,7 @@ exports.create = function(req, res){
 			res.send({id:signup.id});
 		});
 	}else {
-		res.send({error: 'Required fields not filled up'});
+		res.send(418, {error: 'Required fields not filled up'});
 	}
 };
 
@@ -55,15 +55,15 @@ exports.approve = function(req, res) {
 		Signup.load(data.id, function(err, properties){
 			if(err) {return res.send(err);}
 			if('approved' === properties.status){
-				return res.send({error:'signup already approved'});
-			}else {
+				return res.send(418, {error:'Signup already approved'});
+			}else{
 				// Update signup status
 				this.p('status', 'approved');
 				this.save(function(err){
 					if(err) {return res.send(err);}
 					// Create member
 					data.joinDate = new Date();
-					data.role = 'member';
+					data.role = 'Member';
 					var payment = data.payment;
 					payment.paymentDate = new Date();
 					data.payments = [payment];
@@ -77,7 +77,7 @@ exports.approve = function(req, res) {
 			}
 		});
 	} else {
-		res.send({error: 'Required fields not filled up'});
+		res.send(418, {error: 'Required fields not filled up'});
 	}
 };
 
@@ -98,7 +98,7 @@ exports.terminate = function(req, res) {
 	signup.id = req.params.id;
 	signup.p('status', "terminated");
 	signup.save(function(err) {
-		if(err) {return res.send({error: err.message});}
+		if(err) {return res.send(418, {error: err.message});}
 		res.send({id:req.params.id});
 	});
 };
@@ -111,7 +111,7 @@ exports.activate = function(req, res) {
 	signup.id = req.params.id;
 	signup.p('status', "approved");
 	signup.save(function(err) {
-		if(err) {return res.send({error: err.message});}
+		if(err) {return res.send(418, {error: err.message});}
 		res.send({id:req.params.id});
 	});
 };
@@ -122,7 +122,7 @@ exports.destroy = function(req, res){
 	signup.id = req.params.id;
 	signup.p('status', "rejected");
 	signup.save(function(err) {
-		if(err) {return res.send({error: err.message});}
+		if(err) {return res.send(418, {error: err.message});}
 		res.send({id:req.params.id});
 	});
 
