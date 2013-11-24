@@ -44,16 +44,6 @@
 			</div>
 		</div>
 		<div class="control-group" ng-class="{
-			error	: signUp.rfid.$dirty && signUp.rfid.$invalid,
-			success	: signUp.rfid.$dirty && signUp.rfid.$valid
-			}">
-			<label class="control-label" for="rfid">Membership Card rfid</label>
-			<div class="controls">
-				<input type="text" name="rfid" placeholder="rfid" ng-model="signup.rfid">
-				<span class="help-inline">Put mouse cursor here and swipe the rfid card</span>
-			</div>
-		</div>
-		<div class="control-group" ng-class="{
 			error	: signUp.payment.fee.$dirty && signUp.payment.fee.$invalid,
 			success	: signUp.payment.fee.$dirty && signUp.payment.fee.$valid
 			}">
@@ -71,6 +61,16 @@
 			<div class="controls">
 				<input type="text" name="payment.length" placeholder="payment.length" ng-model="signup.payment.length" required> months
 				<span class="help-inline" ng-show="signUp.payment.length.$dirty && signUp.payment.length.$invalid">Membership Valid Lengh is required</span>
+			</div>
+		</div>
+		<div class="control-group" ng-class="{
+			error	: signUp.rfid.$dirty && signUp.rfid.$invalid,
+			success	: signUp.rfid.$dirty && signUp.rfid.$valid
+			}">
+			<label class="control-label" for="rfid">Membership Card rfid</label>
+			<div class="controls">
+				<input type="text" name="rfid" placeholder="rfid" ng-model="signup.rfid">
+				<span class="help-inline">Put mouse cursor here and swipe the rfid card</span>
 			</div>
 		</div>
 		<div class="control-group">
