@@ -51,7 +51,7 @@
 			<ng-confirm title="Terminate" action-text="Are you not sure not to do this?" action-button-text="Yeah!!!" action-function="terminate()" cancel-button-text="No Way">
 				<button ng-hide="member.status=='terminated'" class="btn btn-medium btn-danger">Terminate Membership</button>
 			</ng-confirm>
-			<a ng-show="member.status=='terminated'" class="btn btn-medium" ng-click="resurect();">Resurect</a>
+			<a ng-show="member.status=='terminated'" class="btn btn-medium btn-warning" ng-click="resurect();">Resurect</a>
 		</div>
 	</div>
 	<hr>

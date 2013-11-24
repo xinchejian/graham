@@ -53,10 +53,7 @@ angular.module('grahamApp.controllers')
 		};
 
 		$scope.resurect = function(){
-			Member.resurect($scope.member, function(data){
-				console.log(data);
-				console.log($scope.member);
-			});
+			$scope.member = Member.resurect($scope.member);
 		};
 
 		$scope.dropdown = [
