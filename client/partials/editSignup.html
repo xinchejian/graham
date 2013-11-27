@@ -1,89 +1,84 @@
-<div class="hero-unit" ng-controller="EditSignupCtrl">
-
-
+<div class="hero-unit" ng-controller="EditSignupCtrl" ng-cloak>
 	<div class="row">
-
-
-	<div class="span6">
-
-		<form name="signUpForm" class="form-horizontal" novalidate>
-			<legend>XinCheJian Membership Signup</legend>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.nickname.$dirty && signUpForm.nickname.$invalid,
-				success	: signUpForm.nickname.$dirty && signUpForm.nickname.$valid
-				}">
-				<label class="control-label" for="nickname">Nickname</label>
-				<div class="controls">
-					<input autofocus type="text" name="nickname" placeholder="Nickname" ng-model="signup.nickname" required>
-					<span class="help-inline" ng-show="signUpForm.nickname.$dirty && signUpForm.nickname.$invalid">Nickname is a requirement at XinCheJian</span>
+		<div class="span6">
+			<form name="signUpForm" class="form-horizontal" novalidate>
+				<legend>XinCheJian Membership Signup</legend>
+				<div class="control-group" ng-class="{
+					error	: signUpForm.nickname.$dirty && signUpForm.nickname.$invalid,
+					success	: signUpForm.nickname.$dirty && signUpForm.nickname.$valid
+					}">
+					<label class="control-label" for="nickname">Nickname</label>
+					<div class="controls">
+						<input autofocus type="text" name="nickname" placeholder="Nickname" ng-model="signup.nickname" required>
+						<span class="help-inline" ng-show="signUpForm.nickname.$dirty && signUpForm.nickname.$invalid">Nickname is a requirement at XinCheJian</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="english_name">English Name</label>
-				<div class="controls">
-					<input type="text" name="english_name" placeholder="English Name" ng-model="signup.englishName">
+				<div class="control-group">
+					<label class="control-label" for="english_name">English Name</label>
+					<div class="controls">
+						<input type="text" name="english_name" placeholder="English Name" ng-model="signup.englishName">
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="chinese_name">中文姓名</label>
-				<div class="controls">
-					<input type="text" name="chinese_name" placeholder="Chinese Name" ng-model="signup.chineseName">
+				<div class="control-group">
+					<label class="control-label" for="chinese_name">中文姓名</label>
+					<div class="controls">
+						<input type="text" name="chinese_name" placeholder="Chinese Name" ng-model="signup.chineseName">
+					</div>
 				</div>
-			</div>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.mobile.$dirty && signUpForm.mobile.$invalid,
-				success	: signUpForm.mobile.$dirty && signUpForm.mobile.$valid
-				}">
-				<label class="control-label" for="mobile">Mobile</label>
-				<div class="controls">
-					<input type="text" name="mobile" placeholder="Mobile" ng-model="signup.mobile" required>
-					<span class="help-inline" ng-show="signUpForm.mobile.$dirty && signUpForm.mobile.$invalid">Mobile number is required</span>
+				<div class="control-group" ng-class="{
+					error	: signUpForm.mobile.$dirty && signUpForm.mobile.$invalid,
+					success	: signUpForm.mobile.$dirty && signUpForm.mobile.$valid
+					}">
+					<label class="control-label" for="mobile">Mobile</label>
+					<div class="controls">
+						<input type="text" name="mobile" placeholder="Mobile" ng-model="signup.mobile" required>
+						<span class="help-inline" ng-show="signUpForm.mobile.$dirty && signUpForm.mobile.$invalid">Mobile number is required</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.email.$dirty && signUpForm.email.$invalid,
-				success	: signUpForm.email.$dirty && signUpForm.email.$valid
-				}">
-				<label class="control-label" for="email">Email</label>
-				<div class="controls">
-					<input type="email" name="email" placeholder="Email" ng-model="signup.email" required>
-					<span class="help-inline" ng-show="signUpForm.email.$dirty && signUpForm.email.$invalid">Email address is required</span>
-					<span class="help-inline" ng-show="signUpForm.email.alreadyused">Email Address has already been used.</span>
+				<div class="control-group" ng-class="{
+					error	: signUpForm.email.$dirty && signUpForm.email.$invalid,
+					success	: signUpForm.email.$dirty && signUpForm.email.$valid
+					}">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input type="email" name="email" placeholder="Email" ng-model="signup.email" required>
+						<span class="help-inline" ng-show="signUpForm.email.$dirty && signUpForm.email.$invalid">Email address is required</span>
+						<span class="help-inline" ng-show="signUpForm.email.alreadyused">Email Address has already been used.</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.weibo.$dirty && signUpForm.weibo.$invalid,
-				success	: signUpForm.weibo.$dirty && signUpForm.weibo.$valid
-				}">
-				<label class="control-label" for="weibo">Weibo</label>
-				<div class="controls">
-					<input type="text" name="weibo" placeholder="weibo" ng-model="signup.weibo">
+				<div class="control-group" ng-class="{
+					error	: signUpForm.weibo.$dirty && signUpForm.weibo.$invalid,
+					success	: signUpForm.weibo.$dirty && signUpForm.weibo.$valid
+					}">
+					<label class="control-label" for="weibo">Weibo</label>
+					<div class="controls">
+						<input type="text" name="weibo" placeholder="weibo" ng-model="signup.weibo">
+					</div>
 				</div>
-			</div>
-			<div class="control-group" ng-class="{
-				error	: signUpForm.essay.$dirty && signUpForm.essay.$invalid,
-				success	: signUpForm.essay.$dirty && signUpForm.essay.$valid
-				}">
-				<label class="control-label" for="essay">Why join XinCheJian</label>
-				<div class="controls">
-					<textarea name="essay" ng-model="signup.essay" rows="7" required></textarea>
-					<span class="help-inline" ng-show="signUpForm.essay.$dirty && signUpForm.essay.$invalid">Please write 1 or 2 sentences of short introduction of yourself.</span>
+				<div class="control-group" ng-class="{
+					error	: signUpForm.essay.$dirty && signUpForm.essay.$invalid,
+					success	: signUpForm.essay.$dirty && signUpForm.essay.$valid
+					}">
+					<label class="control-label" for="essay">Why join XinCheJian</label>
+					<div class="controls">
+						<textarea name="essay" ng-model="signup.essay" rows="7" required></textarea>
+						<span class="help-inline" ng-show="signUpForm.essay.$dirty && signUpForm.essay.$invalid">Please write 1 or 2 sentences of short introduction of yourself.</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<button class="btn btn-primary" ng-click="apply(signup)"
-						ng-class="{disabled: signUpForm.$invalid}"
-						ng-disabled="signUpForm.$invalid">Apply Now</button>
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-primary" ng-click="apply(signup)"
+							ng-class="{disabled: signUpForm.$invalid}"
+							ng-disabled="signUpForm.$invalid">Apply Now</button>
+					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
+			<div class="span4">
+	    <h2>Before you sign up</h2>
+	    <p>Before signing up, make sure you have read the Rules of the Space.</p>
+	    <p><a class="btn" href="http://wiki.xinchejian.com/wiki/Rules_of_The_Space" target="_new">Rules of the Space »</a></p>
+		</div>
 	</div>
-		<div class="span4">
-    <h2>Before you sign up</h2>
-    <p>Before signing up, make sure you have read the Rules of the Space.</p>
-    <p><a class="btn" href="http://wiki.xinchejian.com/wiki/Rules_of_The_Space" target="_new">Rules of the Space »</a></p>
-  </div>
- </div>
 </div>
 
