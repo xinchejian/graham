@@ -113,7 +113,7 @@ exports.updateMember = function(req, res){
 		'weibo': data.weibo, 
 		'rfid': data.rfid ,
 		'email': data.email,
-		'nickname': data.nickname
+		//'nickname': data.nickname
 	});
 
 
