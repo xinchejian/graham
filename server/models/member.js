@@ -21,7 +21,7 @@ var MemberSchema = {
     //   'length': { type: 'string' },
     //   'paymentDate': { type: 'string' }
     // }],
-    'joinDate': { type: 'Timestamp' },
+    'joinDate': { type: 'timestamp' },
     'badges': { type: 'Json' },
     'status': { type: 'string' },
     'rfid': { type: 'string' }
@@ -54,7 +54,7 @@ MemberSchema.methods.setPassword = function(password, callback){
       }else {
         bcrypt.hash(password, salt, function(err, hash) {
           shadow.p('hash', hash);
-          shadow.p('updateDate', new Date());
+          shadow.p('updateDate', new Date().getTime());
           shadow.save(function(err){
             if(err){return callback(shadow);}
             return callback(null, shadow);

@@ -30,13 +30,16 @@ exports.index = function(req, res){
  
 		var canvas = new Canvas(153,243)
 		  , ctx = canvas.getContext('2d');
+  		ctx.fillStyle = "rgba(255,255,255,1)";
+  		ctx.fillRect(-10, -10, 173, 263);
+  		ctx.fillStyle = "rgba(0,0,0,1)";
 
 		//since the qrcode has whitespace, it needs to be drawn first
 		this.xcj(args, function(error, canvas) {
 			var qr = new Image;
 			qr.src = canvas.toBuffer();
+			ctx.drawImage(qr, -4, 40, 160, 160);
 
-			ctx.drawImage(qr, -10, 20);
 		});
 		
 		/* append the name */
@@ -52,9 +55,9 @@ exports.index = function(req, res){
 		ctx.fillText(args.name, (canvas.width - m.width )/2, 26); //fill proportianally to the width, basically center
 
 		/* warning text */
-		ctx.font = 'normal 8pt Verdana';
-		var m = ctx.measureText("((Scan for Status))");
-		ctx.fillText("((Scan for Status))", (canvas.width - m.width )/2, 188); //fill proportianally to the width, basically center
+		// ctx.font = 'normal 8pt Verdana';
+		// var m = ctx.measureText("((Scan for Status))");
+		// ctx.fillText("((Scan for Status))", (canvas.width - m.width )/2, 188); //fill proportianally to the width, basically center
 
 		/* bullshit text */
 		ctx.font = 'normal 15pt Verdana';
@@ -62,9 +65,14 @@ exports.index = function(req, res){
 		ctx.fillText("MEMBERSHIP", (canvas.width - m.width )/2, 222); //fill proportianally to the width, basically center
 
 		/* member join date */
+
+		var betterDate = new Date(q.date);
+
+		var formatedDate = betterDate.getFullYear()+"/"+betterDate.getMonth()+"/"+betterDate.getDate();
+
 		ctx.font = 'normal 6pt Verdana';
-		var m = ctx.measureText(q.date);
-		ctx.fillText(q.date,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
+		var m = ctx.measureText(formatedDate);
+		ctx.fillText(formatedDate,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
 
 		/* member number */
 		ctx.font = 'normal 6pt Verdana';
@@ -93,6 +101,8 @@ exports.index = function(req, res){
 				var stage = new Canvas(canvas.width,canvas.width)
 				, ctx = stage.getContext('2d');
 				
+
+
 				//scale image
 				var w = canvas.width;
 				var h = canvas.height;
@@ -152,8 +162,8 @@ exports.index = function(req, res){
 		q.name = loadedMember.nickname;
 		q.date = loadedMember.joinDate;
 		q.membernumber = loadedMember.rfid; //up to 24 characters
-		q.text = "http://member.xinchejian.com/rfid/"+loadedMember.rfid;
-		q.errorCorrectLevel = "max";
+		q.text = "http://members.xinchejian.com/#/status/"+loadedMember.rfid;
+		q.errorCorrectLevel = "M"; //L, M, Q, H
 
 
 		xcjqr[effect](q,function(error,canvas){

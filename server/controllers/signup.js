@@ -31,7 +31,7 @@ exports.create = function(req, res){
 	var data = req.body;
 	// Signup submission
 	if(data.nickname && data.mobile && data.email && data.essay){
-		data.submissionDate = new Date();
+		data.submissionDate = new Date().getTime();
 		data.status = 'pending';
 		var signup = new Signup();
 		signup.p(data);
@@ -59,13 +59,15 @@ exports.approve = function(req, res) {
 			}else{
 				// Update signup status
 				this.p('status', 'approved');
+
 				this.save(function(err){
 					if(err) {return res.send(418, err);}
 					// Create member
-					data.joinDate = new Date();
+					data.joinDate = new Date().getTime();
 					data.role = 'Member';
+
 					var payment = data.payment;
-					payment.paymentDate = new Date();
+					payment.paymentDate = new Date().getTime();
 					data.payments = [payment];
 					var member = new Member();
 					member.p(data);
