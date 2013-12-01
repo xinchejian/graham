@@ -43,9 +43,11 @@ passport.use(new LocalStrategy(
 passport.customAuth = function(req, res, next){
   passport.authenticate('local', function(err, user){
     console.log(user);
+    console.log(err);
     if(err){return next(err);}
     if(!user){return res.send(418, {error: 'Invalid Credentials'});}
     req.login(user, function(err){
+
       if(err){return next(err);}
       res.cookie('userid', user.id, {maxAge: 3600000});
       res.cookie('nickname', user.nickname, {maxAge: 3600000});

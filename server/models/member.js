@@ -10,7 +10,7 @@ var MemberSchema = {
   properties: {
     'chineseName': { type: 'string' },
     'englishName': { type: 'string' },
-    'nickname': { type: 'string' }, //we dont need this to be indexed, inface we use the id more: 'nickname': { type: 'string', index: true, unique: true },
+    'nickname': { type: 'string', index: true, unique: true }, //we dont need this to be indexed, inface we use the id more: 'nickname': { type: 'string', index: true, unique: true },
     'role': { type: 'string' }, //'Member', 'Staff Member', 'Stakeholder', 'Founder' - only these are defined for now
     'email': { type: 'string' },
     'mobile': { type: 'string' },
