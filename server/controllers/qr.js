@@ -65,14 +65,16 @@ exports.index = function(req, res){
 		ctx.fillText("MEMBERSHIP", (canvas.width - m.width )/2, 222); //fill proportianally to the width, basically center
 
 		/* member join date */
+		if (q.date) {
+			var betterDate = new Date(q.date);
 
-		var betterDate = new Date(q.date);
+			var formatedDate = betterDate.getFullYear()+"/"+betterDate.getMonth()+"/"+betterDate.getDate();
 
-		var formatedDate = betterDate.getFullYear()+"/"+betterDate.getMonth()+"/"+betterDate.getDate();
+			ctx.font = 'normal 6pt Verdana';
+			var m = ctx.measureText(formatedDate);
+			ctx.fillText(formatedDate,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
+		}
 
-		ctx.font = 'normal 6pt Verdana';
-		var m = ctx.measureText(formatedDate);
-		ctx.fillText(formatedDate,  canvas.width - m.width - 10 , 203); //fill proportianally to the width, basically center
 
 		/* member number */
 		ctx.font = 'normal 6pt Verdana';
