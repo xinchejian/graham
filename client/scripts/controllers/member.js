@@ -84,14 +84,14 @@ angular.module('grahamApp.controllers')
 		$scope.addPayment = function(){
 			$scope.payment.memberId = $scope.member.id;
 
-			console.log($scope.member);
-			var p = new Payment($scope.payment);
-
-			// Pending payment restful API
-			p.$save(function(u, res){
-				console.log(u, res);
-				$scope.hideAddPayment();
-			});
+			console.log($scope.payment);
+			//var p = new Payment({id: $scope.payment.memberId});
+			Payment.addPayment($scope.payment);
+			// // Pending payment restful API
+			// p.$save(function(u, res){
+			// 	console.log(u, res);
+			// 	$scope.hideAddPayment();
+			// });
 		};
 
 		$scope.showAddPayment = function(){

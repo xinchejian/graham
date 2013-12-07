@@ -19,6 +19,9 @@ module.exports = function(app){
 	app.post('/member/:id/terminate', member.terminate);
 	app.post('/member/:id/resurect', member.resurect);
 	app.post('/member/:id/updateMember', member.updateMember);
+
+	//
+	app.post('/member/:id/addPayment', member.addPayment)
 	//qr url
 	app.get('/member/:id/qrcode', qr.index);
 

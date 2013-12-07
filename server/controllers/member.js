@@ -7,7 +7,9 @@ var mailer = require('../modules/mailer');
 var chbs   = require('../modules/chbs');
 var async = require('async');
 
-// var Payment = require(../models/payment.js');
+var Payment = require('../models/payment.js');
+
+
 // need to convert the badges
 exports.index = function(req, res){
 	Member.findAndLoad({}, function(err, result){
@@ -105,7 +107,7 @@ exports.updateMember = function(req, res){
 
 	var member = new Member();
 	member.id = data.id;
-	console.log( data.id);
+
 	member.p({
 		'chineseName': data.chineseName,
 		'englishName': data.englishName,
@@ -165,7 +167,7 @@ exports.resurect = function(req, res){
 	member.save(function(err) {
 		if(err) {
 			return res.send(418, {error: err.message});
-		}else{
+		} else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(member.id, function(err, loadedMember){
 				if(err) {return res.send(418, err);}
@@ -173,5 +175,43 @@ exports.resurect = function(req, res){
 				res.send(loadedMember);
 			});
 		}
+	});
+};
+
+exports.addPayment = function(req, res){
+	var member = new Member();
+	member.id = req.params.id;
+
+	Member.load(member.id, function(err, loadedMember){
+		if(err) {return res.send(418, err);}
+		// loadedMember.id = req.params.id;
+
+		var data = req.body;
+		var payment = new Payment();
+
+		payment.id = loadedMember.id;
+		payment.p({
+			'fee': data.fee,
+			'months': data.months,
+			'paymentDate': data.paymentDate,
+
+			//'nickname': data.nickname
+		});
+		payment.link(member);
+		payment.save(function(err) {
+
+			if(err) {
+
+				return res.send(418, {error: err});
+			} else {
+				// Load the member again as angular resource updates its model after REST call
+				Payment.load(req.params.id, function(err, paymentRecords){
+					if(err) {return res.send(418, {error: err});}				
+					res.send(paymentRecords);
+				});
+
+			}
+		});
+
 	});
 };
