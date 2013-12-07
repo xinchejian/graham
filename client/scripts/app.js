@@ -17,6 +17,7 @@ angular.module('grahamApp', ['ngRoute', 'grahamApp.controllers', 'grahamApp.serv
 		$routeProvider.when('/account/',				{templateUrl: 'partials/viewAccount.html'});
 		$routeProvider.when('/account/password',		{templateUrl: 'partials/passwordUpdate.html'});
 		$routeProvider.when('/account/success',			{templateUrl: 'partials/success.html'});
+		$routeProvider.when('/status',			{templateUrl: 'partials/status.html'});
 		$routeProvider.otherwise({redirectTo: '/signup'});
 	}]);
 

@@ -163,8 +163,8 @@ exports.index = function(req, res){
 
 		q.name = loadedMember.nickname;
 		q.date = loadedMember.joinDate;
-		q.membernumber = loadedMember.rfid; //up to 24 characters
-		q.text = "http://members.xinchejian.com/#/status/"+loadedMember.rfid;
+		q.membernumber = loadedMember.id; //up to 24 characters
+		q.text = "http://members.xinchejian.com/#/status/"+loadedMember.id;
 		q.errorCorrectLevel = "M"; //L, M, Q, H
 
 
