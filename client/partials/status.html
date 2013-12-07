@@ -1,0 +1,32 @@
+<div ng-controller="ViewMemberCtrl" ng-cloak>
+
+<div class="hero-unit">
+	<h2>Member Status</h2>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th><td>{{member.englishName}}</td>
+		</tr>
+		<tr>
+			<th>Chinese Name</th><td>{{member.chineseName}}</td>
+		</tr>
+		<tr>
+			<th>Nickname</th><td>{{member.nickname}}</td>
+		</tr>
+		<tr>
+			<th>Role</th><td>{{member.role}}</td>
+		</tr>
+		<tr>
+			<th>Weibo</th><td>@{{member.weibo}}</td>
+		</tr>
+		<tr>
+			<th>Date</th><td>{{member.joinDate|date:'short'}}</td>
+		</tr>
+		<tr>
+			<th>Status</th><td>{{member.status}}</td>
+		</tr>
+	</table>
+</div>
+	
+
+</div>
