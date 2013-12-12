@@ -188,28 +188,40 @@ exports.addPayment = function(req, res){
 
 		var data = req.body;
 		var payment = new Payment();
+		loadedMember.id = req.params.id;
 
-		payment.id = loadedMember.id;
+		payment.memberId = loadedMember.id;
+
 		payment.p({
 			'fee': data.fee,
 			'months': data.months,
 			'paymentDate': data.paymentDate,
 
-			//'nickname': data.nickname
 		});
-		payment.link(member);
+		//console.log(payment);
+		// 'fee': { type: 'string' },
+		// 'months': { type: 'integer' },
+		// 'memberId': { type: 'string'},
+		// 'paymentDate': { type: 'timestamp' }
+		//console.log(payment.p());
+		payment.find(function (err, ids) {
+		   console.log(ids);
+		});
+
 		payment.save(function(err) {
-
 			if(err) {
-
 				return res.send(418, {error: err});
 			} else {
-				// Load the member again as angular resource updates its model after REST call
-				Payment.load(req.params.id, function(err, paymentRecords){
-					if(err) {return res.send(418, {error: err});}				
-					res.send(paymentRecords);
+				Payment.find({
+					memberId: payment.memberId
+				}, function (err, payments) {
+					
+					if(err) {
+						return res.send(418, {error: err});
+					} else {
+						res.send(payments);
+					}
 				});
-
 			}
 		});
 
