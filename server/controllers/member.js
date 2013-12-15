@@ -195,35 +195,47 @@ exports.addPayment = function(req, res){
 		payment.p({
 			'fee': data.fee,
 			'months': data.months,
-			'paymentDate': data.paymentDate,
+			'paymentDate': data.paymentDate
 
-		});
-		//console.log(payment);
-		// 'fee': { type: 'string' },
-		// 'months': { type: 'integer' },
-		// 'memberId': { type: 'string'},
-		// 'paymentDate': { type: 'timestamp' }
-		//console.log(payment.p());
-		payment.find(function (err, ids) {
-		   console.log(ids);
 		});
 
 		payment.save(function(err) {
-			if(err) {
-				return res.send(418, {error: err});
-			} else {
-				Payment.find({
-					memberId: payment.memberId
-				}, function (err, payments) {
-					
-					if(err) {
-						return res.send(418, {error: err});
-					} else {
-						res.send(payments);
-					}
-				});
-			}
+			if (err) return res.send(418, {error: err} );
+		})
+		//console.log(payment);
+		// 'fee': { type: 'string' },
+		// '': { type: 'integer' },
+		// 'memberId': { type: 'string'},
+		// 'paymentDate': { type: 'timestamp' }
+		//console.log(payment.p());
+		payment.find({
+				// memberId: req.params.id
+		}, function (err, ids) {
+		    console.log(ids);
+	      ids.forEach(function (key) {
+          payment.load(key, function (err, data) {
+            if(err) {return res.send(418, err); }
+            console.log(data);
+           });
+        });
 		});
+
+		// payment.save(function(err) {
+		// 	if(err) {
+		// 		return res.send(418, {error: err});
+		// 	} else {
+		// 		Payment.find({
+		// 			memberId: payment.memberId
+		// 		}, function (err, payments) {
+					
+		// 			if(err) {
+		// 				return res.send(418, {error: err});
+		// 			} else {
+		// 				res.send(payments);
+		// 			}
+		// 		});
+		// 	}
+		// });
 
 	});
 };
