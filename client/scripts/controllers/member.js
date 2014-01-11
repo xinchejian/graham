@@ -21,6 +21,7 @@ angular.module('grahamApp.controllers')
 		$scope.paymentAdd = false;
 		$scope.qrcode = false;
 
+		
 
 		// Generate the default date
 		var now = new Date();
@@ -30,6 +31,7 @@ angular.module('grahamApp.controllers')
 
 		// Initialise the payment details
 		$scope.payment = {length: 3, fee:250, date: today};
+
 
 		$scope.roledropdown = [
 			{text: 'Member', click: "updateRole('Member')"},
@@ -41,7 +43,6 @@ angular.module('grahamApp.controllers')
 
 			$scope.qrcode = !$scope.qrcode;
 			
-
 		};
 		$scope.updateRole = function(txt) {
 			$scope.member.role = txt;
@@ -81,18 +82,30 @@ angular.module('grahamApp.controllers')
 			});
 		};
 
+
+		$scope.removePayment = function(paymentid){
+
+			var payment ={};
+			payment.paymentId = paymentid;
+			payment.memberId = $scope.member.id;
+
+			$scope.member.payments = Payment.remove(payment);
+
+
+		};
 		$scope.addPayment = function(){
+
 			$scope.payment.memberId = $scope.member.id;
 
-			console.log($scope.member);
-			var p = new Payment($scope.payment);
+			if (!$scope.member.payments) {
+				$scope.member.payments = [];
+			}
+			$scope.member.payments.push(Payment.add($scope.payment));
 
-			// Pending payment restful API
-			p.$save(function(u, res){
-				console.log(u, res);
-				$scope.hideAddPayment();
-			});
+			$scope.hideAddPayment();
+
 		};
+
 
 		$scope.showAddPayment = function(){
 			$scope.paymentAdd = true;

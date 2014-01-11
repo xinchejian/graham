@@ -9,7 +9,7 @@ var PaymentSchema = {
 	properties: {
 	  'fee': { type: 'string' },
 	  'months': { type: 'integer' },
-	  'memberId': { type: 'string', ref: 'Member'},
+	  'memberId': { type: 'string', index: true},
 	  'paymentDate': { type: 'timestamp' }
 	},
 	methods: {
