@@ -117,7 +117,7 @@
 			<tr>
 				<th>Payment Date</th><th>Amount</th><th>Membership length</th><th></th>
 			</tr>
-			<tr ng-repeat="payment in member.payments | orderBy:'paymentDate'">
+			<tr ng-repeat="payment in member.payments | orderBy:'paymentDate':true">
 				<td>{{payment.paymentDate|date:'short'}}</td>
 				<td>{{payment.fee}}</td>
 				<td>{{payment.months}}</td>

@@ -31,6 +31,7 @@ var MemberSchema = {
   }
 };
 
+
 // MemberSchema.virtual('id').get(function() {
 //   return this._id.toHexString();
 // });

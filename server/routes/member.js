@@ -21,7 +21,8 @@ module.exports = function(app){
 	app.post('/member/:id/updateMember', member.updateMember);
 
 	//
-	app.post('/member/:id/addPayment', member.addPayment)
+	app.post('/member/:id/addPayment', member.addPayment);
+	app.delete('/member/:id/removePayment/:paymentid', member.deletePayment);
 	//qr url
 	app.get('/member/:id/qrcode', qr.index);
 

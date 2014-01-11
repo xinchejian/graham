@@ -143,7 +143,27 @@ exports.show = function(req, res){
 	Member.load(req.params.id, function(err, member){
 		if(err) {return res.send(418, err);}
 		member.id = req.params.id;
-		res.send(member);
+
+		var payment = new Payment();
+	
+
+		payment.findAndLoad({
+			memberId: member.id
+		}, function(err, result){
+
+			if(err) {return res.send(member);}
+			async.map(result,
+				function(r, cb){
+					cb(null, r.allProperties());
+				},
+				function(err, results){
+					member.payments = results;
+					res.send(member);
+				}
+			);
+		});
+
+
 	});
 };
 
@@ -178,7 +198,40 @@ exports.resurect = function(req, res){
 	});
 };
 
-exports.addPayment = function(req, res){
+exports.listPayments = function(req,res) {
+
+	var member = new Member();
+	member.id = req.params.id;
+	
+	Member.load(member.id, function(err, loadedMember){
+		if(err) {return res.send(418, err);}
+		// loadedMember.id = req.params.id;
+
+		var data = req.body;
+		var payment = new Payment();
+		loadedMember.id = member.id;
+
+
+
+		payment.findAndLoad({
+			memberId: loadedMember.id
+		}, function(err, result){
+			if(err) {return res.send([]);}
+			async.map(result,
+				function(r, cb){
+					cb(null, r.allProperties());
+				},
+				function(err, jsonResult){
+					res.send(jsonResult);
+				}
+			);
+		});
+
+	
+
+	});
+};
+exports.deletePayment = function(req, res) {
 	var member = new Member();
 	member.id = req.params.id;
 
@@ -188,54 +241,51 @@ exports.addPayment = function(req, res){
 
 		var data = req.body;
 		var payment = new Payment();
+		payment.id = req.params.paymentid;
+
+		payment.remove({ // options object can be omitted
+		  silent: true, // whether remove event is published. defaults to false.
+		}, function (err) {
+		   exports.listPayments(req, res);
+		});
+
+
+		
+	
+
+	});
+
+};
+exports.addPayment = function(req, res){
+	var member = new Member();
+	member.id = req.params.id;
+	
+	Member.load(member.id, function(err, loadedMember){
+		if(err) {return res.send(418, err);}
+		// loadedMember.id = req.params.id;
+
+		var data = req.body;
+		var payment = new Payment();
 		loadedMember.id = req.params.id;
 
-		payment.memberId = loadedMember.id;
-
 		payment.p({
-			'fee': data.fee,
-			'months': data.months,
-			'paymentDate': data.paymentDate
+			memberId: loadedMember.id,
+			fee: data.fee.toString(),
+			months: data.length,
+			paymentDate: data.date
 
 		});
 
 		payment.save(function(err) {
 			if (err) return res.send(418, {error: err} );
-		})
-		//console.log(payment);
-		// 'fee': { type: 'string' },
-		// '': { type: 'integer' },
-		// 'memberId': { type: 'string'},
-		// 'paymentDate': { type: 'timestamp' }
-		//console.log(payment.p());
-		payment.find({
-				// memberId: req.params.id
-		}, function (err, ids) {
-		    console.log(ids);
-	      ids.forEach(function (key) {
-          payment.load(key, function (err, data) {
-            if(err) {return res.send(418, err); }
-            console.log(data);
-           });
-        });
-		});
+			payment.load(payment.id, function (err, data) {
 
-		// payment.save(function(err) {
-		// 	if(err) {
-		// 		return res.send(418, {error: err});
-		// 	} else {
-		// 		Payment.find({
-		// 			memberId: payment.memberId
-		// 		}, function (err, payments) {
-					
-		// 			if(err) {
-		// 				return res.send(418, {error: err});
-		// 			} else {
-		// 				res.send(payments);
-		// 			}
-		// 		});
-		// 	}
-		// });
+				if(err) {return res.send(418, err); }
+				res.send(data);
+
+			});
+		});
+	
 
 	});
 };
