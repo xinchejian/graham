@@ -279,7 +279,8 @@ exports.addPayment = function(req, res){
 		payment.save(function(err) {
 			if (err) return res.send(418, {error: err} );
 			payment.load(payment.id, function (err, data) {
-
+				
+				mailer.sendPaymentAddEmail(loadedMember, data);
 				if(err) {return res.send(418, err); }
 				res.send(data);
 
