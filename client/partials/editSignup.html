@@ -25,14 +25,11 @@
 						<input type="text" name="chinese_name" placeholder="Chinese Name" ng-model="signup.chineseName">
 					</div>
 				</div>
-				<div class="control-group" ng-class="{
-					error	: signUpForm.mobile.$dirty && signUpForm.mobile.$invalid,
-					success	: signUpForm.mobile.$dirty && signUpForm.mobile.$valid
-					}">
+				<div class="control-group">
 					<label class="control-label" for="mobile">Mobile</label>
 					<div class="controls">
-						<input type="text" name="mobile" placeholder="Mobile" ng-model="signup.mobile" required>
-						<span class="help-inline" ng-show="signUpForm.mobile.$dirty && signUpForm.mobile.$invalid">Mobile number is required</span>
+						<input type="text" name="mobile" placeholder="Mobile" ng-model="signup.mobile">
+						
 					</div>
 				</div>
 				<div class="control-group" ng-class="{
@@ -55,14 +52,11 @@
 						<input type="text" name="weibo" placeholder="weibo" ng-model="signup.weibo">
 					</div>
 				</div>
-				<div class="control-group" ng-class="{
-					error	: signUpForm.essay.$dirty && signUpForm.essay.$invalid,
-					success	: signUpForm.essay.$dirty && signUpForm.essay.$valid
-					}">
+				<div class="control-group" >
 					<label class="control-label" for="essay">Why join XinCheJian</label>
 					<div class="controls">
-						<textarea name="essay" ng-model="signup.essay" rows="7" required></textarea>
-						<span class="help-inline" ng-show="signUpForm.essay.$dirty && signUpForm.essay.$invalid">Please write 1 or 2 sentences of short introduction of yourself.</span>
+						<textarea name="essay" ng-model="signup.essay" rows="7"></textarea>
+						
 					</div>
 				</div>
 				<div class="control-group">

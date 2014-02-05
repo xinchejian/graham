@@ -33,7 +33,8 @@ exports.index = function(req, res){
 exports.create = function(req, res){
 	var data = req.body;
 	// Signup submission
-	if(data.nickname && data.mobile && data.email && data.essay){
+	/* removed  data.mobile request and data.essay bug report #24 */
+	if(data.nickname  && data.email){
 		data.submissionDate = new Date().getTime();
 		data.status = 'pending';
 		var signup = new Signup();
