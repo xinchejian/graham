@@ -69,6 +69,7 @@ angular.module('grahamApp.controllers')
 
 	.controller('EditSignupCtrl', function ($scope, Signup, $location) {
 		$scope.apply = function(member){
+			$scope.submitted = true;
 			//console.log(member);
 			var a = new Signup(member);
 			a.$save(function(u, res){
