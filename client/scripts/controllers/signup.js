@@ -7,7 +7,7 @@ angular.module('grahamApp.controllers')
 		$scope.status = $routeParams.status;
 		if(!$scope.status){$scope.status = 'pending';}
 		$scope.signups = Signup.query({status:$scope.status});
-
+		$scope.predicate = '-submissionDate';
 		$scope.remove = function(id){
 			Signup.remove({signupId: id}, function(data){
 				$scope.signups = Signup.query({page: $scope.page});

@@ -20,17 +20,17 @@
 	<hr/>
 	<table class="table table-striped">
 		<tr>
-			<th>English Name</th>
-			<th>Chinese Name</th>
-			<th>Nickname</th>
-			<th>Mobile</th>
-			<th>Email</th>
-			<th>Weibo</th>
-			<th>Date</th>
-			<th>Status</th>
+			<th ng-click="predicate = 'englishName';  reverse=!reverse">English Name</th>
+			<th ng-click="predicate = 'chineseName';  reverse=!reverse">Chinese Name</th>
+			<th ng-click="predicate = 'nickname';  reverse=!reverse">Nickname</th>
+			<th ng-click="predicate = 'mobile';  reverse=!reverse">Mobile</th>
+			<th ng-click="predicate = 'email';  reverse=!reverse">Email</th>
+			<th ng-click="predicate = 'weibo';  reverse=!reverse">Weibo</th>
+			<th ng-click="predicate = 'submissionDate';  reverse=!reverse">Date</th>
+			<th ng-click="predicate = 'status';  reverse=!reverse">Status</th>
 			<th>Actions</th>
 		</tr>
-		<tr ng-repeat="signup in signups | filter:searchText">
+		<tr ng-repeat="signup in signups | filter:searchText |  orderBy:predicate:reverse">
 			<td>{{signup.englishName}}</td>
 			<td>{{signup.chineseName}}</td>
 			<td>{{signup.nickname}}</td>
@@ -45,4 +45,5 @@
 			
 		</tr>
 	</table>
+	{{signups}}
 </div>

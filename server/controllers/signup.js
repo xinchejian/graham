@@ -4,9 +4,12 @@ var Signup = require('../models/signup.js');
 var Member = require('../models/member.js');
 var Payment = require('../models/payment.js');
 var async = require('async');
+var mailer = require('../modules/mailer');
 
 exports.index = function(req, res){
 	var status = req.query.status;
+	console.log(status);
+	/* pending not returning true data, bad index? */
 	Signup.findAndLoad({status:status}, function(err, result){
 		if(err) {return res.send([]);}
 		async.map(result,
@@ -39,7 +42,10 @@ exports.create = function(req, res){
 			if(err) {
 				return res.send(418, err);
 			}
+
+			mailer.justJoinedEmail(data);
 			res.send({id:signup.id});
+
 		});
 	}else {
 		res.send(418, {error: 'Required fields not filled up'});

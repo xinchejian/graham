@@ -249,10 +249,6 @@ exports.deletePayment = function(req, res) {
 		   exports.listPayments(req, res);
 		});
 
-
-		
-	
-
 	});
 
 };

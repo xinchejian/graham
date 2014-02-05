@@ -46,9 +46,34 @@ exports.sendPaymentAddEmail = function(user, payment){
   var mailOptions = {
     from    : sendingAddress,
     to      : user.email,
-    subject : 'members.xinchejian.com',
+    subject : 'members.xinchejian.com - payment added',
     text    : 'Hello '+user.nickname+',  _'+payment.fee+'rmb_ has been added to your membership, your membership expires on: _'+ payment.expiryDate+'_ ',
     html    : '<b>Hello '+user.nickname+'</b>,  <strong> '+payment.fee+'rmb</strong> has been added to your membership. <br /> Your membership expires on:<strong> ' +payment.expiryDate +'</strong>'
+  };
+
+
+
+// send mail with defined transport object
+  transport.sendMail(mailOptions, function(error, response){
+    if(error) {
+      console.log(error);
+    }else {
+      console.log(response.message);
+    }
+    transport.close(); // shut down the connection pool, no more messages
+  });
+};
+
+exports.justJoinedEmail = function(user){
+
+  var transport = nodemailer.createTransport('SMTP', config.smtp);
+
+  var mailOptions = {
+    from    : sendingAddress,
+    to      : user.email,
+    subject : 'members.xinchejian.com - new signup',
+    text    : 'Hello '+user.nickname+', your information has been submitted, the next step is as follows: 1, deposit the membership fee in the red box with a note attached on it with your email address. or 2, find a staff member and get them to activate your membership.',
+    html    : '<strong>Hello '+user.nickname+',</strong><br /> your information has been submitted, the next step is as follows: <br /><i>1, deposit the membership fee in the red box with a note attached on it with your email address.</i><br /> or <i>2, find a staff member and get them to activate your membership.</i>'
   };
 
 
