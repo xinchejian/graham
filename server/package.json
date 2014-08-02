@@ -3,7 +3,7 @@
   "main": "app.js",
   "description": "Simple XinCheJian Membership Mangement System",
   "author": "Edward Jiang <edwardrf@xinchejian.com>",
-  "version": "0.2",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "node app"

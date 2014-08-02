@@ -45,13 +45,13 @@ passport.customAuth = function(req, res, next){
     console.log(user);
     console.log(err);
     if(err){return next(err);}
-    if(!user){return res.send(418, {error: 'Invalid Credentials'});}
+    if(!user){ return res.status(418).send({error: 'Invalid Credentials'});}
     req.login(user, function(err){
 
       if(err){return next(err);}
       res.cookie('userid', user.id, {maxAge: 3600000});
       res.cookie('nickname', user.nickname, {maxAge: 3600000});
-      return res.send({status:'ok', id:user.id});
+      return res.status(200).send({status:'ok', id:user.id});
     });
   })(req, res, next);
 };
@@ -62,7 +62,7 @@ passport.anaCheck = function(req, res, next){
   } else {
     res.clearCookie('userid');
     res.clearCookie('nickname');
-    res.send(418, {error: 'not authenticated'});
+    res.status(418).send({error: 'not authenticated'});
   }
 };
 
@@ -85,5 +85,5 @@ passport.logout = function(req, res){
   req.logout();
   res.clearCookie('userid');
   res.clearCookie('nickname');
-  return res.send({status:'ok'});
+  return res.status(200).send({status:'ok'});
 };

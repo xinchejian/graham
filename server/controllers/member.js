@@ -19,7 +19,7 @@ exports.index = function(req, res){
 				cb(null, r.allProperties());
 			},
 			function(err, jsonResult){
-				res.send(jsonResult);
+				res.status(200).send(jsonResult);
 			}
 		);
 	});
@@ -34,16 +34,16 @@ exports.resetPassword = function(req, res){
 	var data = req.body;
 	console.log("SET PASSWORD DATA", data);
 	Member.load(data.id, function(err, properties){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		var newPassword = chbs.newPassword();
 		this.setPassword(newPassword, function(err, sdw){
 			console.log("SET PASSWORD CB" , err, sdw);
 			if(err) {
-				return res.send(418, err);
+				return res.status(418).send(err);
 			}else {
 				properties.id = data.id;
 				mailer.sendResetPasswordEmail(properties, newPassword);
-				return res.send({status:'ok', id:sdw.memberId});
+				return res.status(200).send({status:'ok', id:sdw.memberId});
 			}
 		});
 	});
@@ -53,25 +53,25 @@ exports.updatePassword = function(req, res){
 	var data = req.body;
 	// Reject not matched new password.
 	if(req.body.password !== req.body.confirmPassword){
-		return res.send(418, {error: 'New password does not match'});
+		return res.status(418).send({error: 'New password does not match'});
 	}
 
 	Member.load(data.id, function(err, mbs){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		Member.load(req.user.id, function(err, mbr){
-			if(err) {return res.send(418, err);}
+			if(err) {return res.status(418).send(err);}
 			var that = this;
 			this.auth(req.body.currentPassword, function(err, match) {
 				if (match) {
 					that.setPassword(req.body.password, function(err, sdw){
 						if(err) {
-							return res.send(418, err);
+							return res.status(418).send(err);
 						}else {
 							return res.send({status:'ok', id:sdw.memberId});
 						}
 					});
 				} else {
-					return res.send(418, {error: 'Wrong password'});
+					return res.status(418).send({error: 'Wrong password'});
 				}
 			});
 		});
@@ -90,11 +90,11 @@ exports.updateRole = function(req, res){
 	//    not sure if it belongs here OR in the models under schema
 	member.save(function(err) {
 		if(err) {
-			return res.send(418, {error: err.message});
+			return res.status(418).send({error: err.message});
 		}else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(data.id, function(err, loadedMember){
-				if(err) {return res.send(418, err);}
+				if(err) {return res.status(418).send(err);}
 				loadedMember.id = req.params.id;
 				res.send(loadedMember);
 			});
@@ -125,7 +125,7 @@ exports.updateMember = function(req, res){
 
 		if(err) {
 
-			return res.send(418, {error: err});
+			return res.status(418).send({error: err});
 
 		} else {
 			// Load the member again as angular resource updates its model after REST call
@@ -141,7 +141,7 @@ exports.updateMember = function(req, res){
 
 exports.show = function(req, res){
 	Member.load(req.params.id, function(err, member){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		member.id = req.params.id;
 
 		var payment = new Payment();
@@ -174,7 +174,7 @@ exports.terminate = function(req, res){
 	member.p('status', "terminated");
 
 	member.save(function(err) {
-		if(err) {return res.send(418, {error: err.message});}
+		if(err) {return res.status(418).send({error: err.message});}
 		res.send({id:req.params.id});
 	});
 };
@@ -186,11 +186,11 @@ exports.resurect = function(req, res){
 
 	member.save(function(err) {
 		if(err) {
-			return res.send(418, {error: err.message});
+			return res.status(418).send({error: err.message});
 		} else {
 			// Load the member again as angular resource updates its model after REST call
 			Member.load(member.id, function(err, loadedMember){
-				if(err) {return res.send(418, err);}
+				if(err) {return res.status(418).send(err);}
 				loadedMember.id = req.params.id;
 				res.send(loadedMember);
 			});
@@ -204,7 +204,7 @@ exports.listPayments = function(req,res) {
 	member.id = req.params.id;
 	
 	Member.load(member.id, function(err, loadedMember){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		// loadedMember.id = req.params.id;
 
 		var data = req.body;
@@ -236,7 +236,7 @@ exports.deletePayment = function(req, res) {
 	member.id = req.params.id;
 
 	Member.load(member.id, function(err, loadedMember){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		// loadedMember.id = req.params.id;
 
 		var data = req.body;
@@ -257,7 +257,7 @@ exports.addPayment = function(req, res){
 	member.id = req.params.id;
 	
 	Member.load(member.id, function(err, loadedMember){
-		if(err) {return res.send(418, err);}
+		if(err) {return res.status(418).send(err);}
 		// loadedMember.id = req.params.id;
 
 		var data = req.body;
@@ -273,11 +273,11 @@ exports.addPayment = function(req, res){
 		});
 
 		payment.save(function(err) {
-			if (err) return res.send(418, {error: err} );
+			if (err) return res.status(418).send({error: err} );
 			payment.load(payment.id, function (err, data) {
 				
 				mailer.sendPaymentAddEmail(loadedMember, data);
-				if(err) {return res.send(418, err); }
+				if(err) {return res.status(418).send(err); }
 				res.send(data);
 
 			});
