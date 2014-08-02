@@ -5,10 +5,16 @@
 'use strict';
 
 var express = require('express'),
+  morgan = require('morgan'), //the replacement for express.logger
+  bodyParser = require('body-parser'), //instead of express.bodyParser
+  cookieParser = require('cookie-parser'), //instead of express.cookieParser
+  methodOverride = require('method-override'), //instead of methodOverride
+  errorHandler  = require('errorhandler'),
   http = require('http'),
   path = require('path'),
   passport = require('./passport'),
-  RedisStore = require('connect-redis')(express),
+  session = require('express-session'),
+  RedisStore = require('connect-redis')(session),
   routes = require('./routes'),
   config = require('./config'),
   redis = require('redis'),
@@ -17,75 +23,76 @@ var express = require('express'),
 
 var app = express();
 
-app.configure(function(){
-  // Port
-  app.set('port', process.env.PORT || 4000);
-  var redis_client = redis.createClient(config.redis.port, config.redis.host);
+var env = process.env.NODE_ENV || 'development';
 
-  // Views
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
 
-  // Express
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser('s8hdy3u8qh'));
-  var session_store = new RedisStore({client: redis_client});
-  app.use(express.session({cookie: {maxAge: 3600000}, store: session_store}));
-  app.use(express.static(path.join(__dirname, 'app')));
+// Port
+app.set('port', process.env.PORT || 4000);
+//redis
+var redis_client = redis.createClient(config.redis.port, config.redis.host);
 
-  // sass/scss auto compiler with compass
-  app.configure(function() {
-      app.use(compass({
-        project: path.join(__dirname, '/app'), 
+// Views
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+// Express
+app.use(morgan('dev'));//progbably want apache style logging later with morgan('combined')
+app.use(bodyParser()); //replacement for express.bodyParser()
+app.use(methodOverride()); //replacement for express.methodOverride()
+app.use(cookieParser('s8hdy3u8qh')); //replacement for express.cookieParser()
 
-        config_file: 'config.rb'
-      }));
+var session_store = new RedisStore({client: redis_client});
+app.use(session({ store: session_store, secret: 's8hdy3u8qh' }))
+app.use(express.static(path.join(__dirname, 'app')));
+
+// sass/scss auto compiler with compass
+
+app.use(compass({
+  project: path.join(__dirname, '/app'), 
+  config_file: 'config.rb'
+}));
+
+
+// AnA
+app.use(passport.initialize());
+app.use(passport.session());
+app.all('*', passport.anaCheck);
+app.post('/login', passport.customAuth);
+app.post('/logout', passport.logout);
+
+// Include route
+require('./routes/member')(app);
+require('./routes/signup')(app);
+// app.resource('signup', require('./controllers/signup'));
+
+// Models
+redis_client.on("connect", function() {
+  console.log("Connected to redis");
+  nohm.logError = function(err) { if (err) { console.dir(err); console.trace("nohm.logError");}};
+  nohm.setClient(redis_client);
+  // Redis/Nohm sanity check
+  var Test = nohm.model('Test', {
+    properties:{x:{type:'string'},y:{type:'string'}},
+    methods:{x:function(){return this.p('x');}}
   });
-
-  // AnA
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.all('*', passport.anaCheck);
-  app.post('/login', passport.customAuth);
-  app.post('/logout', passport.logout);
-
-  // Router after passport
-  // See http://stackoverflow.com/questions/10497349/why-does-passport-js-give-me-a-middleware-error
-  app.use(app.router);
-
-  // Include route
-  require('./routes/member')(app);
-  require('./routes/signup')(app);
-  // app.resource('signup', require('./controllers/signup'));
-
-  // Models
-  redis_client.on("connect", function() {
-    console.log("Connected to redis");
-    nohm.logError = function(err) { if (err) { console.dir(err); console.trace("nohm.logError");}};
-    nohm.setClient(redis_client);
-    // Redis/Nohm sanity check
-    var Test = nohm.model('Test', {
-      properties:{x:{type:'string'},y:{type:'string'}},
-      methods:{x:function(){return this.p('x');}}
-    });
-    var test = new Test();
-    test.p('x', 'saf');
-    var a = test.hello;
-    test.save(function (err) {
-      console.assert(test.x() === 'saf');
-      test.remove(function(err){console.log(err || "Nohm works fine");});
-    });
+  var test = new Test();
+  test.p('x', 'saf');
+  var a = test.hello;
+  test.save(function (err) {
+    console.assert(test.x() === 'saf');
+    test.remove(function(err){console.log(err || "Nohm works fine");});
   });
-  
-  var models = require('./models');
-  app.set('models', models);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
+
+var models = require('./models');
+app.set('models', models);
+
+
+
+
+if ('development' == env) {
+   app.use(errorHandler());
+}
 
 
 

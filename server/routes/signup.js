@@ -10,7 +10,7 @@ module.exports = function(app){
 	//  These first are following the express-resource convention:
 	app.post('/signup', signup.create);
 	app.get('/signup/:id', signup.show);
-	app.del('/signup/:id', signup.destroy);
+	app.delete('/signup/:id', signup.destroy);
 	app.get('/signup', signup.index);
 	// These are non-REST method invocations:
 	app.post('/signup/:id/approve', signup.approve);
