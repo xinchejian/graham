@@ -1,5 +1,5 @@
 'use strict';
-var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+
 var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
 };
@@ -40,7 +40,8 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg}'
         ],
-        tasks: ['livereload']
+        options: { livereload: true },
+        // tasks: ['livereload']
       }
     },
     connect: {
@@ -51,7 +52,8 @@ module.exports = function (grunt) {
           hostname: 'localhost',
           middleware: function (connect) {
             return [
-              lrSnippet,
+              require('connect-livereload')(),
+              
               mountFolder(connect, '.tmp'),
               mountFolder(connect, yeomanConfig.app)
             ];
@@ -231,15 +233,14 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.renameTask('regarde', 'watch');
+
   // remove when mincss task is renamed
-  grunt.renameTask('mincss', 'cssmin');
+  // grunt.renameTask('mincss', 'cssmin');
 
   grunt.registerTask('server', [
     'clean:server',
     'coffee:dist',
     'compass:server',
-    'livereload-start',
     'connect:livereload',
     'open',
     'watch'
@@ -250,12 +251,12 @@ module.exports = function (grunt) {
     'coffee',
     'compass',
     'connect:test',
-    'testacular'
+    // 'testacular'
   ]);
 
   grunt.registerTask('build', [
     'clean:dist',
-    'jshint',
+    // 'jshint',
     'test',
     'coffee',
     'compass:dist',
@@ -265,9 +266,8 @@ module.exports = function (grunt) {
     'htmlmin',
     'concat',
     'copy',
-    'cdnify',
+    // 'cdnify',
     'usemin',
-    'ngmin',
     'uglify'
   ]);
 
