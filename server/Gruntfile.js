@@ -131,11 +131,11 @@ module.exports = function (grunt) {
     concat: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '.tmp/scripts/*.js',
-            // '<%= yeoman.app %>/scripts/*.js',
+          // '<%= yeoman.dist %>/scripts/scripts.js': [
+          //   '.tmp/scripts/*.js',
+          //   // '<%= yeoman.app %>/scripts/*.js',
 
-          ]
+          // ]
         }
       }
     },
@@ -175,14 +175,14 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          // removeCommentsFromCDATA: true,
+          removeCommentsFromCDATA: true,
           // // https://github.com/yeoman/grunt-usemin/issues/44
-          // //collapseWhitespace: true,
-          // collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          collapseBooleanAttributes: true,
           // removeAttributeQuotes: true,
           // removeRedundantAttributes: true,
           // useShortDoctype: true,
-          // removeEmptyAttributes: true,
+          removeEmptyAttributes: true,
           // removeOptionalTags: true
         },
         files: [{
@@ -211,9 +211,10 @@ module.exports = function (grunt) {
     uglify: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '<%= yeoman.dist %>/scripts/scripts.js'
-          ],
+          // '<%= yeoman.dist %>/js/app.js': [
+          //   '<%= yeoman.dist %>>/js/iecrap.js',
+          //   '<%= yeoman.dist %>>/js/app.js',
+          // ],
         }
       }
     },
