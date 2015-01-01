@@ -177,7 +177,7 @@ module.exports = function (grunt) {
         options: {
           removeCommentsFromCDATA: true,
           // // https://github.com/yeoman/grunt-usemin/issues/44
-          collapseWhitespace: true,
+          // collapseWhitespace: true,
           collapseBooleanAttributes: true,
           // removeAttributeQuotes: true,
           // removeRedundantAttributes: true,
