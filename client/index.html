@@ -16,23 +16,26 @@
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
-
+    <!-- build:js js/iecrap.js -->
     <!--[if lt IE 9]>
       <script src="scripts/vendor/es5-shim.min.js"></script>
       <script src="scripts/vendor/json3.min.js"></script>
     <![endif]-->
+    <!-- endbuild -->
 
     <!-- Add your site or application content here -->
     <ng-include src="'partials/nav.html'"></ng-include>
 
     <div class="container" ng-view></div>
 
+   <!-- build:js js/app.js -->
     <script src="scripts/vendor/jquery-1.8.3.min.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-route/angular-route.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
+    
 
     <!-- Application js -->
     <script src="scripts/app.js"></script>
@@ -55,6 +58,7 @@
     <!-- Twitter Bootstrap scripts -->
     <script src="scripts/vendor/bootstrap.js"></script>
     <script src="components/angular-strap/dist/angular-strap.js"></script>
+    <!-- endbuild -->
 
   </body>
 </html>
