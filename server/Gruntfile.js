@@ -209,6 +209,10 @@ module.exports = function (grunt) {
       }
     },
     uglify: {
+      options: {
+          report: 'min',
+          mangle: false
+      },
       dist: {
         files: {
           // '<%= yeoman.dist %>/js/app.js': [
