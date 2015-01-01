@@ -25,6 +25,7 @@
     "morgan": "^1.2.2",
     "node-compass": "*",
     "nodemailer": "*",
+    "nodemailer-smtp-transport": "^0.1.13",
     "nohm": "*",
     "passport": "*",
     "passport-local": "*",

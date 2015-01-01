@@ -56,7 +56,7 @@ exports.create = function(req, res){
 exports.approve = function(req, res) {
 	var data = req.body;
 	var query = req.query;
-	if(data.nickname && data.mobile && data.email && data.rfid && data.payment && data.payment.fee && data.payment.length){
+	if(data.nickname && data.mobile && data.email && data.payment && data.payment.fee && data.payment.length){
 
 		// Prevent duplicate approval
 		Signup.load(data.id, function(err, properties){
@@ -73,15 +73,35 @@ exports.approve = function(req, res) {
 					data.joinDate = new Date().getTime();
 					data.role = 'Member';
 
-					var payment = data.payment;
-					payment.paymentDate = new Date().getTime();
-					data.payments = [payment];
+					var paymentInfo = data.payment;
+					paymentInfo.paymentDate = new Date().getTime();
+
 					var member = new Member();
+					delete data.essay;
+					delete data.submissionDate;
+					delete data.payment;
+					delete data.id;
+
 					member.p(data);
 					member.save(function(err){
 						if(err) {return res.send(418, err, member);}
-						res.send({status:'ok', id:member.id});
+
+						var payment = new Payment();
+
+						payment.p({
+							memberId: member.id,
+							fee: paymentInfo.fee.toString(),
+							months: paymentInfo.length,
+							paymentDate: paymentInfo.paymentDate
+
+						});
+
+						payment.save(function(err) {
+							if(err) {return res.send(418, err, member);}
+							res.send({status:'ok', id:member.id});
+						});
 					});
+
 				});
 			}
 		});

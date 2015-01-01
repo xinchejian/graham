@@ -45,7 +45,14 @@ passport.customAuth = function(req, res, next){
     console.log(user);
     console.log(err);
     if(err){return next(err);}
-    if(!user){ return res.status(418).send({error: 'Invalid Credentials'});}
+    if(!user){ 
+      try {
+        return res.status(418).send({error: 'Invalid Credentials'});
+      } catch(e) {
+        console.log(e);
+      }
+      
+    }
     req.login(user, function(err){
 
       if(err){return next(err);}

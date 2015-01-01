@@ -12,7 +12,10 @@ var moment = require('moment');
 
 exports.sendResetPasswordEmail = function(user, password){
 
-  var transport = nodemailer.createTransport('SMTP', config.smtp);
+  var nodemailer = require('nodemailer');
+  var smtpTransport = require('nodemailer-smtp-transport');
+  var transport = nodemailer.createTransport(smtpTransport(config.smtp));
+
 
   var mailOptions = {
     from    : sendingAddress,
@@ -41,7 +44,9 @@ exports.sendPaymentAddEmail = function(user, payment){
 
   payment.expiryDate = moment(payment.paymentDate).add('months', payment.months).format("dddd, MMMM Do YYYY");
 
-  var transport = nodemailer.createTransport('SMTP', config.smtp);
+  var nodemailer = require('nodemailer');
+  var smtpTransport = require('nodemailer-smtp-transport');
+  var transport = nodemailer.createTransport(smtpTransport(config.smtp));
 
   var mailOptions = {
     from    : sendingAddress,
@@ -66,7 +71,9 @@ exports.sendPaymentAddEmail = function(user, payment){
 
 exports.justJoinedEmail = function(user){
 
-  var transport = nodemailer.createTransport('SMTP', config.smtp);
+  var nodemailer = require('nodemailer');
+  var smtpTransport = require('nodemailer-smtp-transport');
+  var transport = nodemailer.createTransport(smtpTransport(config.smtp));
 
   var mailOptions = {
     from    : sendingAddress,
